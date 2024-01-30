@@ -14,5 +14,8 @@ public:
 	void init();
 	void progress();
 	void render();
+
+public:
+	CLevel* GetCurrentLevel() { return m_pCurrentLevel; }
 };
 

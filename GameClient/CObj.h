@@ -5,6 +5,9 @@
 #include "CKeyMgr.h"
 
 class CComponent;
+class CCollider;
+class CAnimator;
+class CFSM;
 
 class CObj : public CEntity
 {
@@ -44,9 +47,12 @@ public:
 
 public:
     virtual void begin();
-    virtual void tick();    // 오브젝트가 매 프레임마다 해야할 작업을 구현
-    virtual void finaltick();
+    virtual void tick();            // 오브젝트가 매 프레임마다 해야할 작업을 구현
+    virtual void finaltick() final; // 오브젝트가 소유한 컴포넌트가 매 프레임마다 해야할 작업을 구현
     virtual void render();
+
+public:
+    virtual CObj* Clone() = 0; // { return new CObj(*this); }
 
 public:
     CObj();

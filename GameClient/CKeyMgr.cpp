@@ -70,19 +70,38 @@ void CKeyMgr::tick()
 			// 키가 안눌려있다
 			else
 			{
-				// 이전에는 눌려 있었다.
-				if (m_vecKeyInfo[i], )
+				// 이전에는 눌려있었다.
+				if (m_vecKeyInfo[i].bPressed)
+				{
+					m_vecKeyInfo[i].eKeyState = KEY_STATE::RELEASED;
+				}
+				// 이전에도 안눌려있고, 지금도 안눌려있다.
+				else
+				{
+					m_vecKeyInfo[i].eKeyState = KEY_STATE::NONE;
+				}
 
-				// 이전에도 눌려있지 않았고, 지금도 안 눌려있다
-				else {}
-
+				m_vecKeyInfo[i].bPressed = false;
 			}
 		}
 	}
 	// 윈도우 포커싱 해제됨
 	else
 	{
-		
+		for (UINT i = 0; i < (UINT)m_vecKeyInfo.size(); ++i)
+		{
+			if (m_vecKeyInfo[i].eKeyState == KEY_STATE::TAP
+				|| m_vecKeyInfo[i].eKeyState == KEY_STATE::PRESSED)
+			{
+				m_vecKeyInfo[i].eKeyState = KEY_STATE::RELEASED;
+			}
+			else
+			{
+				m_vecKeyInfo[i].eKeyState = KEY_STATE::NONE;
+			}
+
+			m_vecKeyInfo[i].bPressed = false;
+		}
 	}
 	
 

@@ -19,6 +19,9 @@ public:
     void AddObject(CObj* _Obj)  { m_vecObj.push_back(_Obj); }
 
 public:
+    virtual CLevel* Clone() = 0;
+
+public:
     CLevel();
     ~CLevel();
 };

@@ -4,7 +4,8 @@
 #include "CLevel.h"
 #include "CLevel_Stage01.h"
 
-#include "CObj.h"
+#include "CPlayer.h"
+#include "CMonster.h"
 
 CLevelMgr::CLevelMgr()
 	: m_arrLevel{}
@@ -15,7 +16,7 @@ CLevelMgr::CLevelMgr()
 
 CLevelMgr::~CLevelMgr()
 {
-
+	Save_Del_Arr(m_arrLevel);
 }
 
 void CLevelMgr::init()
@@ -26,11 +27,16 @@ void CLevelMgr::init()
 	// 현재 레벨 지정
 	m_pCurrentLevel = m_arrLevel[(UINT)LEVEL_TYPE::STAGE_01];
 
-	// 레벨에 물체 추가하기
-	CObj* pObject = new CObj;
+	// 레벨에 플레이어 추가
+	CObj* pObject = new CPlayer;
 	pObject->SetPos(640.f, 384.f);
 	pObject->SetScale(100.f, 100.f);
+	m_pCurrentLevel->AddObject(pObject);
 
+	// 몬스터 추가
+	pObject = new CMonster;
+	pObject->SetPos(800.f, 200.f);
+	pObject->SetScale(100.f, 100.f);
 	m_pCurrentLevel->AddObject(pObject);
 }
 

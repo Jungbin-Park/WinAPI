@@ -1,10 +1,14 @@
 #pragma once
 
+//#ifdef DEBUG
+
 class CDbgRender
 {
 	SINGLE(CDbgRender)
 private:
 	list< tDbgRenderInfo>	m_RenderList;
+
+	bool					m_bRender;
 
 public:
 	void AddDbgRenderInfo(const tDbgRenderInfo& _info)
@@ -14,6 +18,9 @@ public:
 
 
 public:
+	void tick();
 	void render();
 };
+
+//#endif // DEBUG
 

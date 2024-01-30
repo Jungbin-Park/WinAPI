@@ -43,7 +43,6 @@ int CEngine::init(HWND _hWnd, POINT _Resolution)
 	RECT rt = { 0, 0, m_Resolution.x, m_Resolution.y };		
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 
-
 	// 윈도우 크기 변경
 	SetWindowPos(m_hMainWnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
 
@@ -60,39 +59,50 @@ int CEngine::init(HWND _hWnd, POINT _Resolution)
 
 void CEngine::progress()
 {
-	// Managet tick
+	// ============
+	// Manager Tick
+	// ============
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();
+	CDbgRender::GetInst()->tick();
 
+	// ==============
 	// Level Progress
+	// ==============
 	CLevelMgr::GetInst()->progress();
 	
-	// 화면 클리어 작업
-	//Rectangle(m_hDC, -1, -1, m_Resolution.x + 1, m_Resolution.y + 1);
+
+	// =========
+	// Rendering
+	// =========
+	// 화면 Clear
+	{
+		USE_BRUSH(m_hSubDC, BRUSH_GRAY);
+		Rectangle(m_hSubDC, -1, -1, m_Resolution.x + 1, m_Resolution.y + 1);
+	}
 
 	CLevelMgr::GetInst()->render();
 
 	CDbgRender::GetInst()->render();
 
-	// 충돌처리
-
-	// 이벤트
-
-	// 디버깅 로그
+	// Sub -> Main
+	BitBlt(m_hDC, 0, 0, m_Resolution.x, m_Resolution.y, m_hSubDC, 0, 0, SRCCOPY);
 }
 
 void CEngine::CreateDefaultGDIObject()
 {
-	// DC(Device Context) 생성
-	// DC 란? 렌더링과 관련
-	// 비트맵에 렌더링하기 위해 필요한 필수 정보 집합체
+	// 메인 윈도우를 타겟으로 지정하는	DC 생성
 	m_hDC = ::GetDC(m_hMainWnd);
-	// DC 보유 정보
-	// GetDC 로 생성되는 DC 의 정보
-	// 목적지 비트맵 - 입력 윈도우의 비트맵
-	// 펜 - BlackPen(Default)
-	// 브러쉬 - White Brush(Default)
 
+	// Sub DC 생성
+	m_hSubDC = CreateCompatibleDC(m_hDC);
+
+	// Sub Bitmap 생성
+	m_hSubBitmap = CreateCompatibleBitmap(m_hDC, m_Resolution.x, m_Resolution.y);
+
+	// SubDC 가 SubBitmap 을 지정하게 함
+	HBITMAP hPrevBitmap = (HBITMAP)SelectObject(m_hSubDC, m_hSubBitmap);
+	DeleteObject(hPrevBitmap);
 
 	// 자주 사용할 펜 생성
 	m_arrPen[(UINT)PEN_TYPE::PEN_RED] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));

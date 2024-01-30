@@ -9,6 +9,11 @@ CLevel::CLevel()
 
 CLevel::~CLevel()
 {
+	Save_Del_Vec(m_vecObj);
+	/*for (size_t i = 0; i < m_vecObj.size(); ++i)
+	{
+		delete m_vecObj[i];
+	}*/
 }
 
 void CLevel::begin()

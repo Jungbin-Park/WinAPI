@@ -241,5 +241,6 @@
     <ClCompile Include="CDbgRender.cpp">
       <Filter>03. Game\03. Manager\04. DebugRender</Filter>
     </ClCompile>
+    <ClCompile Include="func.cpp" />
   </ItemGroup>
 </Project>
