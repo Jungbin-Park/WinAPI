@@ -6,7 +6,7 @@ class CObj;
 class CLevel : public CEntity
 {
 private:
-    vector<CObj*>   m_vecObj;
+    vector<CObj*>   m_arrObj[(UINT)LAYER_TYPE::END];
 
 public:
     // 시점 함수
@@ -16,7 +16,7 @@ public:
     void render();      // 매 프레임마다 호출
 
 public:
-    void AddObject(CObj* _Obj)  { m_vecObj.push_back(_Obj); }
+    void AddObject(LAYER_TYPE _Layer, CObj* _Obj);
 
 public:
     virtual CLevel* Clone() = 0;

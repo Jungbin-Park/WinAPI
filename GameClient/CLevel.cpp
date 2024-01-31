@@ -9,43 +9,61 @@ CLevel::CLevel()
 
 CLevel::~CLevel()
 {
-	Save_Del_Vec(m_vecObj);
-	/*for (size_t i = 0; i < m_vecObj.size(); ++i)
+	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; i++)
 	{
-		delete m_vecObj[i];
-	}*/
+		Save_Del_Vec(m_arrObj[i]);
+	}
+	
 }
 
 void CLevel::begin()
 {
-	for (size_t i = 0; i < m_vecObj.size(); ++i)
+	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; i++)
 	{
-		m_vecObj[i]->begin();
+		for (size_t j = 0; j < m_arrObj[i].size(); j++)
+		{
+			m_arrObj[i][j]->begin();
+		}
 	}
 }
 
 void CLevel::tick()
 {
-	for (size_t i = 0; i < m_vecObj.size(); ++i)
+	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; i++)
 	{
-		m_vecObj[i]->tick();
+		for (size_t j = 0; j < m_arrObj[i].size(); j++)
+		{
+			m_arrObj[i][j]->tick();
+		}
 	}
 }
 
 void CLevel::finaltick()
 {
-	for (size_t i = 0; i < m_vecObj.size(); ++i)
+	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; i++)
 	{
-		m_vecObj[i]->finaltick();
+		for (size_t j = 0; j < m_arrObj[i].size(); j++)
+		{
+			m_arrObj[i][j]->finaltick();
+		}
 	}
 }
 
 void CLevel::render()
 {
-	for (size_t i = 0; i < m_vecObj.size(); ++i)
+	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; i++)
 	{
-		m_vecObj[i]->render();
+		for (size_t j = 0; j < m_arrObj[i].size(); j++)
+		{
+			m_arrObj[i][j]->render();
+		}
 	}
+}
+
+void CLevel::AddObject(LAYER_TYPE _Layer, CObj* _Obj)
+{
+	m_arrObj[(UINT)_Layer].push_back(_Obj);
+	_Obj->m_Type = _Layer;
 }
 
 

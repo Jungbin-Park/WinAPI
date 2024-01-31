@@ -12,9 +12,11 @@ class CFSM;
 class CObj : public CEntity
 {
 private:
-    Vec2                m_Pos;      // 위치
-    Vec2                m_Scale;    // 크기
-    vector<CComponent*> m_vecCom;   // 보유 컴포넌트들
+    Vec2                    m_Pos;      // 위치
+    Vec2                    m_Scale;    // 크기
+    vector<CComponent*>     m_vecCom;   // 보유 컴포넌트들
+
+    LAYER_TYPE              m_Type;     // 소속 레이어
 
 public:
     void SetPos(Vec2 _Pos) { m_Pos = _Pos; }
@@ -57,5 +59,7 @@ public:
 public:
     CObj();
     ~CObj();
+
+    friend class CLevel;
 };
 

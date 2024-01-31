@@ -50,9 +50,6 @@
     <Filter Include="03. Game\03. Manager\02. TimeMgr">
       <UniqueIdentifier>{48d4e52f-c70e-4f9b-a67f-981ce2672d3c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Game\05. Object\Missle">
-      <UniqueIdentifier>{94e6ee42-cbb6-451a-9cae-a7421a45934c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Game\05. Object\Player">
       <UniqueIdentifier>{b89f15f4-732c-4b94-a5fb-f1a118ff2137}</UniqueIdentifier>
     </Filter>
@@ -80,8 +77,14 @@
     <Filter Include="03. Game\06. Component\04. FSM">
       <UniqueIdentifier>{38ce5625-a16b-4404-b27f-c749dfe8583b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Game\03. Manager\04. DebugRender">
+    <Filter Include="03. Game\05. Object\Missile">
+      <UniqueIdentifier>{94e6ee42-cbb6-451a-9cae-a7421a45934c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\07. DebugRender">
       <UniqueIdentifier>{6a36ed92-805f-417c-9e73-06f7f33c6e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\04. CollisiionMgr">
+      <UniqueIdentifier>{35d43db3-87ca-4ac1-81d1-6e3d95e4d46b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -133,8 +136,8 @@
     <ClInclude Include="CTimeMgr.h">
       <Filter>03. Game\03. Manager\02. TimeMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CMissle.h">
-      <Filter>03. Game\05. Object\Missle</Filter>
+    <ClInclude Include="CMissile.h">
+      <Filter>03. Game\05. Object\Missile</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>03. Game\05. Object\Player</Filter>
@@ -164,7 +167,10 @@
       <Filter>03. Game\06. Component\04. FSM</Filter>
     </ClInclude>
     <ClInclude Include="CDbgRender.h">
-      <Filter>03. Game\03. Manager\04. DebugRender</Filter>
+      <Filter>03. Game\03. Manager\07. DebugRender</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionMgr.h">
+      <Filter>03. Game\03. Manager\04. CollisiionMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,8 +217,8 @@
     <ClCompile Include="CTimeMgr.cpp">
       <Filter>03. Game\03. Manager\02. TimeMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CMissle.cpp">
-      <Filter>03. Game\05. Object\Missle</Filter>
+    <ClCompile Include="CMissile.cpp">
+      <Filter>03. Game\05. Object\Missile</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>03. Game\05. Object\Player</Filter>
@@ -239,8 +245,11 @@
       <Filter>03. Game\06. Component\04. FSM</Filter>
     </ClCompile>
     <ClCompile Include="CDbgRender.cpp">
-      <Filter>03. Game\03. Manager\04. DebugRender</Filter>
+      <Filter>03. Game\03. Manager\07. DebugRender</Filter>
     </ClCompile>
     <ClCompile Include="func.cpp" />
+    <ClCompile Include="CCollisionMgr.cpp">
+      <Filter>03. Game\03. Manager\04. CollisiionMgr</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

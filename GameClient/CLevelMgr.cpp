@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CLevelMgr.h"
 
+#include "CCollisionMgr.h"
+
 #include "CLevel.h"
 #include "CLevel_Stage01.h"
 
@@ -31,13 +33,16 @@ void CLevelMgr::init()
 	CObj* pObject = new CPlayer;
 	pObject->SetPos(640.f, 384.f);
 	pObject->SetScale(100.f, 100.f);
-	m_pCurrentLevel->AddObject(pObject);
+	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pObject);
 
 	// 몬스터 추가
 	pObject = new CMonster;
 	pObject->SetPos(800.f, 200.f);
 	pObject->SetScale(100.f, 100.f);
-	m_pCurrentLevel->AddObject(pObject);
+	m_pCurrentLevel->AddObject(LAYER_TYPE::MONSTER, pObject);
+
+	// 레벨 충돌 설정하기
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
 }
 
 void CLevelMgr::progress()

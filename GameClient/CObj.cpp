@@ -7,6 +7,7 @@
 #include "CComponent.h"
 
 CObj::CObj()
+	: m_Type(LAYER_TYPE::NONE)
 {
 
 }

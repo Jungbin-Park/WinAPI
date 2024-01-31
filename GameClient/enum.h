@@ -55,3 +55,21 @@ enum class DBG_SHAPE
 	CIRCLE,
 	RECT,
 };
+
+enum class LAYER_TYPE
+{
+	DEFAULT,
+	BACKGROUND,
+	TILE,
+	PLAYER,
+	MONSTER,
+	PLAYER_MISSILE,
+	MONSTER_MISSILE,
+
+
+
+	UI = 15,
+	END = 16,
+
+	NONE = -1,
+};
