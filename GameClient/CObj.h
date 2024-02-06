@@ -25,6 +25,8 @@ public:
     void SetPos(float _x, float _y) { m_Pos.x = _x; m_Pos.y = _y; }
     void SetScale(float _width, float _height) { m_Scale.x = _width; m_Scale.y = _height; }
 
+    LAYER_TYPE GetLayerType() { return m_Type; }
+
     Vec2 GetPos() { return m_Pos; }
     Vec2 GetScale() { return m_Scale; }
 

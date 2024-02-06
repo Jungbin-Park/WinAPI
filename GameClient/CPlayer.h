@@ -8,8 +8,9 @@ class CPlayer :
 {
 private:
     float       m_Speed;
-
-    CCollider* m_Collider;
+    
+    CCollider*  m_HeadCol;
+    CCollider*  m_BodyCol;
 
 public:
     virtual void begin();

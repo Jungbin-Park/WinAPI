@@ -13,11 +13,18 @@ CPlayer::CPlayer()
 	: m_Speed(500.f)
 {
 	// Player의 컴포넌트 설정
-	m_Collider = (CCollider*)AddComponent(new CCollider);
-	m_Collider = GetComponent<CCollider>();
+	m_HeadCol = (CCollider*)AddComponent(new CCollider);
+	m_BodyCol = (CCollider*)AddComponent(new CCollider);
 
-	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
-	m_Collider->SetScale(Vec2(120.f, 120.f));
+	m_HeadCol->SetName(L"Head Collider");
+	m_HeadCol->SetOffsetPos(Vec2(0.f, -80.f));
+	m_HeadCol->SetScale(Vec2(30.f, 30.f));
+	m_HeadCol->SetActive(true);
+
+	m_BodyCol->SetName(L"Body Collider");
+	m_BodyCol->SetOffsetPos(Vec2(0.f, 0.f));
+	m_BodyCol->SetScale(Vec2(60.f, 60.f));
+	m_BodyCol->SetActive(true);
 }
 
 CPlayer::~CPlayer()

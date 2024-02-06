@@ -35,9 +35,6 @@
     <Filter Include="03. Game\08. Module">
       <UniqueIdentifier>{2f78e29c-9336-486c-b36c-65d0169925a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Game\03. Manager\01. LevelMgr">
-      <UniqueIdentifier>{af7aa55d-7686-45ed-a3a0-d145b884b8b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Game\04. Level\01. Start_Logo">
       <UniqueIdentifier>{2e519b33-2bf3-4fe3-80bd-2af301b23744}</UniqueIdentifier>
     </Filter>
@@ -47,14 +44,8 @@
     <Filter Include="03. Game\04. Level\03. Stage01">
       <UniqueIdentifier>{389f684d-68ae-457c-9f66-c4f72562df05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Game\03. Manager\02. TimeMgr">
-      <UniqueIdentifier>{48d4e52f-c70e-4f9b-a67f-981ce2672d3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Game\05. Object\Player">
       <UniqueIdentifier>{b89f15f4-732c-4b94-a5fb-f1a118ff2137}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Game\03. Manager\03. KeyMgr">
-      <UniqueIdentifier>{9a82faa5-d8bc-42e8-863b-55d77c886de7}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Game\05. Object\Monster">
       <UniqueIdentifier>{33d771fa-4b47-4b62-b730-0482d252d8d9}</UniqueIdentifier>
@@ -83,8 +74,35 @@
     <Filter Include="03. Game\03. Manager\07. DebugRender">
       <UniqueIdentifier>{6a36ed92-805f-417c-9e73-06f7f33c6e59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Game\03. Manager\04. CollisiionMgr">
+    <Filter Include="03. Game\03. Manager\05. LevelMgr">
+      <UniqueIdentifier>{af7aa55d-7686-45ed-a3a0-d145b884b8b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\06. CollisiionMgr">
       <UniqueIdentifier>{35d43db3-87ca-4ac1-81d1-6e3d95e4d46b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\01. TimeMgr">
+      <UniqueIdentifier>{48d4e52f-c70e-4f9b-a67f-981ce2672d3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\02. KeyMgr">
+      <UniqueIdentifier>{9a82faa5-d8bc-42e8-863b-55d77c886de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\03. AssetMgr">
+      <UniqueIdentifier>{ac04dae4-c583-45e2-a760-214b09598b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\04. PathMgr">
+      <UniqueIdentifier>{96adcef4-27d8-4c33-ab07-d21969f3f39f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\07. Asset\Sound">
+      <UniqueIdentifier>{6a125bca-51ed-46f9-ba05-fb9711a44350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\07. Asset\Texture">
+      <UniqueIdentifier>{a2c82dae-a59e-4877-a07d-c724b18209df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\08. TaskMgr">
+      <UniqueIdentifier>{45294da5-0e3f-42e5-ab6b-aa0b07975115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\05. Object\Missile\GuidedMissile">
+      <UniqueIdentifier>{fe9e0a10-876f-4445-8680-59dd4cc2260c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +143,7 @@
       <Filter>03. Game\04. Level</Filter>
     </ClInclude>
     <ClInclude Include="CLevelMgr.h">
-      <Filter>03. Game\03. Manager\01. LevelMgr</Filter>
+      <Filter>03. Game\03. Manager\05. LevelMgr</Filter>
     </ClInclude>
     <ClInclude Include="CLevel_Stage01.h">
       <Filter>03. Game\04. Level\03. Stage01</Filter>
@@ -134,7 +152,7 @@
       <Filter>03. Game\01. Header</Filter>
     </ClInclude>
     <ClInclude Include="CTimeMgr.h">
-      <Filter>03. Game\03. Manager\02. TimeMgr</Filter>
+      <Filter>03. Game\03. Manager\01. TimeMgr</Filter>
     </ClInclude>
     <ClInclude Include="CMissile.h">
       <Filter>03. Game\05. Object\Missile</Filter>
@@ -146,7 +164,7 @@
       <Filter>03. Game\01. Header</Filter>
     </ClInclude>
     <ClInclude Include="CKeyMgr.h">
-      <Filter>03. Game\03. Manager\03. KeyMgr</Filter>
+      <Filter>03. Game\03. Manager\02. KeyMgr</Filter>
     </ClInclude>
     <ClInclude Include="CMonster.h">
       <Filter>03. Game\05. Object\Monster</Filter>
@@ -170,7 +188,22 @@
       <Filter>03. Game\03. Manager\07. DebugRender</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionMgr.h">
-      <Filter>03. Game\03. Manager\04. CollisiionMgr</Filter>
+      <Filter>03. Game\03. Manager\06. CollisiionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>03. Game\03. Manager\04. PathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CAsset.h">
+      <Filter>03. Game\07. Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>03. Game\07. Asset\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskMgr.h">
+      <Filter>03. Game\03. Manager\08. TaskMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CGuidedMissile.h">
+      <Filter>03. Game\05. Object\Missile\GuidedMissile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,13 +242,13 @@
       <Filter>03. Game\04. Level</Filter>
     </ClCompile>
     <ClCompile Include="CLevelMgr.cpp">
-      <Filter>03. Game\03. Manager\01. LevelMgr</Filter>
+      <Filter>03. Game\03. Manager\05. LevelMgr</Filter>
     </ClCompile>
     <ClCompile Include="CLevel_Stage01.cpp">
       <Filter>03. Game\04. Level\03. Stage01</Filter>
     </ClCompile>
     <ClCompile Include="CTimeMgr.cpp">
-      <Filter>03. Game\03. Manager\02. TimeMgr</Filter>
+      <Filter>03. Game\03. Manager\01. TimeMgr</Filter>
     </ClCompile>
     <ClCompile Include="CMissile.cpp">
       <Filter>03. Game\05. Object\Missile</Filter>
@@ -224,7 +257,7 @@
       <Filter>03. Game\05. Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="CKeyMgr.cpp">
-      <Filter>03. Game\03. Manager\03. KeyMgr</Filter>
+      <Filter>03. Game\03. Manager\02. KeyMgr</Filter>
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
       <Filter>03. Game\05. Object\Monster</Filter>
@@ -249,7 +282,22 @@
     </ClCompile>
     <ClCompile Include="func.cpp" />
     <ClCompile Include="CCollisionMgr.cpp">
-      <Filter>03. Game\03. Manager\04. CollisiionMgr</Filter>
+      <Filter>03. Game\03. Manager\06. CollisiionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>03. Game\03. Manager\04. PathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CAsset.cpp">
+      <Filter>03. Game\07. Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>03. Game\07. Asset\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskMgr.cpp">
+      <Filter>03. Game\03. Manager\08. TaskMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CGuidedMissile.cpp">
+      <Filter>03. Game\05. Object\Missile\GuidedMissile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
