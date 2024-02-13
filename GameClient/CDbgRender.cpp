@@ -65,4 +65,7 @@ void CDbgRender::render()
 			++iter;
 		}
 	}
+
+	// 로그 정보 출력
+
 }

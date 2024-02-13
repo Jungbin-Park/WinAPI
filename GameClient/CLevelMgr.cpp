@@ -18,7 +18,7 @@ CLevelMgr::CLevelMgr()
 
 CLevelMgr::~CLevelMgr()
 {
-	Save_Del_Arr(m_arrLevel);
+	Safe_Del_Arr(m_arrLevel);
 }
 
 void CLevelMgr::init()

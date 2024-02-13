@@ -12,7 +12,7 @@ CLevel::~CLevel()
 {
 	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; i++)
 	{
-		Save_Del_Vec(m_arrObj[i]);
+		Safe_Del_Vec(m_arrObj[i]);
 	}
 	
 }

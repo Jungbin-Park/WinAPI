@@ -14,7 +14,7 @@ CObj::CObj()
 
 CObj::~CObj()
 {
-	Save_Del_Vec(m_vecCom);
+	Safe_Del_Vec(m_vecCom);
 }
 
 void CObj::begin()

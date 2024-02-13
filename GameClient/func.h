@@ -11,7 +11,7 @@ void DrawDebugCircle(PEN_TYPE _Type, Vec2 _Pos, Vec2 _Scale, float _Time);
 
 
 template<typename T>
-void Save_Del_Vec(vector<T*>& _vec)
+void Safe_Del_Vec(vector<T*>& _vec)
 {
 	for (size_t i = 0; i < _vec.size(); i++)
 	{
@@ -23,7 +23,7 @@ void Save_Del_Vec(vector<T*>& _vec)
 }
 
 template<typename T, UINT iSize>
-void Save_Del_Arr(T* (&Arr)[iSize])
+void Safe_Del_Arr(T* (&Arr)[iSize])
 {
 	for (UINT i = 0; i < iSize; ++i)
 	{
