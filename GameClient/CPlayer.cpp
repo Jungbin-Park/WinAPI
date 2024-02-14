@@ -86,4 +86,19 @@ void CPlayer::render()
 	CObj::render();
 }
 
+void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
+
+}
+
+void CPlayer::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
+
+}
+
+void CPlayer::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
+
+}
+
 

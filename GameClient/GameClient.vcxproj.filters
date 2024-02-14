@@ -104,6 +104,9 @@
     <Filter Include="03. Game\05. Object\Missile\GuidedMissile">
       <UniqueIdentifier>{fe9e0a10-876f-4445-8680-59dd4cc2260c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\08. Module\Animation">
+      <UniqueIdentifier>{e6838735-9026-4d1b-a078-40978d05eea1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -205,6 +208,15 @@
     <ClInclude Include="CGuidedMissile.h">
       <Filter>03. Game\05. Object\Missile\GuidedMissile</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>03. Game\08. Module\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CAssetMgr.h">
+      <Filter>03. Game\03. Manager\03. AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>03. Game\07. Asset\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -298,6 +310,15 @@
     </ClCompile>
     <ClCompile Include="CGuidedMissile.cpp">
       <Filter>03. Game\05. Object\Missile\GuidedMissile</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>03. Game\08. Module\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CAssetMgr.cpp">
+      <Filter>03. Game\03. Manager\03. AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>03. Game\07. Asset\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

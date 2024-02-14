@@ -1,6 +1,5 @@
 #pragma once
 
-//#ifdef DEBUG
 
 class CDbgRender
 {
@@ -22,5 +21,4 @@ public:
 	void render();
 };
 
-//#endif // DEBUG
 

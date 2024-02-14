@@ -11,8 +11,7 @@ private:
     Vec2    m_FinalPos;    // 최종 좌표 ( 소유 오브젝트 포지션 + 오프셋 Pos )
 
     bool    m_Active;
-
-    bool    m_bOverlap;
+    UINT    m_CollisionCount;
 
 public:
     void SetOffsetPos(Vec2 _Offset) { m_OffsetPos = _Offset; }
@@ -24,7 +23,9 @@ public:
     void SetActive(bool _Set) { m_Active = _Set; }
 
 private:
+    void BeginOverlap(CCollider* _OtherCollider);
     void OnOverlap(CCollider* _OtherCollider);
+    void EndOverlap(CCollider* _OtherCollider);
 
 public:
     virtual void finaltick() override;

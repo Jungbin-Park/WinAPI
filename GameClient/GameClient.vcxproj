@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)OutputFile\bin\</OutDir>
-    <TargetName>Game</TargetName>
+    <TargetName>Game_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)OutputFile\bin\</OutDir>
@@ -141,8 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CAsset.h" />
+    <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CComponent.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CRigidBody.h" />
     <ClInclude Include="CSelectObj.h" />
+    <ClInclude Include="CSound.h" />
     <ClInclude Include="CTaskMgr.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTimeMgr.h" />
@@ -176,8 +179,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAsset.cpp" />
+    <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CComponent.cpp" />
@@ -197,6 +202,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRigidBody.cpp" />
     <ClCompile Include="CSelectObj.cpp" />
+    <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CTaskMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
