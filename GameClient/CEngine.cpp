@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "CEngine.h"
 
+#include "CPathMgr.h"
 #include "CLevelMgr.h"
 #include "CDbgRender.h"
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 #include "CCollisionMgr.h"
+#include "CAssetMgr.h"
 
 CEngine::CEngine()
 	: m_hMainWnd(nullptr)	
@@ -35,8 +37,9 @@ CEngine::~CEngine()
 	}
 }
 
-int CEngine::init(HWND _hWnd, POINT _Resolution)
+int CEngine::init(HINSTANCE _hInst, HWND _hWnd, POINT _Resolution)
 {
+	m_hInstance = _hInst;
 	m_hMainWnd = _hWnd;
 	m_Resolution = _Resolution;
 
@@ -51,9 +54,12 @@ int CEngine::init(HWND _hWnd, POINT _Resolution)
 	CreateDefaultGDIObject();
 	
 	// Manager ÃÊ±âÈ­
+	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
-	CLevelMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
+	CAssetMgr::GetInst()->init();
+
+	CLevelMgr::GetInst()->init();
 
 	return S_OK;
 }
@@ -84,6 +90,8 @@ void CEngine::progress()
 	}
 
 	CLevelMgr::GetInst()->render();
+
+	CPathMgr::GetInst()->render();
 
 	CDbgRender::GetInst()->render();
 

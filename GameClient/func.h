@@ -10,6 +10,19 @@ void DrawDebugRect(PEN_TYPE _Type, Vec2 _Pos, Vec2 _Scale, float _Time);
 void DrawDebugCircle(PEN_TYPE _Type, Vec2 _Pos, Vec2 _Scale, float _Time);
 
 
+template<typename T1, typename T2>
+void Safe_Del_Map(map<T1, T2>& _map)
+{
+	for (const auto& pair : _map)
+	{
+		if (nullptr != pair.second)
+			delete pair.second;
+	}
+
+	_map.clear();
+}
+
+
 template<typename T>
 void Safe_Del_Vec(vector<T*>& _vec)
 {

@@ -3,6 +3,8 @@
 #include "CEngine.h"
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
+#include "CAssetMgr.h"
+#include "CTexture.h"
 
 class CComponent;
 class CCollider;

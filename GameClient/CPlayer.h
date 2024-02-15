@@ -8,6 +8,8 @@ class CPlayer :
 {
 private: 
     float       m_Speed;
+
+    CTexture*   m_PlayerImg;
     
     CCollider*  m_HeadCol;
     CCollider*  m_BodyCol;

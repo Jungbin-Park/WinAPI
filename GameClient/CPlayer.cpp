@@ -11,6 +11,7 @@
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
+	, m_PlayerImg(nullptr)
 {
 	// Player의 컴포넌트 설정
 	m_HeadCol = (CCollider*)AddComponent(new CCollider);
@@ -25,6 +26,8 @@ CPlayer::CPlayer()
 	m_BodyCol->SetOffsetPos(Vec2(0.f, 0.f));
 	m_BodyCol->SetScale(Vec2(60.f, 60.f));
 	m_BodyCol->SetActive(true);
+
+	m_PlayerImg = CAssetMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Fighter.bmp");
 }
 
 CPlayer::~CPlayer()
@@ -83,7 +86,16 @@ void CPlayer::tick()
 
 void CPlayer::render()
 {
-	CObj::render();
+	Vec2 vPos = GetPos();
+
+	float fWidth = (float)m_PlayerImg->GetWidth();
+	float fHeight = (float)m_PlayerImg->GetHeight();
+
+	BitBlt(DC, vPos.x - fWidth / 2.f
+		, vPos.y - fHeight / 2.f
+		, fWidth, fHeight
+		, m_PlayerImg->GetDC()
+		, 0, 0, SRCCOPY);
 }
 
 void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
