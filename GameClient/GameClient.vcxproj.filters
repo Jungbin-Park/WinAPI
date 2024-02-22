@@ -107,6 +107,12 @@
     <Filter Include="03. Game\08. Module\Animation">
       <UniqueIdentifier>{e6838735-9026-4d1b-a078-40978d05eea1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\05. Object\Force">
+      <UniqueIdentifier>{96bc1ea0-9de6-4a30-b25f-7fdfb1f8f940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\05. Object\Platform">
+      <UniqueIdentifier>{4bd28bdc-6d97-449a-8d90-3740f2bd5980}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -217,6 +223,12 @@
     <ClInclude Include="CSound.h">
       <Filter>03. Game\07. Asset\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="CForce.h">
+      <Filter>03. Game\05. Object\Force</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlatform.h">
+      <Filter>03. Game\05. Object\Platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -319,6 +331,12 @@
     </ClCompile>
     <ClCompile Include="CSound.cpp">
       <Filter>03. Game\07. Asset\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CForce.cpp">
+      <Filter>03. Game\05. Object\Force</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlatform.cpp">
+      <Filter>03. Game\05. Object\Platform</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
