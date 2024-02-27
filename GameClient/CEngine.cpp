@@ -8,6 +8,7 @@
 #include "CKeyMgr.h"
 #include "CCollisionMgr.h"
 #include "CAssetMgr.h"
+#include "CTaskMgr.h"
 
 CEngine::CEngine()
 	: m_hMainWnd(nullptr)	
@@ -97,6 +98,11 @@ void CEngine::progress()
 
 	// Sub -> Main
 	BitBlt(m_hDC, 0, 0, m_Resolution.x, m_Resolution.y, m_hSubDC, 0, 0, SRCCOPY);
+
+	// ================================
+	// Task 처리 (프레임의 마지막에 처리)
+	// ================================
+	CTaskMgr::GetInst()->tick();
 }
 
 void CEngine::CreateDefaultGDIObject()

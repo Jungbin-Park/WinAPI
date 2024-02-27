@@ -43,6 +43,7 @@ void CLevelMgr::init()
 
 	// 레벨 충돌 설정하기
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
 }
 
 void CLevelMgr::progress()

@@ -27,3 +27,17 @@ void DrawDebugCircle(PEN_TYPE _Type, Vec2 _Pos, Vec2 _Scale, float _Time)
 
 	CDbgRender::GetInst()->AddDbgRenderInfo(info);
 }
+
+#include "CTaskMgr.h"
+void SpawnObject(CLevel* _Level, LAYER_TYPE _type, CObj* _pSpawned)
+{
+	tTask task = {};
+	task.Type = TASK_TYPE::SPAWN_OBJECT;
+	task.lParam = (DWORD_PTR)_Level;
+	task.rParam = (DWORD_PTR)_pSpawned;
+	task.wParam = (DWORD_PTR)_type;
+
+	CTaskMgr::GetInst()->AddTask(task);
+}
+
+

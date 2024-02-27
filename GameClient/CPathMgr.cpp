@@ -46,11 +46,11 @@ void CPathMgr::render()
 	TextOut(DC, 10, 50, m_Content.c_str(), (int)m_Content.length());
 }
 
-void CPathMgr::GetParentPath(wchar_t* _Buffer)
+void CPathMgr::GetParentPath(_Inout_ wchar_t* _Buffer)
 {
 	size_t len = wcslen(_Buffer);
 
-	for (int i = len - 1; 0 < i; --i)
+	for (size_t i = len - 1; 0 < i; --i)
 	{
 		if (L'\\' == _Buffer[i])
 		{

@@ -47,3 +47,11 @@ void Safe_Del_Arr(T* (&Arr)[iSize])
 		}
 	}
 }
+
+
+// ==============
+// Task 관련 함수
+// ==============
+class CObj;
+class CLevel;
+void SpawnObject(CLevel* Level, LAYER_TYPE type, CObj* pSpawned);

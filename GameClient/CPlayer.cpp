@@ -66,16 +66,16 @@ void CPlayer::tick()
 	// Space 키가 눌리면 미사일을 쏜다.
 	if (KEY_TAP(SPACE))
 	{
-		CMissile* pMissle = new CMissile;
+		CMissile* pMissile = new CMissile;
+		pMissile->SetName(L"Missile");
 
-		Vec2 vMisslePos = GetPos();
-		vMisslePos.y -= GetScale().y / 2.f;
+		Vec2 vMissilePos = GetPos();
+		vMissilePos.y -= GetScale().y / 2.f;
 
-		pMissle->SetPos(vMisslePos);
-		pMissle->SetScale(Vec2(20.f, 20.f));
+		pMissile->SetPos(vMissilePos);
+		pMissile->SetScale(Vec2(20.f, 20.f));
 
-		CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-		pCurLevel->AddObject(LAYER_TYPE::PLAYER_MISSILE, pMissle);
+		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pMissile);
 
 		//DrawDebugRect(PEN_TYPE::PEN_GREEN, GetPos(), Vec2(500.f, 500.f), 3.f);
 	}
@@ -91,11 +91,19 @@ void CPlayer::render()
 	float fWidth = (float)m_PlayerImg->GetWidth();
 	float fHeight = (float)m_PlayerImg->GetHeight();
 
-	BitBlt(DC, vPos.x - fWidth / 2.f
+	/*BitBlt(DC, vPos.x - fWidth / 2.f
 		, vPos.y - fHeight / 2.f
 		, fWidth, fHeight
 		, m_PlayerImg->GetDC()
-		, 0, 0, SRCCOPY);
+		, 0, 0, SRCCOPY);*/
+
+	TransparentBlt(DC
+		, int(vPos.x - fWidth / 2.f)
+		, int(vPos.y - fHeight / 2.f)
+		, (int)fWidth, (int)fHeight
+		, m_PlayerImg->GetDC()
+		, 0, 0, (int)fWidth, (int)fHeight
+		, RGB(255, 0, 255));
 }
 
 void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)

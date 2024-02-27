@@ -2,6 +2,7 @@
 #include "CMonster.h"
 
 #include "CCollider.h"
+#include "CMissile.h"
 
 CMonster::CMonster()
 {
@@ -16,4 +17,19 @@ CMonster::~CMonster()
 
 void CMonster::tick()
 {
+}
+
+void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier)
+{
+	CMissile* pMissile = dynamic_cast<CMissile*>(_OtherObj);
+
+	if (pMissile != nullptr)
+	{
+		int a = 0;
+	}
+
+	if (_OtherObj->GetName() == L"Missile")
+	{
+		int a = 0;
+	}
 }
