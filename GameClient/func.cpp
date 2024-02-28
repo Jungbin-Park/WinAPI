@@ -33,9 +33,9 @@ void SpawnObject(CLevel* _Level, LAYER_TYPE _type, CObj* _pSpawned)
 {
 	tTask task = {};
 	task.Type = TASK_TYPE::SPAWN_OBJECT;
-	task.lParam = (DWORD_PTR)_Level;
-	task.rParam = (DWORD_PTR)_pSpawned;
-	task.wParam = (DWORD_PTR)_type;
+	task.Param1 = (DWORD_PTR)_Level;
+	task.Param2 = (DWORD_PTR)_type;
+	task.Param3 = (DWORD_PTR)_pSpawned;
 
 	CTaskMgr::GetInst()->AddTask(task);
 }

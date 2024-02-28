@@ -1,6 +1,21 @@
 #pragma once
 
-class CGuidedMissile
+#include "CMissile.h"
+
+class CGuidedMissile :
+	public CMissile
 {
+private:
+	CObj* m_Target;
+
+public:
+	virtual void tick() override;
+
+private:
+	void FindTarget();
+
+public:
+	CGuidedMissile();
+	~CGuidedMissile();
 };
 

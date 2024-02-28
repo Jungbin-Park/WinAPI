@@ -2,9 +2,11 @@
 #include "CMissile.h"
 
 #include "CCollider.h"
+#include "CTimeMgr.h"
 
 CMissile::CMissile()
 	: m_Speed(500.f)
+	, m_Angle(0.f)
 {
 	// Missile의 컴포넌트 설정
 	m_Collider = (CCollider*)AddComponent(new CCollider);
@@ -20,7 +22,11 @@ CMissile::~CMissile()
 void CMissile::tick()
 {
 	Vec2 vPos = GetPos();
-	vPos.y -= DT * m_Speed;
+
+	Vec2 vDir = Vec2(cosf(m_Angle), -sinf(m_Angle));
+
+	vPos += vDir * m_Speed * DT;
+
 	SetPos(vPos);
 }
 
