@@ -17,8 +17,8 @@ private:
     Vec2                    m_Pos;      // 위치
     Vec2                    m_Scale;    // 크기
     vector<CComponent*>     m_vecCom;   // 보유 컴포넌트들
-
     LAYER_TYPE              m_Type;     // 소속 레이어
+    bool                    m_bDead;    // 삭제 예정상태
 
 public:
     void SetPos(Vec2 _Pos) { m_Pos = _Pos; }
@@ -27,10 +27,10 @@ public:
     void SetPos(float _x, float _y) { m_Pos.x = _x; m_Pos.y = _y; }
     void SetScale(float _width, float _height) { m_Scale.x = _width; m_Scale.y = _height; }
 
-    LAYER_TYPE GetLayerType() { return m_Type; }
-
     Vec2 GetPos() { return m_Pos; }
     Vec2 GetScale() { return m_Scale; }
+    LAYER_TYPE GetLayerType() { return m_Type; }
+    void Destroy();
 
     CComponent* AddComponent(CComponent* _Component);
 
@@ -69,5 +69,6 @@ public:
     ~CObj();
 
     friend class CLevel;
+    friend class CTaskMgr;
 };
 

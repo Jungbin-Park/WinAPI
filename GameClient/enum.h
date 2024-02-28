@@ -76,9 +76,7 @@ enum class LAYER_TYPE
 
 enum class TASK_TYPE
 {
-	// 1 : Level, 2 : LAYER_TYPE, 3 : Object Adress
-
-	SPAWN_OBJECT,
-	DELETE_OBJECT,
+	SPAWN_OBJECT,		// 1 : Level, 2 : LAYER_TYPE, 3 : Object Adress
+	DELETE_OBJECT,		// 1 : Object Address
 	CHANGE_LEVEL,
 };

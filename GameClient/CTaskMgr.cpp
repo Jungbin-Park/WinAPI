@@ -20,6 +20,20 @@ CTaskMgr::~CTaskMgr()
 
 void CTaskMgr::tick()
 {
+	// GC 먼저 클리어
+	ClearGC();
+
+	// Task 처리
+	ExecuteTask();
+}
+
+void CTaskMgr::ClearGC()
+{
+	Safe_Del_Vec(m_GC);
+}
+
+void CTaskMgr::ExecuteTask()
+{
 	for (size_t i = 0; i < m_vecTask.size(); ++i)
 	{
 		switch (m_vecTask[i].Type)
@@ -36,13 +50,20 @@ void CTaskMgr::tick()
 			}
 			pSpawnLevel->AddObject(Layer, pObj);
 		}
-			break;
+		break;
 		case TASK_TYPE::DELETE_OBJECT:
-
-			break;
+		{
+			CObj* pObj = (CObj*)m_vecTask[i].Param1;
+			pObj->m_bDead = true;
+			// GC에서 수거
+			m_GC.push_back(pObj);
+		}
+		break;
 		case TASK_TYPE::CHANGE_LEVEL:
+		{
 
-			break;
+		}
+		break;
 		}
 	}
 
