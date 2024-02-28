@@ -26,6 +26,7 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 	if (pMissile != nullptr)
 	{
 		int a = 0;
+		//delete this;
 	}
 
 	if (_OtherObj->GetName() == L"Missile")

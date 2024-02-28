@@ -6,7 +6,9 @@ class CGuidedMissile :
 	public CMissile
 {
 private:
-	CObj* m_Target;
+	CObj*	m_Target;
+
+	float	m_Range;
 
 public:
 	virtual void tick() override;

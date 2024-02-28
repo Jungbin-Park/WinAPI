@@ -38,8 +38,10 @@ void CTaskMgr::tick()
 		}
 			break;
 		case TASK_TYPE::DELETE_OBJECT:
+
 			break;
 		case TASK_TYPE::CHANGE_LEVEL:
+
 			break;
 		}
 	}

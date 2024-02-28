@@ -6,7 +6,7 @@
 
 CMissile::CMissile()
 	: m_Speed(500.f)
-	, m_Angle(0.f)
+	, m_Angle(PI / 2.f)
 {
 	// Missile의 컴포넌트 설정
 	m_Collider = (CCollider*)AddComponent(new CCollider);
@@ -36,8 +36,8 @@ void CMissile::render()
 	Vec2 vScale = GetScale();
 
 	// 렌더링 과정 문제점(화면 클리어)
-	Ellipse(DC, vPos.x - vScale.x * 0.5f
-		, vPos.y - vScale.y * 0.5f
-		, vPos.x + vScale.x * 0.5f
-		, vPos.y + vScale.y * 0.5f);
+	Ellipse(DC, (int)(vPos.x - vScale.x * 0.5f)
+		, (int)(vPos.y - vScale.y * 0.5f)
+		, (int)(vPos.x + vScale.x * 0.5f)
+		, (int)(vPos.y + vScale.y * 0.5f));
 }

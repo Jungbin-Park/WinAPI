@@ -7,6 +7,11 @@ public:
 	float y;
 
 public:
+	float GetDistance(Vec2 _Other)
+	{
+		return sqrtf(powf(x - _Other.x, 2) + powf(y - _Other.y, 2));
+	}
+
 	Vec2 operator +(float f) { return Vec2(x + f, y + f); }
 	Vec2 operator -(float f) { return Vec2(x - f, y - f); }
 	Vec2 operator *(float f) { return Vec2(x * f, y * f); }

@@ -4,10 +4,11 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 
-#include "CMissile.h"
 #include "CCollider.h"
-
 #include "CDbgRender.h"
+
+#include "CMissile.h"
+#include "CGuidedMissile.h"
 
 CPlayer::CPlayer()
 	: m_Speed(500.f)
