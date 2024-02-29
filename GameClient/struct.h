@@ -31,7 +31,7 @@ public:
 	void operator +=(Vec2 _Other)
 	{
 		x += _Other.x;
-		x += _Other.y;
+		y += _Other.y;
 	}
 
 

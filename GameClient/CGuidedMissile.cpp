@@ -24,7 +24,7 @@ void CGuidedMissile::tick()
 		FindTarget();
 	}
 
-	// 탐색을 했는데도 아직 타겟이 없다면
+	// 탐색을 했는데도 아직 타겟이 없다면1
 	if (m_Target)
 	{
 		// 미사일이 추적할 대상을 향하는 각도를 구해서 각도 설정을 해준다.
