@@ -19,17 +19,13 @@ CGuidedMissile::~CGuidedMissile()
 void CGuidedMissile::tick()
 {
 	// 추적 대상이 있는지 확인
-	if (nullptr == m_Target)
+	if (!IsValid(m_Target))
 	{
 		FindTarget();
 	}
 
 	// 탐색을 했는데도 아직 타겟이 없다면
-	if (nullptr == m_Target)
-	{
-		SetAngle(PI / 2.f);
-	}
-	else 
+	if (m_Target)
 	{
 		// 미사일이 추적할 대상을 향하는 각도를 구해서 각도 설정을 해준다.
 		float fSlide = GetPos().GetDistance(m_Target->GetPos());	// 빗변
@@ -48,9 +44,15 @@ void CGuidedMissile::tick()
 
 		SetAngle(fAngle);
 	}
+	else 
+	{
+		SetAngle(PI / 2.f);
+	}
 
 	CMissile::tick();
 }
+
+
 
 void CGuidedMissile::FindTarget()
 {
@@ -70,9 +72,13 @@ void CGuidedMissile::FindTarget()
 		Vec2 vMissilePos = GetPos();
 
 		float fMinDist = m_Range;
+		m_Target = nullptr;
 
 		for (size_t i = 0; i < vecMonster.size(); i++)
 		{
+			if (vecMonster[i]->IsDead())
+				continue;
+
 			// 몬스터와 미사일의 거리를 구한다
 			float fDist = vMissilePos.GetDistance(vecMonster[i]->GetPos());
 
@@ -83,4 +89,10 @@ void CGuidedMissile::FindTarget()
 			}
 		}
 	}
+}
+
+void CGuidedMissile::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
+	if (_OtherObj->GetName() == L"Monster")
+		Destroy();
 }

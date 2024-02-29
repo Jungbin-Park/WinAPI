@@ -67,7 +67,7 @@ void CPlayer::tick()
 	// Space 키가 눌리면 미사일을 쏜다.
 	if (KEY_TAP(SPACE))
 	{
-		CMissile* pMissile = new CMissile;
+		CMissile* pMissile = new CGuidedMissile;
 		pMissile->SetName(L"Missile");
 
 		Vec2 vMissilePos = GetPos();

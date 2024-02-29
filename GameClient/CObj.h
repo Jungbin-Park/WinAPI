@@ -30,6 +30,8 @@ public:
     Vec2 GetPos() { return m_Pos; }
     Vec2 GetScale() { return m_Scale; }
     LAYER_TYPE GetLayerType() { return m_Type; }
+    bool IsDead() { return m_bDead; }
+
     void Destroy();
 
     CComponent* AddComponent(CComponent* _Component);

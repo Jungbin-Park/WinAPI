@@ -14,6 +14,7 @@ public:
 	virtual void tick() override;
 
 private:
+	virtual void BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
 	void FindTarget();
 
 public:

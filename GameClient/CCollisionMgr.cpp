@@ -54,6 +54,8 @@ void CCollisionMgr::tick()
 							iter = m_mapCollisionInfo.find(id.ID);
 						}
 
+						bool bDead = vecLeft[i]->GetOwner()->IsDead() || vecRight[j]->GetOwner()->IsDead();
+
 						// 두 충돌체가 지금 충돌중이다
 						if (IsCollision(vecLeft[i], vecRight[j]))
 						{
@@ -71,6 +73,13 @@ void CCollisionMgr::tick()
 							}
 							
 							iter->second = true;
+
+							// 두 충돌체 중 하나라도 Dead 상태이면 추가로 충돌 해제
+							if (bDead)
+							{
+								vecLeft[i]->EndOverlap(vecRight[j]);
+								vecRight[j]->EndOverlap(vecLeft[i]);
+							}
 
 						}
 						// 두 충돌체가 지금 충돌중이 아니다.

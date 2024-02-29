@@ -6,7 +6,7 @@
 
 CMissile::CMissile()
 	: m_Speed(500.f)
-	, m_Angle(PI / 2.f)
+	, m_Angle(0.f)
 {
 	// Missile의 컴포넌트 설정
 	m_Collider = (CCollider*)AddComponent(new CCollider);

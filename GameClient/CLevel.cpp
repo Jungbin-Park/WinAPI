@@ -60,9 +60,19 @@ void CLevel::render()
 {
 	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; i++)
 	{
-		for (size_t j = 0; j < m_arrObj[i].size(); j++)
+		vector<CObj*>::iterator iter = m_arrObj[i].begin();
+
+		for (; iter < m_arrObj[i].end();)
 		{
-			m_arrObj[i][j]->render();
+			if ((*iter)->IsDead())
+			{
+				iter = m_arrObj[i].erase(iter);
+			}
+			else
+			{
+				(*iter)->render();
+				iter++;
+			}
 		}
 	}
 }

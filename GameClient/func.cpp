@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "func.h"
 
 #include "CDbgRender.h"
 
@@ -27,6 +28,22 @@ void DrawDebugCircle(PEN_TYPE _Type, Vec2 _Pos, Vec2 _Scale, float _Time)
 
 	CDbgRender::GetInst()->AddDbgRenderInfo(info);
 }
+
+
+#include "CObj.h"
+bool IsValid(CObj*& _Object)
+{
+	if (nullptr == _Object)
+		return false;
+	else if (_Object->IsDead())
+	{
+		_Object = nullptr;
+		return false;
+	}
+	
+	return true;
+}
+
 
 #include "CTaskMgr.h"
 void SpawnObject(CLevel* _Level, LAYER_TYPE _type, CObj* _pSpawned)

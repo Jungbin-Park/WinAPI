@@ -37,7 +37,14 @@ void CLevelMgr::init()
 
 	// 몬스터 추가
 	pObject = new CMonster;
+	pObject->SetName(L"Monster");
 	pObject->SetPos(800.f, 200.f);
+	pObject->SetScale(100.f, 100.f);
+	m_pCurrentLevel->AddObject(LAYER_TYPE::MONSTER, pObject);
+
+	pObject = new CMonster;
+	pObject->SetName(L"Monster");
+	pObject->SetPos(100.f, 100.f);
 	pObject->SetScale(100.f, 100.f);
 	m_pCurrentLevel->AddObject(LAYER_TYPE::MONSTER, pObject);
 

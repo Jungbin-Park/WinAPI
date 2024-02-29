@@ -5,6 +5,7 @@
 #include "CMissile.h"
 
 CMonster::CMonster()
+	: m_HP(5)
 {
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Collider->SetScale(Vec2(120.f, 120.f));
@@ -23,14 +24,13 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 {
 	CMissile* pMissile = dynamic_cast<CMissile*>(_OtherObj);
 
-	if (pMissile != nullptr)
-	{
-		int a = 0;
-		//delete this;
-	}
-
 	if (_OtherObj->GetName() == L"Missile")
 	{
-		int a = 0;
+		--m_HP;
+
+		if (0 >= m_HP)
+		{
+			Destroy();
+		}
 	}
 }
