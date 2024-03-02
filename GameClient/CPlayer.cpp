@@ -19,13 +19,13 @@ CPlayer::CPlayer()
 	m_BodyCol = (CCollider*)AddComponent(new CCollider);
 
 	m_HeadCol->SetName(L"Head Collider");
-	m_HeadCol->SetOffsetPos(Vec2(0.f, -80.f));
+	m_HeadCol->SetOffsetPos(Vec2(0.f, -40.f));
 	m_HeadCol->SetScale(Vec2(30.f, 30.f));
 	m_HeadCol->SetActive(true);
 
 	m_BodyCol->SetName(L"Body Collider");
-	m_BodyCol->SetOffsetPos(Vec2(0.f, 0.f));
-	m_BodyCol->SetScale(Vec2(60.f, 60.f));
+	m_BodyCol->SetOffsetPos(Vec2(0.f, 20.f));
+	m_BodyCol->SetScale(Vec2(30.f, 60.f));
 	m_BodyCol->SetActive(true);
 
 	m_PlayerImg = CAssetMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Fighter.bmp");
@@ -44,28 +44,28 @@ void CPlayer::tick()
 	Vec2 vPos = GetPos();
 
 	// 왼쪽키가 눌린적이 있으면(눌려있으면) 왼쪽으로 1픽셀 이동
-	if (KEY_PRESSED(LEFT))
+	if (KEY_PRESSED(KEY::LEFT))
 	{
 		vPos.x -= m_Speed * DT;
 	}
 
-	if (KEY_PRESSED(RIGHT))
+	if (KEY_PRESSED(KEY::RIGHT))
 	{
 		vPos.x += m_Speed * DT;
 	}
 
-	if (KEY_PRESSED(UP))
+	if (KEY_PRESSED(KEY::UP))
 	{
 		vPos.y -= m_Speed * DT;
 	}
 
-	if (KEY_PRESSED(DOWN))
+	if (KEY_PRESSED(KEY::DOWN))
 	{
 		vPos.y += m_Speed * DT;
 	}
 
 	// Space 키가 눌리면 미사일을 쏜다.
-	if (KEY_TAP(SPACE))
+	if (KEY_TAP(KEY::SPACE))
 	{
 		CMissile* pMissile = new CGuidedMissile;
 		pMissile->SetName(L"Missile");

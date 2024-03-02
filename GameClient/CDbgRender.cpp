@@ -18,7 +18,7 @@ CDbgRender::~CDbgRender()
 
 void CDbgRender::tick()
 {
-	if (KEY_TAP(_0))
+	if (KEY_TAP(KEY::_0))
 	{
 		m_bRender ? m_bRender = false : m_bRender = true;
 	}

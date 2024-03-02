@@ -44,10 +44,10 @@ void CObj::render()
 	HDC dc = CEngine::GetInst()->GetSubDC();
 
 	// 렌더링 과정 문제점(화면 클리어)
-	Rectangle(dc, m_Pos.x - m_Scale.x * 0.5f
-				, m_Pos.y - m_Scale.y * 0.5f
-				, m_Pos.x + m_Scale.x * 0.5f
-				, m_Pos.y + m_Scale.y * 0.5f);
+	Rectangle(dc, (int)(m_Pos.x - m_Scale.x * 0.5f)
+				, (int)(m_Pos.y - m_Scale.y * 0.5f)
+				, (int)(m_Pos.x + m_Scale.x * 0.5f)
+				, (int)(m_Pos.y + m_Scale.y * 0.5f));
 }
 
 void CObj::Destroy()

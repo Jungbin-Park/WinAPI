@@ -59,9 +59,9 @@ void CLevelMgr::progress()
 		return;
 
 	// 레벨 안에 있는 물체들이 매 프레임마다 할 일을 정의
-	m_pCurrentLevel->tick();
-
-	m_pCurrentLevel->finaltick();
+	m_pCurrentLevel->tick();		// 오브젝트가 할 일을 수행
+		
+	m_pCurrentLevel->finaltick();	// 컴포넌트가 할 일을 수행
 	
 	m_pCurrentLevel->render();
 }

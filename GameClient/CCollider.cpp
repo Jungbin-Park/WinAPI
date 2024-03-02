@@ -6,8 +6,9 @@
 
 
 CCollider::CCollider()
-	: m_Active(true)
-	, m_CollisionCount(0)
+	: m_CollisionCount(0)
+	, m_Active(true)
+	, m_bRegister(true)
 {
 }
 
@@ -20,12 +21,21 @@ void CCollider::finaltick()
 {
 	m_FinalPos = GetOwner()->GetPos() + m_OffsetPos;
 
-	if (m_Active)
+	if (m_bRegister)
 	{
 		// 충돌체를 보유하고 있는 오브젝트의 소속 레이어에 자신을 등록시킨다.
 		CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 		pLevel->RegisterCollider(this);
+
+		// 비활성화 상태면 등록 옵션을 정지한다(다음번 프레임부터 등록이 되지 않는다)
+		if (!m_Active)
+		{
+			m_bRegister = false;
+		}
 	}
+
+	if (!m_Active)
+		return;
 
 	if (0 != m_CollisionCount)
 	{

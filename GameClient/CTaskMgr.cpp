@@ -30,6 +30,8 @@ void CTaskMgr::tick()
 void CTaskMgr::ClearGC()
 {
 	Safe_Del_Vec(m_GC);
+
+	m_GC.clear();
 }
 
 void CTaskMgr::ExecuteTask()

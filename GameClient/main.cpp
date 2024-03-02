@@ -10,10 +10,10 @@
 
 // 전역 변수:
 HINSTANCE   hInst;                       // 현재 인스턴스입니다.
-HWND        g_hWnd;                     // 메인 윈도우 핸들
+HWND        g_hWnd;                      // 메인 윈도우 핸들
 
-wchar_t szTitle[100];                  // 제목 표시줄 텍스트입니다.
-wchar_t szWindowClass[100];            // 기본 창 클래스 이름입니다.
+wchar_t szTitle[100];                    // 제목 표시줄 텍스트입니다.
+wchar_t szWindowClass[100];              // 기본 창 클래스 이름입니다.
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
