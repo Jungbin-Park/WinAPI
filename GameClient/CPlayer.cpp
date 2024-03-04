@@ -78,6 +78,12 @@ void CPlayer::tick()
 
 		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pMissile);
 
+		tDbgLog log = {};
+		log.Age = 0.f;
+		log.Type = LOG_TYPE::DBG_LOG;
+		log.strLog = L"!! 미사일 발사 !!";
+		CDbgRender::GetInst()->AddDbgLog(log);
+
 		//DrawDebugRect(PEN_TYPE::PEN_GREEN, GetPos(), Vec2(500.f, 500.f), 3.f);
 	}
 

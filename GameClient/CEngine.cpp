@@ -86,13 +86,13 @@ void CEngine::progress()
 	// =========
 	// È­¸é Clear
 	{
-		USE_BRUSH(m_hSubDC, BRUSH_GRAY);
+		USE_BRUSH(m_hSubDC, BRUSH_TYPE::BRUSH_GRAY);
 		Rectangle(m_hSubDC, -1, -1, m_Resolution.x + 1, m_Resolution.y + 1);
 	}
 
 	CLevelMgr::GetInst()->render();
 
-	CPathMgr::GetInst()->render();
+	//CPathMgr::GetInst()->render();
 
 	CDbgRender::GetInst()->render();
 

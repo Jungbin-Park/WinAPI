@@ -56,6 +56,8 @@ void CTaskMgr::ExecuteTask()
 		case TASK_TYPE::DELETE_OBJECT:
 		{
 			CObj* pObj = (CObj*)m_vecTask[i].Param1;
+			if (pObj->m_bDead)
+				continue;
 			pObj->m_bDead = true;
 			// GC에서 수거
 			m_GC.push_back(pObj);
