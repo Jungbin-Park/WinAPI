@@ -7,7 +7,7 @@
 
 CDbgRender::CDbgRender()
 	: m_bRender(true)
-	, m_LogLife(2.f)
+	, m_LogLife(3.5f)
 	, m_LogSpace(18)
 	, m_LogStartPos(Vec2(0.f, 10.f))
 {
@@ -72,20 +72,37 @@ void CDbgRender::render()
 	// 로그 정보 출력
 	list<tDbgLog>::iterator logiter = m_LogList.begin();
 
+	SetBkMode(DC, TRANSPARENT);
+
 	int i = 0;
 	for (; logiter != m_LogList.end();)
 	{
-		// 오래된 로그일수록 아래쪽에 출력이 되어야 함
-		// 로그의 y축 offset 위치를 구함
-		int yoffset = ((int)m_LogList.size() - (i + 1)) * m_LogSpace;
-
-		USE_BRUSH(DC, BRUSH_TYPE::BRUSH_HOLLOW);
-
-		// 로그 출력
-		TextOut(DC, (int)m_LogStartPos.x
-			, (int)m_LogStartPos.y + yoffset
-			, logiter->strLog.c_str()
-			, (int)logiter->strLog.length());
+		if (m_bRender)
+		{
+			// 오래된 로그일수록 아래쪽에 출력이 되어야 함
+					// 로그의 y축 offset 위치를 구함
+			int yoffset = ((int)m_LogList.size() - (i + 1)) * m_LogSpace;
+			
+			// 로그 타입 별 글씨 색상 설정
+			switch (logiter->Type)
+			{
+			case LOG_TYPE::DBG_LOG:
+				SetTextColor(DC, RGB(255, 255, 255));
+				break;
+			case LOG_TYPE::DBG_WARNING:
+				SetTextColor(DC, RGB(240, 240, 20));
+				break;
+			case LOG_TYPE::DBG_ERROR:
+				SetTextColor(DC, RGB(240, 20, 20));
+				break;
+			}
+			// 로그 출력
+			TextOut(DC, (int)m_LogStartPos.x
+				, (int)m_LogStartPos.y + yoffset
+				, logiter->strLog.c_str()
+				, (int)logiter->strLog.length());
+		}
+		
 
 		// 로그 나이 계산
 		logiter->Age += DT;
@@ -102,5 +119,7 @@ void CDbgRender::render()
 		++i;
 	}
 
+	SetBkMode(DC, OPAQUE);
+	SetTextColor(DC, RGB(0, 0, 0));
 	
 }

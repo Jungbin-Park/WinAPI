@@ -30,3 +30,9 @@
 #define CLONE_DISABLE(Type) virtual Type* Clone() override { return nullptr; }
 
 #define PI 3.1415926535f
+
+#define LOG(TYPE, Msg)	string FuncName = __FUNCTION__;\
+						wstring strFuncName = wstring(FuncName.begin(), FuncName.end());\
+						wchar_t szLog[256] = {};\
+						swprintf_s(szLog, L"{%s : %d} : %s", strFuncName.c_str(), __LINE__, Msg);\
+						DebugLog(TYPE, szLog);

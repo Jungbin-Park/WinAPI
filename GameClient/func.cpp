@@ -29,6 +29,15 @@ void DrawDebugCircle(PEN_TYPE _Type, Vec2 _Pos, Vec2 _Scale, float _Time)
 	CDbgRender::GetInst()->AddDbgRenderInfo(info);
 }
 
+void DebugLog(LOG_TYPE _Type, const wchar_t* _LogMgs)
+{
+	tDbgLog log = {};
+	log.Type = _Type;
+	log.strLog = _LogMgs;
+
+	CDbgRender::GetInst()->AddDbgLog(log);
+}
+
 
 #include "CObj.h"
 bool IsValid(CObj*& _Object)
