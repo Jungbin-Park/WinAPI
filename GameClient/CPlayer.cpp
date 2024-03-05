@@ -5,6 +5,7 @@
 #include "CLevel.h"
 
 #include "CCollider.h"
+#include "CAnimator.h"
 #include "CDbgRender.h"
 
 #include "CMissile.h"
@@ -17,6 +18,7 @@ CPlayer::CPlayer()
 	// Player의 컴포넌트 설정
 	m_HeadCol = (CCollider*)AddComponent(new CCollider);
 	m_BodyCol = (CCollider*)AddComponent(new CCollider);
+	m_Animator = (CAnimator*)AddComponent(new CAnimator);
 
 	m_HeadCol->SetName(L"Head Collider");
 	m_HeadCol->SetOffsetPos(Vec2(0.f, -40.f));
@@ -27,6 +29,7 @@ CPlayer::CPlayer()
 	m_BodyCol->SetOffsetPos(Vec2(0.f, 20.f));
 	m_BodyCol->SetScale(Vec2(30.f, 60.f));
 	m_BodyCol->SetActive(true);
+
 
 	m_PlayerImg = CAssetMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Fighter.bmp");
 }
@@ -87,27 +90,7 @@ void CPlayer::tick()
 }
 
 
-void CPlayer::render()
-{
-	Vec2 vPos = GetPos();
 
-	float fWidth = (float)m_PlayerImg->GetWidth();
-	float fHeight = (float)m_PlayerImg->GetHeight();
-
-	/*BitBlt(DC, vPos.x - fWidth / 2.f
-		, vPos.y - fHeight / 2.f
-		, fWidth, fHeight
-		, m_PlayerImg->GetDC()
-		, 0, 0, SRCCOPY);*/
-
-	TransparentBlt(DC
-		, int(vPos.x - fWidth / 2.f)
-		, int(vPos.y - fHeight / 2.f)
-		, (int)fWidth, (int)fHeight
-		, m_PlayerImg->GetDC()
-		, 0, 0, (int)fWidth, (int)fHeight
-		, RGB(255, 0, 255));
-}
 
 void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {

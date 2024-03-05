@@ -6,12 +6,14 @@
 #include "CTaskMgr.h"
 
 #include "CComponent.h"
+#include "CAnimator.h"
 
 
 
 CObj::CObj()
 	: m_Type(LAYER_TYPE::NONE)
 	, m_bDead(false)
+	, m_Animator(nullptr)
 {
 
 }
@@ -41,13 +43,10 @@ void CObj::finaltick()
 
 void CObj::render()
 {
-	HDC dc = CEngine::GetInst()->GetSubDC();
+	if (nullptr == m_Animator)
+		return;
 
-	// 렌더링 과정 문제점(화면 클리어)
-	Rectangle(dc, (int)(m_Pos.x - m_Scale.x * 0.5f)
-				, (int)(m_Pos.y - m_Scale.y * 0.5f)
-				, (int)(m_Pos.x + m_Scale.x * 0.5f)
-				, (int)(m_Pos.y + m_Scale.y * 0.5f));
+	m_Animator->render();
 }
 
 void CObj::Destroy()
@@ -64,6 +63,9 @@ CComponent* CObj::AddComponent(CComponent* _Component)
 {
 	m_vecCom.push_back(_Component);
 	_Component->m_Owner = this;
+
+	// 오브젝트에 추가된 컴포넌트가 Animator면 별도의 포인터로 따로 가리킨다.
+	m_Animator = dynamic_cast<CAnimator*>(_Component);
 
 	return _Component;
 }

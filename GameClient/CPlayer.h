@@ -2,6 +2,7 @@
 #include "CObj.h"
 
 class CCollider;
+class CAnimator;
 
 class CPlayer :
     public CObj
@@ -13,11 +14,11 @@ private:
     
     CCollider*  m_HeadCol;
     CCollider*  m_BodyCol;
+    CAnimator*  m_Animator;
 
 public:
     virtual void begin();
     virtual void tick(); // 오브젝트가 매 프레임마다 해야할 작업을 구현
-    virtual void render();
 
     virtual void BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
     virtual void OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
