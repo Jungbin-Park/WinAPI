@@ -35,7 +35,17 @@ CPlayer::CPlayer()
 
 	// Animation 추가
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PlayerAtlasTex", L"texture\\link_32.bmp");
-	m_Animator->CreateAnimation(L"WALK_DOWN", pAtlas, Vec2(0.5f, 520), Vec2(120.f, 130.f), 10, 24);
+	m_Animator->CreateAnimation(L"IDLE_DOWN", pAtlas, Vec2(0.f, 0.f), Vec2(120.f, 130.f), 3, 10);
+	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlas, Vec2(0.f, 130.f), Vec2(120.f, 130.f), 3, 10);
+	m_Animator->CreateAnimation(L"IDLE_UP", pAtlas, Vec2(0.f, 260.f), Vec2(120.f, 130.f), 1, 1);
+	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlas, Vec2(0.f, 390.f), Vec2(120.f, 130.f), 3, 10);
+
+	m_Animator->CreateAnimation(L"WALK_DOWN", pAtlas, Vec2(0.f, 520.f), Vec2(120.f, 130.f), 10, 18);
+	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlas, Vec2(0.f, 650.f), Vec2(120.f, 130.f), 10, 18);
+	m_Animator->CreateAnimation(L"WALK_UP", pAtlas, Vec2(0.f, 780.f), Vec2(120.f, 130.f), 10, 18);
+	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlas, Vec2(0.f, 910.f), Vec2(120.f, 130.f), 10, 18);
+
+	m_Animator->Play(L"IDLE_DOWN", true);
 }
 
 CPlayer::~CPlayer()
@@ -55,20 +65,52 @@ void CPlayer::tick()
 	{
 		vPos.x -= m_Speed * DT;
 	}
+	else if (KEY_TAP(KEY::LEFT))
+	{
+		m_Animator->Play(L"WALK_LEFT", true);
+	}
+	else if (KEY_RELEASED(KEY::LEFT))
+	{
+		m_Animator->Play(L"IDLE_LEFT", true);
+	}
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
 		vPos.x += m_Speed * DT;
+	}
+	else if (KEY_TAP(KEY::RIGHT))
+	{
+		m_Animator->Play(L"WALK_RIGHT", true);
+	}
+	else if (KEY_RELEASED(KEY::RIGHT))
+	{
+		m_Animator->Play(L"IDLE_RIGHT", true);
 	}
 
 	if (KEY_PRESSED(KEY::UP))
 	{
 		vPos.y -= m_Speed * DT;
 	}
+	else if (KEY_TAP(KEY::UP))
+	{
+		m_Animator->Play(L"WALK_UP", true);
+	}
+	else if (KEY_RELEASED(KEY::UP))
+	{
+		m_Animator->Play(L"IDLE_UP", true);
+	}
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
 		vPos.y += m_Speed * DT;
+	}
+	else if (KEY_TAP(KEY::DOWN))
+	{
+		m_Animator->Play(L"WALK_DOWN", true);
+	}
+	else if (KEY_RELEASED(KEY::DOWN))
+	{
+		m_Animator->Play(L"IDLE_DOWN", true);
 	}
 
 	// Space 키가 눌리면 미사일을 쏜다.

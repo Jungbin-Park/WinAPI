@@ -4,6 +4,7 @@
 #include "CCollider.h"
 #include "CMissile.h"
 
+
 CMonster::CMonster()
 	: m_HP(5)
 {

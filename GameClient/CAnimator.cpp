@@ -4,17 +4,25 @@
 #include "CAnimation.h"
 
 CAnimator::CAnimator()
+	: m_CurAnim(nullptr)
 {
 }
 
 CAnimator::~CAnimator()
 {
+	Safe_Del_Map(m_mapAnim);
 }
 
 void CAnimator::finaltick()
 {
 	if (nullptr != m_CurAnim)
+	{
+		if (m_CurAnim->IsFinish() && m_Repeat)
+		{
+			m_CurAnim->Reset();
+		}
 		m_CurAnim->finaltick();
+	}
 }
 
 void CAnimator::render()
@@ -51,6 +59,13 @@ CAnimation* CAnimator::FindAnimation(const wstring& _AnimName)
 		return nullptr;
 
 	return iter->second;
+}
+
+void CAnimator::Play(const wstring& _AnimName, bool _Repeat)
+{
+	m_CurAnim = FindAnimation(_AnimName);
+	m_CurAnim->Reset();
+	m_Repeat = _Repeat;
 }
 
 
