@@ -31,7 +31,11 @@ CPlayer::CPlayer()
 	m_BodyCol->SetActive(true);
 
 
-	m_PlayerImg = CAssetMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Fighter.bmp");
+	//m_PlayerImg = CAssetMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Fighter.bmp");
+
+	// Animation Ãß°¡
+	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PlayerAtlasTex", L"texture\\link_32.bmp");
+	m_Animator->CreateAnimation(L"WALK_DOWN", pAtlas, Vec2(0.5f, 520), Vec2(120.f, 130.f), 10, 24);
 }
 
 CPlayer::~CPlayer()
