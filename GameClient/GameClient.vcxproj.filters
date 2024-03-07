@@ -250,6 +250,12 @@
     <ClInclude Include="CTraceState.h">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
     </ClInclude>
+    <ClInclude Include="CLevel_Editor.h">
+      <Filter>03. Game\04. Level\02. Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CTile.h">
+      <Filter>03. Game\05. Object\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -370,6 +376,12 @@
     </ClCompile>
     <ClCompile Include="CTraceState.cpp">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevel_Editor.cpp">
+      <Filter>03. Game\04. Level\02. Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CTile.cpp">
+      <Filter>03. Game\05. Object\Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
