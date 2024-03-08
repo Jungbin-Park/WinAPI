@@ -7,6 +7,7 @@
 #include "CTexture.h"
 
 #include "CTimeMgr.h"
+#include "CPathMgr.h"
 
 CAnimation::CAnimation()
 	: m_Animator(nullptr)
@@ -58,8 +59,8 @@ void CAnimation::render()
 
 	// 현재 프레임 이미지를 오브젝트 위치에 렌더링
 	TransparentBlt(DC
-		, (int)(vPos.x - frm.SliceSize.x / 2.f)
-		, (int)(vPos.y - frm.SliceSize.y / 2.f)
+		, (int)(vPos.x - frm.SliceSize.x / 2.f + frm.Offset.x)
+		, (int)(vPos.y - frm.SliceSize.y / 2.f + frm.Offset.y)
 		, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
 		, m_Atlas->GetDC()
 		, (int)(frm.StartPos.x), (int)(frm.StartPos.y)
@@ -81,6 +82,32 @@ void CAnimation::Create(CTexture* _AtlasTex, Vec2 _StartPos, Vec2 _SliceSize, in
 
 		m_vecFrm.push_back(frm);
 	}
+}
+
+void CAnimation::Save(const wstring& _strRelativeFolderPath)
+{
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativeFolderPath;
+	strFilePath += GetName();
+	strFilePath += L".anim";
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+
+	if (nullptr == pFile)
+	{
+		LOG(LOG_TYPE::DBG_ERROR, L"애니메이션 저장 실패");
+		return;
+	}
+
+	// 애니메이션의 정보를 저장
+
+	fclose(pFile);
+}
+
+void CAnimation::Load(const wstring& _strRelativeFilePath)
+{
+
 }
 
 

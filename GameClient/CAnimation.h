@@ -6,6 +6,7 @@ struct tAnimFrm
 {
     Vec2    StartPos;
     Vec2    SliceSize;
+    Vec2    Offset;
     float   Duration;   // 프레임 유지 시간
 };
 
@@ -26,10 +27,6 @@ private:
     bool                m_bFinish;      // 애니메이션 재생이 종료됨을 알림
 
 public:
-    void finaltick();
-    void render();
-
-    void Create(CTexture* _AtlasTex, Vec2 _StartPos, Vec2 _SliceSize, int _FrameCount, int _FPS);
     bool IsFinish() { return m_bFinish; }
 
     void Reset()
@@ -38,6 +35,16 @@ public:
         m_CurFrmIdx = 0;
         m_bFinish = false;
     }
+
+    tAnimFrm& GetFrame(int _Idx) { return m_vecFrm[_Idx]; }
+
+public:
+    void finaltick();
+    void render();
+    void Create(CTexture* _AtlasTex, Vec2 _StartPos, Vec2 _SliceSize, int _FrameCount, int _FPS);
+
+    void Save(const wstring& _strRelativeFolderPath);
+    void Load(const wstring& _strRelativeFilePath);
 
 public:
     CLONE(CAnimation);

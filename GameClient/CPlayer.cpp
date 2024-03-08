@@ -6,6 +6,7 @@
 
 #include "CCollider.h"
 #include "CAnimator.h"
+#include "CAnimation.h"
 #include "CDbgRender.h"
 
 #include "CMissile.h"
@@ -44,6 +45,10 @@ CPlayer::CPlayer()
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlas, Vec2(0.f, 650.f), Vec2(120.f, 130.f), 10, 18);
 	m_Animator->CreateAnimation(L"WALK_UP", pAtlas, Vec2(0.f, 780.f), Vec2(120.f, 130.f), 10, 18);
 	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlas, Vec2(0.f, 910.f), Vec2(120.f, 130.f), 10, 18);
+
+	m_Animator->FindAnimation(L"IDLE_RIGHT")->GetFrame(1).Offset = Vec2(1.f, 0.f); 
+
+	m_Animator->FindAnimation(L"IDLE_DOWN")->Save(L"animation\\player\\");
 
 	m_Animator->Play(L"IDLE_DOWN", true);
 }

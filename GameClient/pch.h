@@ -23,5 +23,6 @@ using std::wstring;
 #include "enum.h"
 #include "struct.h"	
 #include "func.h"
+#include "CDbgRender.h"
 
 #include "CSelectObj.h"
