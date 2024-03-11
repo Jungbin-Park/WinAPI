@@ -21,6 +21,7 @@ public:
         , Vec2 _StartPos, Vec2 _SliceSize, int _FrameCount, int _FPS);
 
     CAnimation* FindAnimation(const wstring& _AnimName);
+    void LoadAnimation(const wstring& _AnimName, const wstring& _strRelativeFilePath);
 
     void Play(const wstring& _AnimName, bool _Repeat);
 

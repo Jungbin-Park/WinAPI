@@ -27,6 +27,7 @@ private:
     bool                m_bFinish;      // 애니메이션 재생이 종료됨을 알림
 
 public:
+    void SetAtlasTexture(CTexture* Atlas) { m_Atlas = Atlas; }
     bool IsFinish() { return m_bFinish; }
 
     void Reset()
@@ -44,7 +45,7 @@ public:
     void Create(CTexture* _AtlasTex, Vec2 _StartPos, Vec2 _SliceSize, int _FrameCount, int _FPS);
 
     void Save(const wstring& _strRelativeFolderPath);
-    void Load(const wstring& _strRelativeFilePath);
+    int Load(const wstring& _strRelativeFilePath);
 
 public:
     CLONE(CAnimation);

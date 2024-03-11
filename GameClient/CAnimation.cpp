@@ -48,6 +48,9 @@ void CAnimation::finaltick()
 
 void CAnimation::render()
 {
+	if (nullptr == m_Atlas)
+		return;
+
 	// 현재 프레임 정보
 	const tAnimFrm& frm = m_vecFrm[m_CurFrmIdx];
 
@@ -101,13 +104,91 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 	}
 
 	// 애니메이션의 정보를 저장
+	// 프레임 개수를 저장
+	size_t FrmCount = m_vecFrm.size();
+	fwrite(&FrmCount, sizeof(size_t), 1, pFile);
 
+	// 각각의 프레임 정보를 저장
+	for (size_t i = 0; i < m_vecFrm.size(); i++)
+	{
+		fwrite(&m_vecFrm[i], sizeof(tAnimFrm), 1, pFile);
+	}
+
+	// 아틀라스 텍스쳐 정보를 저장
+	bool bAtlasTex = false;
+	if (nullptr != m_Atlas)
+		bAtlasTex = true;
+
+	fwrite(&bAtlasTex, sizeof(bool), 1, pFile);
+
+	if (bAtlasTex)
+	{
+		wstring strKey = m_Atlas->GetKey();
+		size_t len = strKey.length();
+		fwrite(&len, sizeof(size_t), 1, pFile);
+		fwrite(strKey.c_str(), sizeof(wchar_t), len, pFile);
+
+		wstring strRelativePath = m_Atlas->GetRelativePath();
+		len = strRelativePath.length();
+		fwrite(&len, sizeof(size_t), 1, pFile);
+		fwrite(strRelativePath.c_str(), sizeof(wchar_t), len, pFile);
+	}
 	fclose(pFile);
 }
 
-void CAnimation::Load(const wstring& _strRelativeFilePath)
+int CAnimation::Load(const wstring& _strRelativeFilePath)
 {
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativeFilePath;
 
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+
+	if (nullptr == pFile)
+	{
+		return E_FAIL;
+	}
+
+	// 애니메이션의 정보를 읽기
+	size_t FrmCount = 0;
+	fread(&FrmCount, sizeof(size_t), 1, pFile);
+
+	// 프레임 정보 읽기
+	for (size_t i = 0; i < FrmCount; i++)
+	{
+		tAnimFrm frm = {};
+		fread(&frm, sizeof(tAnimFrm), 1, pFile);
+		m_vecFrm.push_back(frm);
+	}
+
+	// 아틀라스 텍스처 정보 읽기
+	bool bAtlasTex = false;
+	fread(&bAtlasTex, sizeof(bool), 1, pFile);
+
+	if (bAtlasTex)
+	{
+		wstring strKey;
+		wstring strRelativePath;
+
+		wchar_t buff[256] = {};
+
+		size_t len = 0;
+		fread(&len, sizeof(size_t), 1, pFile);
+		fread(buff, sizeof(wchar_t), len, pFile);
+		strKey = buff;
+
+		wmemset(buff, 0, 256);
+
+		fread(&len, sizeof(size_t), 1, pFile);
+		fread(buff, sizeof(wchar_t), len, pFile);
+		strRelativePath = buff;
+
+		m_Atlas = CAssetMgr::GetInst()->LoadTexture(strKey, strRelativePath);
+	}
+
+	fclose(pFile);
+
+	return S_OK;
 }
 
 

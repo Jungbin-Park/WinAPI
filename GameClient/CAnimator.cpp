@@ -61,9 +61,39 @@ CAnimation* CAnimator::FindAnimation(const wstring& _AnimName)
 	return iter->second;
 }
 
+void CAnimator::LoadAnimation(const wstring& _AnimName, const wstring& _strRelativeFilePath)
+{
+	m_CurAnim = FindAnimation(_AnimName);
+	if (nullptr != m_CurAnim)
+	{
+		LOG(LOG_TYPE::DBG_ERROR, L"중복된 애니메이션 이름");
+		return;
+	}
+
+	// 애니메이션을 만들어서 지정된 경로로부터 로딩을 진행
+	CAnimation* pNewAnim = new CAnimation;
+	if (FAILED(pNewAnim->Load(_strRelativeFilePath)))
+	{
+		delete pNewAnim;
+		LOG(LOG_TYPE::DBG_ERROR, L"애니메이션 로딩 실패");
+		return;
+	}
+
+	pNewAnim->SetName(_AnimName);
+	pNewAnim->m_Animator = this;
+	m_mapAnim.insert(make_pair(_AnimName, pNewAnim));
+}
+
 void CAnimator::Play(const wstring& _AnimName, bool _Repeat)
 {
 	m_CurAnim = FindAnimation(_AnimName);
+
+	if (nullptr == m_CurAnim)
+	{
+		LOG(LOG_TYPE::DBG_ERROR, L"Play 할 애니메이션을 찾을 수 없음");
+		return;
+	}
+
 	m_CurAnim->Reset();
 	m_Repeat = _Repeat;
 }

@@ -4,5 +4,6 @@
 class CLevel_Editor :
     public CLevel
 {
+
 };
 
