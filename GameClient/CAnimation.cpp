@@ -95,7 +95,7 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 	strFilePath += L".anim";
 
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	_wfopen_s(&pFile, strFilePath.c_str(), L"w");
 
 	if (nullptr == pFile)
 	{
@@ -105,31 +105,43 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 
 	// 애니메이션의 정보를 저장
 	// 애니메이션 이름 저장
-	wstring strAnimName = GetName();
-	SaveWString(strAnimName, pFile);
+	fwprintf_s(pFile, L"[ANIMATION_NAME]\n");
 
+	wstring strAnimName = GetName();
+	fwprintf_s(pFile, L"%s\n\n", strAnimName.c_str());
+
+	// 아틀라스 텍스처 정보 저장
+	fwprintf_s(pFile, L"[ATLAS_TEXTURE]\n");
+
+	if (nullptr == m_Atlas)
+	{
+		fwprintf_s(pFile, L"[ATLAS_KEY]\t%s\n", L"None");
+		fwprintf_s(pFile, L"[ATLAS_PATH]\t%s\n", L"None");
+	}
+	else
+	{
+		fwprintf_s(pFile, L"[ATLAS_KEY]\t%s\n", m_Atlas->GetKey().c_str());
+		fwprintf_s(pFile, L"[ATLAS_PATH]\t%s\n", m_Atlas->GetRelativePath().c_str());
+	}
+	fwprintf_s(pFile, L"\n");
+
+	// 프레임 정보
 	// 프레임 개수를 저장
-	size_t FrmCount = m_vecFrm.size();
-	fwrite(&FrmCount, sizeof(size_t), 1, pFile);
+	fwprintf_s(pFile, L"[FRAME_COUNT]\n");
+	fwprintf_s(pFile, L"%d\n\n", (int)m_vecFrm.size());
 
 	// 각각의 프레임 정보를 저장
-	for (size_t i = 0; i < m_vecFrm.size(); i++)
+	size_t FrmCount = m_vecFrm.size();
+	for (size_t i = 0; i < FrmCount; i++)
 	{
-		fwrite(&m_vecFrm[i], sizeof(tAnimFrm), 1, pFile);
+		fwprintf_s(pFile, L"[FRAME_INDEX]\t%d\n", (int)i);
+		fwprintf_s(pFile, L"[START_POS]\t%f  %f\n", m_vecFrm[i].StartPos.x, m_vecFrm[i].StartPos.y);
+		fwprintf_s(pFile, L"[SLICE_SIZE]\t%f  %f\n", m_vecFrm[i].SliceSize.x, m_vecFrm[i].SliceSize.y);
+		fwprintf_s(pFile, L"[OFFSET]\t\t%f  %f\n", m_vecFrm[i].Offset.x, m_vecFrm[i].Offset.y);
+		fwprintf_s(pFile, L"[DURATION]  \t%f\n", m_vecFrm[i].Duration);
+		fwprintf_s(pFile, L"\n");
 	}
 
-	// 아틀라스 텍스쳐 정보를 저장
-	bool bAtlasTex = false;
-	if (nullptr != m_Atlas)
-		bAtlasTex = true;
-
-	fwrite(&bAtlasTex, sizeof(bool), 1, pFile);
-
-	if (bAtlasTex)
-	{
-		SaveWString(m_Atlas->GetKey(), pFile);
-		SaveWString(m_Atlas->GetRelativePath(), pFile);
-	}
 	fclose(pFile);
 }
 
