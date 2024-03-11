@@ -151,7 +151,7 @@ int CAnimation::Load(const wstring& _strRelativeFilePath)
 	strFilePath += _strRelativeFilePath;
 
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+	_wfopen_s(&pFile, strFilePath.c_str(), L"r");
 
 	if (nullptr == pFile)
 	{
@@ -160,34 +160,60 @@ int CAnimation::Load(const wstring& _strRelativeFilePath)
 
 	// 애니메이션의 정보를 읽기
 	// 애니메이션 이름 읽기
-	wstring strAnimName;
-	LoadWString(strAnimName, pFile);
-	SetName(strAnimName);
+	wchar_t szReadBuff[256] = {};
 
-	// 프레임 정보 읽기
-	size_t FrmCount = 0;
-	fread(&FrmCount, sizeof(size_t), 1, pFile);
-
-	for (size_t i = 0; i < FrmCount; i++)
+	while (EOF != fwscanf_s(pFile, L"%s", szReadBuff, 256))
 	{
-		tAnimFrm frm{};
-		fread(&frm, sizeof(tAnimFrm), 1, pFile);
-		m_vecFrm.push_back(frm);
-	}
+		wstring strRead = szReadBuff;
+		
+		// 애니메이션 이름 읽기
+		if (strRead == L"[ANIMATION_NAME]")
+		{
+			fwscanf_s(pFile, L"%s", szReadBuff, 256);
+			SetName(szReadBuff);
+		}
+		// 아틀라스 텍스쳐 읽기
+		else if (strRead == L"[ATLAS_TEXTURE]")
+		{
+			fwscanf_s(pFile, L"%s", szReadBuff, 256);
+			fwscanf_s(pFile, L"%s", szReadBuff, 256);
+			wstring strKey = szReadBuff;
 
-	// 아틀라스 텍스처 정보 읽기
-	bool bAtlasTex = false;
-	fread(&bAtlasTex, sizeof(bool), 1, pFile);
+			fwscanf_s(pFile, L"%s", szReadBuff, 256);
+			fwscanf_s(pFile, L"%s", szReadBuff, 256);
+			wstring strPath = szReadBuff;
 
-	if (bAtlasTex)
-	{
-		wstring strKey;
-		LoadWString(strKey, pFile);
+			if (strKey != L"None" && strPath != L"None")
+			{
+				m_Atlas = CAssetMgr::GetInst()->LoadTexture(strKey, strPath);
+			}
 
-		wstring strRelativePath;
-		LoadWString(strRelativePath, pFile);
+		}
+		// 프레임 정보 읽기
+		else if (strRead == L"[FRAME_COUNT]")
+		{
+			int frmCount = 0;
+			fwscanf_s(pFile, L"%d", &frmCount);
 
-		m_Atlas = CAssetMgr::GetInst()->LoadTexture(strKey, strRelativePath);
+			for (int i = 0; i < frmCount; i++)
+			{
+				tAnimFrm frm = {};
+
+				// [START_POS]가 나올 때까지 읽어들인다.
+				do { fwscanf_s(pFile, L"%s", szReadBuff, 256); } 
+				while (wcscmp(szReadBuff, L"[START_POS]"));
+
+				fwscanf_s(pFile, L"%f%f", &frm.StartPos.x, &frm.StartPos.y);
+				fwscanf_s(pFile, L"%s", szReadBuff, 256);
+				fwscanf_s(pFile, L"%f%f", &frm.SliceSize.x, &frm.SliceSize.y);
+				fwscanf_s(pFile, L"%s", szReadBuff, 256);
+				fwscanf_s(pFile, L"%f%f", &frm.Offset.x, &frm.Offset.y);
+				fwscanf_s(pFile, L"%s", szReadBuff, 256);
+				fwscanf_s(pFile, L"%f", &frm.Duration);
+
+				m_vecFrm.push_back(frm);
+			}
+		}
 	}
 
 	fclose(pFile);
