@@ -104,6 +104,10 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 	}
 
 	// 애니메이션의 정보를 저장
+	// 애니메이션 이름 저장
+	wstring strAnimName = GetName();
+	SaveWString(strAnimName, pFile);
+
 	// 프레임 개수를 저장
 	size_t FrmCount = m_vecFrm.size();
 	fwrite(&FrmCount, sizeof(size_t), 1, pFile);
@@ -123,15 +127,8 @@ void CAnimation::Save(const wstring& _strRelativeFolderPath)
 
 	if (bAtlasTex)
 	{
-		wstring strKey = m_Atlas->GetKey();
-		size_t len = strKey.length();
-		fwrite(&len, sizeof(size_t), 1, pFile);
-		fwrite(strKey.c_str(), sizeof(wchar_t), len, pFile);
-
-		wstring strRelativePath = m_Atlas->GetRelativePath();
-		len = strRelativePath.length();
-		fwrite(&len, sizeof(size_t), 1, pFile);
-		fwrite(strRelativePath.c_str(), sizeof(wchar_t), len, pFile);
+		SaveWString(m_Atlas->GetKey(), pFile);
+		SaveWString(m_Atlas->GetRelativePath(), pFile);
 	}
 	fclose(pFile);
 }
@@ -150,13 +147,18 @@ int CAnimation::Load(const wstring& _strRelativeFilePath)
 	}
 
 	// 애니메이션의 정보를 읽기
+	// 애니메이션 이름 읽기
+	wstring strAnimName;
+	LoadWString(strAnimName, pFile);
+	SetName(strAnimName);
+
+	// 프레임 정보 읽기
 	size_t FrmCount = 0;
 	fread(&FrmCount, sizeof(size_t), 1, pFile);
 
-	// 프레임 정보 읽기
 	for (size_t i = 0; i < FrmCount; i++)
 	{
-		tAnimFrm frm = {};
+		tAnimFrm frm{};
 		fread(&frm, sizeof(tAnimFrm), 1, pFile);
 		m_vecFrm.push_back(frm);
 	}
@@ -168,20 +170,10 @@ int CAnimation::Load(const wstring& _strRelativeFilePath)
 	if (bAtlasTex)
 	{
 		wstring strKey;
+		LoadWString(strKey, pFile);
+
 		wstring strRelativePath;
-
-		wchar_t buff[256] = {};
-
-		size_t len = 0;
-		fread(&len, sizeof(size_t), 1, pFile);
-		fread(buff, sizeof(wchar_t), len, pFile);
-		strKey = buff;
-
-		wmemset(buff, 0, 256);
-
-		fread(&len, sizeof(size_t), 1, pFile);
-		fread(buff, sizeof(wchar_t), len, pFile);
-		strRelativePath = buff;
+		LoadWString(strRelativePath, pFile);
 
 		m_Atlas = CAssetMgr::GetInst()->LoadTexture(strKey, strRelativePath);
 	}

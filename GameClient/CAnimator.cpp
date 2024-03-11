@@ -61,15 +61,8 @@ CAnimation* CAnimator::FindAnimation(const wstring& _AnimName)
 	return iter->second;
 }
 
-void CAnimator::LoadAnimation(const wstring& _AnimName, const wstring& _strRelativeFilePath)
+void CAnimator::LoadAnimation(const wstring& _strRelativeFilePath)
 {
-	m_CurAnim = FindAnimation(_AnimName);
-	if (nullptr != m_CurAnim)
-	{
-		LOG(LOG_TYPE::DBG_ERROR, L"중복된 애니메이션 이름");
-		return;
-	}
-
 	// 애니메이션을 만들어서 지정된 경로로부터 로딩을 진행
 	CAnimation* pNewAnim = new CAnimation;
 	if (FAILED(pNewAnim->Load(_strRelativeFilePath)))
@@ -79,9 +72,15 @@ void CAnimator::LoadAnimation(const wstring& _AnimName, const wstring& _strRelat
 		return;
 	}
 
-	pNewAnim->SetName(_AnimName);
+	if (nullptr != FindAnimation(pNewAnim->GetName()))
+	{
+		delete pNewAnim;
+		LOG(LOG_TYPE::DBG_ERROR, L"중복된 애니메이션 이름");
+		return;
+	}
+
 	pNewAnim->m_Animator = this;
-	m_mapAnim.insert(make_pair(_AnimName, pNewAnim));
+	m_mapAnim.insert(make_pair(pNewAnim->GetName(), pNewAnim));
 }
 
 void CAnimator::Play(const wstring& _AnimName, bool _Repeat)

@@ -53,6 +53,22 @@ bool IsValid(CObj*& _Object)
 	return true;
 }
 
+void SaveWString(const wstring& _str, FILE* _File)
+{
+	size_t len = _str.length();
+	fwrite(&len, sizeof(size_t), 1, _File);
+	fwrite(_str.c_str(), sizeof(wchar_t), len, _File);
+}
+
+void LoadWString(wstring& _str, FILE* _File)
+{
+	wchar_t buff[256] = {};
+	size_t len = 0;
+	fread(&len, sizeof(size_t), 1, _File);
+	fread(buff, sizeof(wchar_t), len, _File);
+	_str = buff;
+}
+
 
 #include "CTaskMgr.h"
 void SpawnObject(CLevel* _Level, LAYER_TYPE _type, CObj* _pSpawned)

@@ -37,6 +37,7 @@ CPlayer::CPlayer()
 	// Animation Ãß°¡
 	/*CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left.bmp");
 	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right.bmp");
+
 	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(32.f, 32.f), 1, 10);
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(224.f, 0.f), Vec2(32.f, 32.f), 1, 10);
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(32.f, 0.f), Vec2(32.f, 32.f), 3, 10);
@@ -49,10 +50,10 @@ CPlayer::CPlayer()
 
 	//m_Animator->FindAnimation(L"IDLE_RIGHT")->GetFrame(1).Offset = Vec2(1.f, 0.f); 
 	
-	m_Animator->LoadAnimation(L"IDLE_LEFT", L"animation\\player\\IDLE_RIGHT.anim");
-	m_Animator->LoadAnimation(L"IDLE_RIGHT", L"animation\\player\\IDLE_RIGHT.anim");
-	m_Animator->LoadAnimation(L"WALK_LEFT", L"animation\\player\\IDLE_RIGHT.anim");
-	m_Animator->LoadAnimation(L"WALK_RIGHT", L"animation\\player\\IDLE_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\IDLE_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\IDLE_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\WALK_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\WALK_RIGHT.anim");
 	
 	m_Animator->Play(L"IDLE_RIGHT", true);
 }
