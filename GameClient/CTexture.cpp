@@ -27,7 +27,7 @@ int CTexture::Load(const wstring& _strFilePath)
 	// 로드된 비트맵의 정보를 확인한다.
 	GetObject(m_hBit, sizeof(BITMAP), &m_Info);
 
-	// DC를 생성시켜서 로드된 비트맵이랑 연겨한다.
+	// DC를 생성시켜서 로드된 비트맵이랑 연결한다.
 	m_hDC = CreateCompatibleDC(CEngine::GetInst()->GetMainDC());
 	DeleteObject(SelectObject(m_hDC, m_hBit));
 

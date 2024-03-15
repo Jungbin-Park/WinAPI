@@ -17,6 +17,7 @@ public:
     UINT GetWidth() { return m_Info.bmWidth; }
     UINT GetHeight() { return m_Info.bmHeight; }
 
+
 public:
     CTexture();
     ~CTexture();

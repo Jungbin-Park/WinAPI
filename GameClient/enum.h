@@ -54,6 +54,7 @@ enum class DBG_SHAPE
 {
 	CIRCLE,
 	RECT,
+	LINE,
 };
 
 enum class LAYER_TYPE

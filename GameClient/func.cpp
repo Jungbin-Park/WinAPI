@@ -29,6 +29,19 @@ void DrawDebugCircle(PEN_TYPE _Type, Vec2 _Pos, Vec2 _Scale, float _Time)
 	CDbgRender::GetInst()->AddDbgRenderInfo(info);
 }
 
+void DrawDebugLine(PEN_TYPE _Type, Vec2 _Start, Vec2 _End, float _Time)
+{
+	tDbgRenderInfo info{};
+	info.Shape = DBG_SHAPE::LINE;
+	info.Color = _Type;
+	info.Position = _Start;
+	info.Scale = _End;
+	info.Duration = _Time;
+	info.Age = 0.f;
+
+	CDbgRender::GetInst()->AddDbgRenderInfo(info);
+}
+
 void DebugLog(LOG_TYPE _Type, const wchar_t* _LogMgs)
 {
 	tDbgLog log = {};

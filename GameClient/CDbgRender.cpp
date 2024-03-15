@@ -55,7 +55,12 @@ void CDbgRender::render()
 				, (int)(iter->Position.x + iter->Scale.x / 2.f)
 				, (int)(iter->Position.y + iter->Scale.y / 2.f));
 		}
-
+		// DBG_SHAPE 가 Line 이면 선을 그린다
+		else if (m_bRender && DBG_SHAPE::LINE == iter->Shape)
+		{
+			MoveToEx(DC, (int)iter->Position.x, (int)iter->Position.y, nullptr);
+			LineTo(DC, (int)iter->Scale.x, (int)iter->Scale.y);
+		}
 
 		// 해당 디버그렌더 정보가 수명을 다하면 리스트에서 제거한다.
 		(*iter).Age += DT;

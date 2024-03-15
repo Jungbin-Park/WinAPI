@@ -64,9 +64,12 @@ CComponent* CObj::AddComponent(CComponent* _Component)
 	m_vecCom.push_back(_Component);
 	_Component->m_Owner = this;
 
-	// 오브젝트에 추가된 컴포넌트가 Animator면 별도의 포인터로 따로 가리킨다.
-	m_Animator = dynamic_cast<CAnimator*>(_Component);
-
+	if (nullptr == m_Animator)
+	{
+		// 오브젝트에 추가된 컴포넌트가 Animator면 별도의 포인터로 따로 가리킨다.
+		m_Animator = dynamic_cast<CAnimator*>(_Component);
+	}
+	
 	return _Component;
 }
 

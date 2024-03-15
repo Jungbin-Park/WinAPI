@@ -7,6 +7,7 @@
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
+#include "CRigidBody.h"
 #include "CDbgRender.h"
 
 #include "CMissile.h"
@@ -20,6 +21,7 @@ CPlayer::CPlayer()
 	m_HeadCol = (CCollider*)AddComponent(new CCollider);
 	m_BodyCol = (CCollider*)AddComponent(new CCollider);
 	m_Animator = (CAnimator*)AddComponent(new CAnimator);
+	m_RigidBody = (CRigidBody*)AddComponent(new CRigidBody);
 
 	m_HeadCol->SetName(L"Head Collider");
 	m_HeadCol->SetOffsetPos(Vec2(0.f, -40.f));
@@ -32,30 +34,36 @@ CPlayer::CPlayer()
 	m_BodyCol->SetActive(true);
 
 
-	//m_PlayerImg = CAssetMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Fighter.bmp");
+	//// Animation 추가
+	//CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left.bmp");
+	//CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right.bmp");
 
-	// Animation 추가
-	/*CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left.bmp");
-	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right.bmp");
+	//m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(128.f, 128.f), 1, 10);
+	//m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(896.f, 0.f), Vec2(128.f, 128.f), 1, 10);
+	//m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(128.f, 0.f), Vec2(128.f, 128.f), 3, 10);
+	//m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(512.f, 0.f), Vec2(128.f, 128.f), 3, 10);
 
-	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(32.f, 32.f), 1, 10);
-	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(224.f, 0.f), Vec2(32.f, 32.f), 1, 10);
-	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(32.f, 0.f), Vec2(32.f, 32.f), 3, 10);
-	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(128.f, 0.f), Vec2(32.f, 32.f), 3, 10);
-
-	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\player\\");
-	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\player\\");
-	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\player\\");
-	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\player\\");*/
+	//m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\player\\");
+	//m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\player\\");
+	//m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\player\\");
+	//m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\player\\");
 
 	//m_Animator->FindAnimation(L"IDLE_RIGHT")->GetFrame(1).Offset = Vec2(1.f, 0.f); 
 	
+
+	// Animation 로드
 	m_Animator->LoadAnimation(L"animation\\player\\IDLE_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\IDLE_RIGHT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\WALK_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\WALK_RIGHT.anim");
+
 	
 	m_Animator->Play(L"IDLE_RIGHT", true);
+
+	// 강체(Rigidbody) 설정
+	m_RigidBody->SetMass(1.f);
+	//m_RigidBody->SetInitialWalkSpeed(200.f);
+	m_RigidBody->SetMaxWalkSpeed(300.f);
 }
 
 CPlayer::~CPlayer()
@@ -73,7 +81,7 @@ void CPlayer::tick()
 	// 왼쪽키가 눌린적이 있으면(눌려있으면) 왼쪽으로 1픽셀 이동
 	if (KEY_PRESSED(KEY::LEFT))
 	{
-		vPos.x -= m_Speed * DT;
+		m_RigidBody->AddForce(Vec2(-1000.f, 0));
 	}
 	else if (KEY_TAP(KEY::LEFT))
 	{
@@ -86,7 +94,7 @@ void CPlayer::tick()
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
-		vPos.x += m_Speed * DT;
+		m_RigidBody->AddForce(Vec2(1000.f, 0));
 	}
 	else if (KEY_TAP(KEY::RIGHT))
 	{
@@ -99,28 +107,28 @@ void CPlayer::tick()
 
 	if (KEY_PRESSED(KEY::UP))
 	{
-		vPos.y -= m_Speed * DT;
+		//vPos.y -= m_Speed * DT;
 	}
 	else if (KEY_TAP(KEY::UP))
 	{
-		m_Animator->Play(L"WALK_UP", true);
+		//m_Animator->Play(L"WALK_UP", true);
 	}
 	else if (KEY_RELEASED(KEY::UP))
 	{
-		m_Animator->Play(L"IDLE_UP", true);
+		//m_Animator->Play(L"IDLE_UP", true);
 	}
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		vPos.y += m_Speed * DT;
+		//vPos.y += m_Speed * DT;
 	}
 	else if (KEY_TAP(KEY::DOWN))
 	{
-		m_Animator->Play(L"WALK_DOWN", true);
+		//m_Animator->Play(L"WALK_DOWN", true);
 	}
 	else if (KEY_RELEASED(KEY::DOWN))
 	{
-		m_Animator->Play(L"IDLE_DOWN", true);
+		//m_Animator->Play(L"IDLE_DOWN", true);
 	}
 
 	// Space 키가 눌리면 미사일을 쏜다.

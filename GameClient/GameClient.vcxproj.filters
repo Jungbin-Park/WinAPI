@@ -122,6 +122,15 @@
     <Filter Include="03. Game\08. Module\State\MonsterState">
       <UniqueIdentifier>{3c420a6a-470e-4783-a2ce-59101ad5affa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\03. Manager\10.UIMgr">
+      <UniqueIdentifier>{271426ba-23b6-48ac-b8d8-7ca61b24ce4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\05. Object\UI\Button">
+      <UniqueIdentifier>{b32e1c32-7773-4771-ad22-b84405dea860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\03. Manager\11.SoundMgr">
+      <UniqueIdentifier>{f7be398e-7a63-4cb4-872b-d4a57fa523e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -256,6 +265,18 @@
     <ClInclude Include="CTile.h">
       <Filter>03. Game\05. Object\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>03. Game\05. Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIMgr.h">
+      <Filter>03. Game\03. Manager\10.UIMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CButton.h">
+      <Filter>03. Game\05. Object\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CSoundMgr.h">
+      <Filter>03. Game\03. Manager\11.SoundMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -382,6 +403,18 @@
     </ClCompile>
     <ClCompile Include="CTile.cpp">
       <Filter>03. Game\05. Object\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>03. Game\05. Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIMgr.cpp">
+      <Filter>03. Game\03. Manager\10.UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CButton.cpp">
+      <Filter>03. Game\05. Object\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundMgr.cpp">
+      <Filter>03. Game\03. Manager\11.SoundMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

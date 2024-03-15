@@ -145,6 +145,7 @@
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
+    <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollisionMgr.h" />
@@ -170,12 +171,15 @@
     <ClInclude Include="CRigidBody.h" />
     <ClInclude Include="CSelectObj.h" />
     <ClInclude Include="CSound.h" />
+    <ClInclude Include="CSoundMgr.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CTaskMgr.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTraceState.h" />
+    <ClInclude Include="CUI.h" />
+    <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="enum.h" />
     <ClInclude Include="framework.h" />
@@ -191,6 +195,7 @@
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
+    <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
@@ -216,12 +221,15 @@
     <ClCompile Include="CRigidBody.cpp" />
     <ClCompile Include="CSelectObj.cpp" />
     <ClCompile Include="CSound.cpp" />
+    <ClCompile Include="CSoundMgr.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CTaskMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CTraceState.cpp" />
+    <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">

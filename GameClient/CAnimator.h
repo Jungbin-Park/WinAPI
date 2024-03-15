@@ -25,6 +25,7 @@ public:
 
     void Play(const wstring& _AnimName, bool _Repeat);
 
+
 public:
     CLONE(CAnimator);
     CAnimator();
