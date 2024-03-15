@@ -17,6 +17,9 @@ UINT g_RealKey[(UINT)KEY::KEY_END] =
 	VK_CONTROL,
 	VK_LSHIFT,
 	VK_ESCAPE,
+
+	VK_LBUTTON,
+	VK_RBUTTON,
 };
 
 CKeyMgr::CKeyMgr()
@@ -84,7 +87,17 @@ void CKeyMgr::tick()
 				m_vecKeyInfo[i].bPressed = false;
 			}
 		}
+
+		// 마우스 좌표 계산
+		m_PrevMousePos = m_MousePos;
+
+		POINT ptMousePos = {};
+		GetCursorPos(&ptMousePos);
+		ScreenToClient(CEngine::GetInst()->GetMainWnd(), &ptMousePos);
+		m_MousePos = ptMousePos;
+		m_DragDir = m_MousePos - m_PrevMousePos;
 	}
+
 	// 윈도우 포커싱 해제됨
 	else
 	{

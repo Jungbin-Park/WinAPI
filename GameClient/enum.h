@@ -67,7 +67,7 @@ enum class LAYER_TYPE
 	PLAYER_MISSILE,
 	MONSTER_MISSILE,
 
-
+	FORCE,
 
 	UI = 15,
 	END = 16,

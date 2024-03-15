@@ -56,14 +56,14 @@ CPlayer::CPlayer()
 	m_Animator->LoadAnimation(L"animation\\player\\IDLE_RIGHT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\WALK_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\WALK_RIGHT.anim");
-
 	
 	m_Animator->Play(L"IDLE_RIGHT", true);
 
 	// 강체(Rigidbody) 설정
 	m_RigidBody->SetMass(1.f);
-	//m_RigidBody->SetInitialWalkSpeed(200.f);
-	m_RigidBody->SetMaxWalkSpeed(300.f);
+	m_RigidBody->SetInitialWalkSpeed(0.f);
+	m_RigidBody->SetMaxWalkSpeed(400.f);
+	m_RigidBody->SetFriction(2000.f);
 }
 
 CPlayer::~CPlayer()
@@ -81,7 +81,7 @@ void CPlayer::tick()
 	// 왼쪽키가 눌린적이 있으면(눌려있으면) 왼쪽으로 1픽셀 이동
 	if (KEY_PRESSED(KEY::LEFT))
 	{
-		m_RigidBody->AddForce(Vec2(-1000.f, 0));
+		m_RigidBody->AddForce(Vec2(-1000.f, 0.f));
 	}
 	else if (KEY_TAP(KEY::LEFT))
 	{
@@ -94,7 +94,7 @@ void CPlayer::tick()
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
-		m_RigidBody->AddForce(Vec2(1000.f, 0));
+		m_RigidBody->AddForce(Vec2(1000.f, 0.f));
 	}
 	else if (KEY_TAP(KEY::RIGHT))
 	{

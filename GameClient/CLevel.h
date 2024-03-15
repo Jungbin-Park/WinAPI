@@ -12,10 +12,10 @@ private:
 
 public:
     // 시점 함수
-    void begin();       // 레벨이 시작될 때 한 번 호출
-    void tick();        // 매 프레임마다 호출
-    void finaltick();   // 매 프레임마다 호출
-    void render();      // 매 프레임마다 호출
+    virtual void begin();       // 레벨이 시작될 때 한 번 호출
+    virtual void tick();        // 매 프레임마다 호출
+    virtual void finaltick();   // 매 프레임마다 호출
+    virtual void render();      // 매 프레임마다 호출
 
 public:
     void AddObject(LAYER_TYPE _Layer, CObj* _Obj);
