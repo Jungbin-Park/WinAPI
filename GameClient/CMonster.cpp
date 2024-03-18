@@ -2,6 +2,8 @@
 #include "CMonster.h"
 
 #include "CCollider.h"
+#include "CRigidBody.h"
+
 #include "CMissile.h"
 
 
@@ -10,7 +12,12 @@ CMonster::CMonster()
 {
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Collider->SetScale(Vec2(120.f, 120.f));
-	m_Collider->SetActive(true);
+
+	m_RigidBody = (CRigidBody*)AddComponent(new CRigidBody);
+	m_RigidBody->SetMass(2.f);
+	m_RigidBody->SetInitialWalkSpeed(0.f);
+	m_RigidBody->SetMaxWalkSpeed(400.f);
+	m_RigidBody->SetFriction(2000.f);
 }
 
 CMonster::~CMonster()

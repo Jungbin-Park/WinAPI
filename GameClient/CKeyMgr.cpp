@@ -49,7 +49,7 @@ void CKeyMgr::init()
 
 void CKeyMgr::tick()
 {
-	// MainWnd 器目教
+	// MainWnd 啊 器目教 惑怕老 锭
 	if (CEngine::GetInst()->GetMainWnd() == GetFocus())
 	{
 		for (UINT i = 0; i < (UINT)m_vecKeyInfo.size(); ++i)

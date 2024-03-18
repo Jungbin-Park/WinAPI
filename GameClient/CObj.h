@@ -1,5 +1,6 @@
 #pragma once
 #include "CEntity.h"
+
 #include "CEngine.h"
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
@@ -9,6 +10,7 @@
 class CComponent;
 class CCollider;
 class CAnimator;
+class CRigidBody;
 class CFSM;
 
 class CObj : public CEntity

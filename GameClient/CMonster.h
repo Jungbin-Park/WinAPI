@@ -8,6 +8,7 @@ private:
     int         m_HP;
 
     CCollider*  m_Collider;
+    CRigidBody* m_RigidBody;
 
 public:
     virtual void tick() override;

@@ -22,6 +22,9 @@ public:
 public:
     virtual void tick() override;
 
+private:
+    void AddForce(LAYER_TYPE _type);
+
     CLONE(CForce);
 
 public:

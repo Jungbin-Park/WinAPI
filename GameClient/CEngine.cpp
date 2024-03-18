@@ -2,13 +2,15 @@
 #include "CEngine.h"
 
 #include "CPathMgr.h"
+#include "CTimeMgr.h"
 #include "CLevelMgr.h"
 #include "CDbgRender.h"
-#include "CTimeMgr.h"
 #include "CKeyMgr.h"
 #include "CCollisionMgr.h"
 #include "CAssetMgr.h"
 #include "CTaskMgr.h"
+
+#include "CTexture.h"
 
 CEngine::CEngine()
 	: m_hMainWnd(nullptr)	

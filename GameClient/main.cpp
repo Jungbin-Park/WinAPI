@@ -2,9 +2,7 @@
 
 #include "framework.h"
 #include "GameClient.h"
-
 #include "Resource.h"
-
 #include "CEngine.h"
 
 
@@ -127,10 +125,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_LBUTTONDOWN:
-        ShowWindow(g_hWnd, false);
-        break;
-
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

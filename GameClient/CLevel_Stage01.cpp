@@ -22,7 +22,7 @@ void CLevel_Stage01::tick()
 
 		CForce* pForce = new CForce;
 		pForce->SetPos(vMousePos);
-		pForce->SetForce(1000.f, 500.f, 2.f);
+		pForce->SetForce(1000.f, 300.f, 0.3f);
 		SpawnObject(this, LAYER_TYPE::FORCE, pForce);
 	}
 }
