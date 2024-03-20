@@ -26,6 +26,10 @@ public:
     virtual void OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
     virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
 
+private:
+    void Shoot();
+    void Jump();
+
 public:
     virtual CObj* Clone() override { return new CPlayer(*this); }; // { return new CObj(*this); }
 

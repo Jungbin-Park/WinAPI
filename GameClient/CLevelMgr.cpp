@@ -8,6 +8,7 @@
 
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "CPlatform.h"
 
 CLevelMgr::CLevelMgr()
 	: m_arrLevel{}
@@ -48,9 +49,18 @@ void CLevelMgr::init()
 	pObject->SetScale(100.f, 100.f);
 	m_pCurrentLevel->AddObject(LAYER_TYPE::MONSTER, pObject);
 
+
+	// 플랫폼 생성
+	pObject = new CPlatform;
+	pObject->SetName(L"Platform");
+	pObject->SetPos(Vec2(640.f, 700.f));
+	m_pCurrentLevel->AddObject(LAYER_TYPE::PLATFORM, pObject);
+
+
 	// 레벨 충돌 설정하기
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
 }
 
 void CLevelMgr::progress()

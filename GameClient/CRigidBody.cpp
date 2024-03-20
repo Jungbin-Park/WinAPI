@@ -6,12 +6,21 @@ CRigidBody::CRigidBody()
 	: m_Mass(1.f)
 	, m_InitWalkSpeed(0.f)
 	, m_MaxWalkSpeed(0.f)
+	, m_MaxGravitySpeed(0.f)
 	, m_Friction(500.f)
+	, m_GravityAccel(980.f)
+	, m_UseGravity(false)
+	, m_JumpSpeed(400.f)
 {
 }
 
 CRigidBody::~CRigidBody()
 {
+}
+
+void CRigidBody::Jump()
+{
+	m_VelocityByGravity += Vec2(0.f, -1.f) * m_JumpSpeed;
 }
 
 void CRigidBody::finaltick()
@@ -57,14 +66,31 @@ void CRigidBody::finaltick()
 		m_Velocity *= Speed;
 	}
 
+	// 중력 가속도에 의한 속도 증가
+	if (m_UseGravity)
+	{
+		m_VelocityByGravity += Vec2(0.f, 1.f) * m_GravityAccel * DT;
+
+		if (0.f != m_MaxGravitySpeed && m_MaxGravitySpeed < m_VelocityByGravity.Length())
+		{
+			m_VelocityByGravity.Normalize();
+			m_VelocityByGravity *= m_MaxGravitySpeed;
+		}
+	}
+
+	// 최종 속도 
+	Vec2 vFinalVelocity = m_Velocity + m_VelocityByGravity;
+
+
 	// 현재 속도에 따른 이동
 	// 거리 = 속도 x 시간
-	vObjPos += m_Velocity * DT;
+	vObjPos += vFinalVelocity * DT;
 
 	GetOwner()->SetPos(vObjPos);
 
 	// 이번 프레임 힘 초기화
 	m_Force = Vec2(0.f, 0.f);
+	m_AddVelocity = Vec2(0.f, 0.f);
 
 	// DebugRender
 	//DrawDebugLine(PEN_TYPE::PEN_RED, vObjPos, vObjPos + m_Velocity, 0.f);

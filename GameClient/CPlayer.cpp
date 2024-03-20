@@ -64,6 +64,11 @@ CPlayer::CPlayer()
 	m_RigidBody->SetInitialWalkSpeed(0.f);
 	m_RigidBody->SetMaxWalkSpeed(400.f);
 	m_RigidBody->SetFriction(2000.f);
+
+	// 중력 관련 설정
+	m_RigidBody->UseGravity(true);
+	m_RigidBody->SetMaxGravitySpeed(1500.f);
+	m_RigidBody->SetJumpSpeed(400.f);
 }
 
 CPlayer::~CPlayer()
@@ -105,49 +110,11 @@ void CPlayer::tick()
 		m_Animator->Play(L"IDLE_RIGHT", true);
 	}
 
-	if (KEY_PRESSED(KEY::UP))
-	{
-		//vPos.y -= m_Speed * DT;
-	}
-	else if (KEY_TAP(KEY::UP))
-	{
-		//m_Animator->Play(L"WALK_UP", true);
-	}
-	else if (KEY_RELEASED(KEY::UP))
-	{
-		//m_Animator->Play(L"IDLE_UP", true);
-	}
-
-	if (KEY_PRESSED(KEY::DOWN))
-	{
-		//vPos.y += m_Speed * DT;
-	}
-	else if (KEY_TAP(KEY::DOWN))
-	{
-		//m_Animator->Play(L"WALK_DOWN", true);
-	}
-	else if (KEY_RELEASED(KEY::DOWN))
-	{
-		//m_Animator->Play(L"IDLE_DOWN", true);
-	}
-
 	// Space 키가 눌리면 미사일을 쏜다.
 	if (KEY_TAP(KEY::SPACE))
 	{
-		CMissile* pMissile = new CGuidedMissile;
-		pMissile->SetName(L"Missile");
-
-		Vec2 vMissilePos = GetPos();
-		vMissilePos.y -= GetScale().y / 2.f;
-
-		pMissile->SetPos(vMissilePos);
-		pMissile->SetScale(Vec2(20.f, 20.f));
-
-		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pMissile);
-
-		LOG(LOG_TYPE::DBG_WARNING, L"미사일 발사");
-
-		//DrawDebugRect(PEN_TYPE::PEN_GREEN, GetPos(), Vec2(500.f, 500.f), 3.f);
+		//Shoot();
+		Jump();
 	}
 
 	SetPos(vPos);
@@ -169,6 +136,34 @@ void CPlayer::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _Ot
 void CPlayer::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
 
+}
+
+void CPlayer::Shoot()
+{
+	CMissile* pMissile = new CGuidedMissile;
+	pMissile->SetName(L"Missile");
+
+	Vec2 vMissilePos = GetPos();
+	vMissilePos.y -= GetScale().y / 2.f;
+
+	pMissile->SetPos(vMissilePos);
+	pMissile->SetScale(Vec2(20.f, 20.f));
+
+	SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pMissile);
+
+	LOG(LOG_TYPE::DBG_WARNING, L"미사일 발사");
+
+	//DrawDebugRect(PEN_TYPE::PEN_GREEN, GetPos(), Vec2(500.f, 500.f), 3.f);
+}
+
+void CPlayer::Jump()
+{
+	Vec2 vGV = m_RigidBody->GetGravityVelocity();
+
+	if(0.f < vGV.y)
+		m_RigidBody->SetGravityVelocity(Vec2(0.f, 0.f));
+
+	m_RigidBody->Jump();
 }
 
 
