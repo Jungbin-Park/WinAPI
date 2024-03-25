@@ -30,7 +30,7 @@ void CObj::begin()
 
 void CObj::tick()
 {
-	
+	m_PrevPos = m_Pos;
 }
 
 void CObj::finaltick()
@@ -39,6 +39,7 @@ void CObj::finaltick()
 	{
 		m_vecCom[i]->finaltick();
 	}
+
 }
 
 void CObj::render()

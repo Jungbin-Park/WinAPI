@@ -7,10 +7,10 @@ CRigidBody::CRigidBody()
 	, m_InitWalkSpeed(0.f)
 	, m_MaxWalkSpeed(0.f)
 	, m_MaxGravitySpeed(0.f)
-	, m_Friction(500.f)
+	, m_Friction(600.f)
 	, m_GravityAccel(980.f)
 	, m_UseGravity(false)
-	, m_JumpSpeed(400.f)
+	, m_JumpSpeed(600.f)
 {
 }
 
@@ -21,6 +21,7 @@ CRigidBody::~CRigidBody()
 void CRigidBody::Jump()
 {
 	m_VelocityByGravity += Vec2(0.f, -1.f) * m_JumpSpeed;
+	m_Ground = false;
 }
 
 void CRigidBody::finaltick()
@@ -67,7 +68,7 @@ void CRigidBody::finaltick()
 	}
 
 	// 중력 가속도에 의한 속도 증가
-	if (m_UseGravity)
+	if (m_UseGravity && !m_Ground)
 	{
 		m_VelocityByGravity += Vec2(0.f, 1.f) * m_GravityAccel * DT;
 
@@ -93,5 +94,5 @@ void CRigidBody::finaltick()
 	m_AddVelocity = Vec2(0.f, 0.f);
 
 	// DebugRender
-	//DrawDebugLine(PEN_TYPE::PEN_RED, vObjPos, vObjPos + m_Velocity, 0.f);
+	//DrawDebugLine(PEN_TYPE::PEN_RED, vObjPos, vObjPos + vFinalVelocity, 0.f);
 }

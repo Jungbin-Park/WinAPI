@@ -32,7 +32,8 @@ void CLevelMgr::init()
 
 	// 레벨에 플레이어 추가
 	CObj* pObject = new CPlayer;
-	pObject->SetPos(640.f, 384.f);
+	pObject->SetName(L"Player");
+	pObject->SetPos(640.f, 550.f);
 	pObject->SetScale(100.f, 100.f);
 	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pObject);
 
@@ -52,7 +53,12 @@ void CLevelMgr::init()
 
 	// 플랫폼 생성
 	pObject = new CPlatform;
-	pObject->SetName(L"Platform");
+	pObject->SetName(L"Platform1");
+	pObject->SetPos(Vec2(640.f, 400.f));
+	m_pCurrentLevel->AddObject(LAYER_TYPE::PLATFORM, pObject);
+
+	pObject = new CPlatform;
+	pObject->SetName(L"Platform2");
 	pObject->SetPos(Vec2(640.f, 700.f));
 	m_pCurrentLevel->AddObject(LAYER_TYPE::PLATFORM, pObject);
 

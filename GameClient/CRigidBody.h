@@ -46,7 +46,7 @@ public:
     float GetInitialWalkSpeed() { return m_InitWalkSpeed; }
     float GetMaxWalkSpeed() { return m_MaxWalkSpeed; }
     float GetFriction() { return m_Friction; }
-    Vec2 GetGravityVelocity() { return m_VelocityByGravity; }
+    Vec2  GetGravityVelocity() { return m_VelocityByGravity; }
 
     void UseGravity(bool _Use) 
     { 
@@ -54,6 +54,18 @@ public:
         if (!m_UseGravity) 
             m_VelocityByGravity = Vec2(0.f, 0.f); 
     }
+
+    void SetGround(bool _Ground)
+    {
+        m_Ground = _Ground;
+
+        if (m_Ground)
+        {
+            m_VelocityByGravity = Vec2(0.f, 0.f);
+        }
+    }
+
+    bool IsGround() { return m_Ground; }
 
 public:
     virtual void finaltick() override;

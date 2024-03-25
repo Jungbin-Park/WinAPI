@@ -16,21 +16,17 @@
 CPlayer::CPlayer()
 	: m_Speed(500.f)
 	, m_PlayerImg(nullptr)
+	, m_JumpCount(1)
+	, m_CurJumpCount(0)
 {
 	// Player의 컴포넌트 설정
-	m_HeadCol = (CCollider*)AddComponent(new CCollider);
 	m_BodyCol = (CCollider*)AddComponent(new CCollider);
 	m_Animator = (CAnimator*)AddComponent(new CAnimator);
 	m_RigidBody = (CRigidBody*)AddComponent(new CRigidBody);
 
-	m_HeadCol->SetName(L"Head Collider");
-	m_HeadCol->SetOffsetPos(Vec2(0.f, -40.f));
-	m_HeadCol->SetScale(Vec2(30.f, 30.f));
-	m_HeadCol->SetActive(true);
-
 	m_BodyCol->SetName(L"Body Collider");
-	m_BodyCol->SetOffsetPos(Vec2(0.f, 20.f));
-	m_BodyCol->SetScale(Vec2(30.f, 60.f));
+	m_BodyCol->SetOffsetPos(Vec2(0.f, 0.f));
+	m_BodyCol->SetScale(Vec2(64.f, 110.f));
 	m_BodyCol->SetActive(true);
 
 
@@ -67,8 +63,8 @@ CPlayer::CPlayer()
 
 	// 중력 관련 설정
 	m_RigidBody->UseGravity(true);
-	m_RigidBody->SetMaxGravitySpeed(1500.f);
-	m_RigidBody->SetJumpSpeed(400.f);
+	m_RigidBody->SetMaxGravitySpeed(980.f);
+	m_RigidBody->SetJumpSpeed(600.f);
 }
 
 CPlayer::~CPlayer()
@@ -81,6 +77,9 @@ void CPlayer::begin()
 
 void CPlayer::tick()
 {
+	// 이전 좌표 기록을 위해서 CObj의 tick()을 먼저 구현해주어야 함
+	CObj::tick();
+
 	Vec2 vPos = GetPos();
 
 	// 왼쪽키가 눌린적이 있으면(눌려있으면) 왼쪽으로 1픽셀 이동
@@ -113,8 +112,11 @@ void CPlayer::tick()
 	// Space 키가 눌리면 미사일을 쏜다.
 	if (KEY_TAP(KEY::SPACE))
 	{
-		//Shoot();
-		Jump();
+		if (m_JumpCount > m_CurJumpCount)
+		{
+			Jump();
+			m_CurJumpCount += 1;
+		}
 	}
 
 	SetPos(vPos);

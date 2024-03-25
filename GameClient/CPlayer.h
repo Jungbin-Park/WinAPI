@@ -12,8 +12,10 @@ private:
     float       m_Speed;
 
     CTexture*   m_PlayerImg;
+
+    int         m_JumpCount;
+    int         m_CurJumpCount;
     
-    CCollider*  m_HeadCol;
     CCollider*  m_BodyCol;
     CAnimator*  m_Animator;
     CRigidBody* m_RigidBody;
