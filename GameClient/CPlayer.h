@@ -10,7 +10,6 @@ class CPlayer :
 {
 private: 
     float       m_Speed;
-
     CTexture*   m_PlayerImg;
 
     int         m_JumpCount;
@@ -31,6 +30,11 @@ public:
 private:
     void Shoot();
     void Jump();
+
+    void RestoreJumpCount()
+    {
+        m_CurJumpCount = 0;
+    }
 
 public:
     virtual CObj* Clone() override { return new CPlayer(*this); }; // { return new CObj(*this); }

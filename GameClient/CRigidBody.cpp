@@ -11,6 +11,12 @@ CRigidBody::CRigidBody()
 	, m_GravityAccel(980.f)
 	, m_UseGravity(false)
 	, m_JumpSpeed(600.f)
+	, m_GroundFunc(nullptr)
+	, m_AirFunc(nullptr)
+	, m_GroundInst(nullptr)
+	, m_GroundDelegate(nullptr)
+	, m_AirInst(nullptr)
+	, m_AirDelegate(nullptr)
 {
 }
 
@@ -21,7 +27,7 @@ CRigidBody::~CRigidBody()
 void CRigidBody::Jump()
 {
 	m_VelocityByGravity += Vec2(0.f, -1.f) * m_JumpSpeed;
-	m_Ground = false;
+	SetGround(false);
 }
 
 void CRigidBody::finaltick()
@@ -94,5 +100,5 @@ void CRigidBody::finaltick()
 	m_AddVelocity = Vec2(0.f, 0.f);
 
 	// DebugRender
-	//DrawDebugLine(PEN_TYPE::PEN_RED, vObjPos, vObjPos + vFinalVelocity, 0.f);
+	DrawDebugLine(PEN_TYPE::PEN_RED, vObjPos, vObjPos + vFinalVelocity, 0.f);
 }

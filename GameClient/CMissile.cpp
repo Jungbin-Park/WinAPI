@@ -21,7 +21,7 @@ CMissile::~CMissile()
 
 void CMissile::tick()
 {
-	Vec2 vPos = GetPos();
+	Vec2 vPos = GetRenderPos();
 
 	Vec2 vDir = Vec2(cosf(m_Angle), -sinf(m_Angle));
 

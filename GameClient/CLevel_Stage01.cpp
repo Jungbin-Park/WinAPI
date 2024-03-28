@@ -19,9 +19,10 @@ void CLevel_Stage01::tick()
 	if (KEY_TAP(KEY::LBTN))
 	{
 		Vec2 vMousePos = CKeyMgr::GetInst()->GetMousePos();
+		Vec2 vPos = CCamera::GetInst()->GetRealPos(vMousePos);
 
 		CForce* pForce = new CForce;
-		pForce->SetPos(vMousePos);
+		pForce->SetPos(vPos);
 		pForce->SetForce(1000.f, 300.f, 0.3f);
 		SpawnObject(this, LAYER_TYPE::FORCE, pForce);
 	}

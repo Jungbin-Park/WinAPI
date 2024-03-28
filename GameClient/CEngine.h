@@ -30,6 +30,8 @@ public:
 	HDC GetMainDC() { return m_hDC; }
 	HDC	GetSubDC() { return m_hSubDC; }
 
+	Vec2 GetResolution() { return m_Resolution; }
+
 	HPEN GetPen(PEN_TYPE _type) { return m_arrPen[(UINT)_type]; }
 	HBRUSH GetBrush(BRUSH_TYPE _type) { return m_arrBrush[(UINT)_type]; }
 

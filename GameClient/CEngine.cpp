@@ -11,6 +11,7 @@
 #include "CTaskMgr.h"
 
 #include "CTexture.h"
+#include "CCamera.h"
 
 CEngine::CEngine()
 	: m_hMainWnd(nullptr)	
@@ -61,8 +62,8 @@ int CEngine::init(HINSTANCE _hInst, HWND _hWnd, POINT _Resolution)
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
 	CAssetMgr::GetInst()->init();
-
 	CLevelMgr::GetInst()->init();
+	CCamera::GetInst()->init();
 
 	return S_OK;
 }
@@ -75,6 +76,7 @@ void CEngine::progress()
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();
 	CDbgRender::GetInst()->tick();
+	CCamera::GetInst()->tick();
 
 	// ==============
 	// Level Progress

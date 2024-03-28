@@ -8,6 +8,7 @@
 
 #include "CTimeMgr.h"
 #include "CPathMgr.h"
+#include "CCamera.h"
 
 CAnimation::CAnimation()
 	: m_Animator(nullptr)
@@ -57,13 +58,14 @@ void CAnimation::render()
 	// Animation을 재생하고 있는 오브젝트
 	CObj* pOwnerObj = m_Animator->GetOwner();
 
-	// 오브젝트의 위치
-	Vec2 vPos = pOwnerObj->GetPos();
+	// 오브젝트의 렌더링 위치
+	Vec2 vRenderPos = pOwnerObj->GetRenderPos();
+
 
 	// 현재 프레임 이미지를 오브젝트 위치에 렌더링
 	TransparentBlt(DC
-		, (int)(vPos.x - frm.SliceSize.x / 2.f + frm.Offset.x)
-		, (int)(vPos.y - frm.SliceSize.y / 2.f + frm.Offset.y)
+		, (int)(vRenderPos.x - frm.SliceSize.x / 2.f + frm.Offset.x)
+		, (int)(vRenderPos.y - frm.SliceSize.y / 2.f + frm.Offset.y)
 		, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
 		, m_Atlas->GetDC()
 		, (int)(frm.StartPos.x), (int)(frm.StartPos.y)

@@ -13,6 +13,18 @@
 #include "CMissile.h"
 #include "CGuidedMissile.h"
 
+#include "CDbgRender.h"
+
+void BeGround()
+{
+	LOG(LOG_TYPE::DBG_WARNING, L"Grounded!!");
+}
+
+void BeAir()
+{
+	LOG(LOG_TYPE::DBG_WARNING, L"Aired!!");
+}
+
 CPlayer::CPlayer()
 	: m_Speed(500.f)
 	, m_PlayerImg(nullptr)
@@ -65,6 +77,13 @@ CPlayer::CPlayer()
 	m_RigidBody->UseGravity(true);
 	m_RigidBody->SetMaxGravitySpeed(980.f);
 	m_RigidBody->SetJumpSpeed(600.f);
+
+	// Callback ¼³Á¤
+	m_RigidBody->SetGroundFunc(&BeGround);
+	m_RigidBody->SetAirFunc(&BeAir);
+
+	// Delegate
+	m_RigidBody->SetGroundDelegate(this, (DELEGATE)&CPlayer::RestoreJumpCount);
 }
 
 CPlayer::~CPlayer()

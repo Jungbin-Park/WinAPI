@@ -4,6 +4,9 @@
 // 1. 함수 내
 // 2. 파일
 // 3. 클래스
+
+
+
 class CEntity
 {
 private:

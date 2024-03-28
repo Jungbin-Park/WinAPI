@@ -6,6 +6,7 @@
 #include "CKeyMgr.h"
 #include "CAssetMgr.h"
 #include "CTexture.h"
+#include "CCamera.h"
 
 class CComponent;
 class CCollider;
@@ -35,6 +36,7 @@ public:
 
     Vec2 GetPos() { return m_Pos; }
     Vec2 GetPrevPos() { return m_PrevPos; }
+    Vec2 GetRenderPos() { return CCamera::GetInst()->GetRenderPos(m_Pos); }
     Vec2 GetScale() { return m_Scale; }
     LAYER_TYPE GetLayerType() { return m_Type; }
     bool IsDead() { return m_bDead; }
