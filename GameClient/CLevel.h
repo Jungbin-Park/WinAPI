@@ -28,7 +28,7 @@ public:
     const vector<CCollider*>& GetColliders(LAYER_TYPE _Layer){ return m_arrCollider[(UINT)_Layer]; }
 
 public:
-    virtual CLevel* Clone() = 0;
+    CLONE_DISABLE(CLevel);
 
 public:
     CLevel();

@@ -6,7 +6,7 @@
 
 CPlatform::CPlatform()
 {
-	SetScale(Vec2(500.f, 100.f));
+	SetScale(Vec2(800.f, 50.f));
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Collider->SetScale(GetScale());
 }
@@ -23,7 +23,7 @@ void CPlatform::tick()
 
 void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
-	if (_OtherObj->GetName() == L"Player")
+	if (_OtherObj->GetName() == L"Player" || _OtherObj->GetName() == L"Monster")
 	{
 		float pPrevYPos = _OtherObj->GetPrevPos().y + _OtherObj->GetScale().y / 2;
 		float yPos = GetPos().y - GetScale().y / 2;

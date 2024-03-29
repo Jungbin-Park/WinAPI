@@ -10,11 +10,7 @@
 
 CCamera::CCamera()
 	: m_CamSpeed(500.f)
-	, m_Effect(CAM_EFFECT::NONE)
-	, m_Duration(0.f)
-	, m_Time(0.f)
 	, m_FadeTex(nullptr)
-	, m_Alpha(0.f)
 {
 
 }
@@ -33,6 +29,23 @@ void CCamera::init()
 
 	// 윈도우 해상도랑 동일한 크기의 검은색 텍스쳐를 생성 
 	m_FadeTex = CAssetMgr::GetInst()->CreateTexture(L"FadeTexture", (UINT)vResol.x, (UINT)vResol.y);
+
+	// 윈도우 해상도랑 동일한 크기의 붉은색 텍스쳐를 생성
+	//m_RedTex = CAssetMgr::GetInst()->CreateTexture(L"RedTexture", (UINT)vResol.x, (UINT)vResol.y);
+
+	
+	// 1. Red Texture에 Red Brush로 Rectangle을 그린다
+	//USE_BRUSH(m_RedTex->GetDC(), BRUSH_TYPE::BRUSH_RED);
+	//Rectangle(m_RedTex->GetDC(), -1, -1, (UINT)vResol.x + 1, (UINT)vResol.y + 1);
+
+	// 2. SetPixel 함수를 이용한 그리기
+	/*for (UINT Row = 0; Row < vResol.y; ++Row)
+	{
+		for (UINT Col = 0; Col < vResol.x; ++Col)
+		{
+			SetPixel(m_RedTex->GetDC(), Col, Row, RGB(255, 0, 0));
+		}
+	}*/
 }
 
 void CCamera::tick()
@@ -50,15 +63,20 @@ void CCamera::tick()
 
 void CCamera::render()
 {
-	if (m_Alpha <= 0.f)
+	if (m_EffectList.empty())
 		return;
+
+	CAM_EFFECT_INFO& info = m_EffectList.front();
 
 	BLENDFUNCTION bf = {};
 
 	bf.BlendOp = AC_SRC_OVER;
 	bf.BlendFlags = 0;
-	bf.SourceConstantAlpha = (int)m_Alpha;	// 투명도(0~255)
+	bf.SourceConstantAlpha = (int)info.Alpha;	// 투명도(0~255)
 	bf.AlphaFormat = 0;	
+
+	/*AlphaBlend(DC, 0, 0, m_FadeTex->GetWidth(), m_FadeTex->GetHeight(), m_FadeTex->GetDC()
+		, 0, 0, m_FadeTex->GetWidth(), m_FadeTex->GetHeight(), bf);*/
 
 	AlphaBlend(DC, 0, 0, m_FadeTex->GetWidth(), m_FadeTex->GetHeight(), m_FadeTex->GetDC()
 		, 0, 0, m_FadeTex->GetWidth(), m_FadeTex->GetHeight(), bf);
@@ -79,30 +97,46 @@ void CCamera::Move()
 
 void CCamera::CameraEffect()
 {
-	if (CAM_EFFECT::NONE == m_Effect)
-		return;
-
-	m_Time += DT;
-	if (m_Duration < m_Time)
+	while(true)
 	{
-		m_Effect = CAM_EFFECT::NONE;
+		if (m_EffectList.empty())
+			return;
+
+		CAM_EFFECT_INFO& info = m_EffectList.front();
+		info.Time += DT;
+
+		if (info.Duration < info.Time)
+		{
+			m_EffectList.pop_front();
+		}
+		else
+		{
+			break;
+		}
 	}
 
-	if (CAM_EFFECT::FADE_IN == m_Effect)
+	CAM_EFFECT_INFO& info = m_EffectList.front();
+
+	if (CAM_EFFECT::FADE_IN == info.Effect)
 	{
 		// 알파값이 0에 가까워져야함
-		m_Alpha = (1.f - (m_Time / m_Duration)) * 255.f;
+		info.Alpha = (1.f - (info.Time / info.Duration)) * 255.f;
 	}
-	else if (CAM_EFFECT::FADE_OUT == m_Effect)
+	else if (CAM_EFFECT::FADE_OUT == info.Effect)
 	{
 		// 알파값이 255에 가까워져야함
-		m_Alpha = (m_Time / m_Duration) * 255.f;
+		info.Alpha = (info.Time / info.Duration) * 255.f;
 	}
 }
 
 void CCamera::SetCameraEffect(CAM_EFFECT _Effect, float _Duration)
 {
-	m_Effect = _Effect;
-	m_Duration = _Duration;
-	m_Time = 0.f;
+	CAM_EFFECT_INFO info = {};
+
+	info.Effect = _Effect;
+	info.Duration = _Duration;
+	info.Time = 0.f;
+	info.Alpha = 0.f;
+
+	m_EffectList.push_back(info);
 }

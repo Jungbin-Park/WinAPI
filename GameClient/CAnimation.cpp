@@ -63,7 +63,9 @@ void CAnimation::render()
 
 
 	// 현재 프레임 이미지를 오브젝트 위치에 렌더링
-	TransparentBlt(DC
+	if (pOwnerObj->GetName() == L"Player")
+	{
+		TransparentBlt(DC
 		, (int)(vRenderPos.x - frm.SliceSize.x / 2.f + frm.Offset.x)
 		, (int)(vRenderPos.y - frm.SliceSize.y / 2.f + frm.Offset.y)
 		, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
@@ -71,6 +73,37 @@ void CAnimation::render()
 		, (int)(frm.StartPos.x), (int)(frm.StartPos.y)
 		, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
 		, RGB(255, 0, 255));
+	}
+	else
+	{
+		BLENDFUNCTION bf = {};
+		
+			bf.BlendOp = AC_SRC_OVER;
+			bf.BlendFlags = 0;
+			bf.SourceConstantAlpha = 255;	// 투명도(0~255)
+			bf.AlphaFormat = AC_SRC_ALPHA;	// 소스의 알팍값을 이용하겠다.
+			
+		
+			AlphaBlend(DC
+				, (int)(vRenderPos.x - frm.SliceSize.x / 2.f + frm.Offset.x)
+				, (int)(vRenderPos.y - frm.SliceSize.y / 2.f + frm.Offset.y)
+				, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
+				, m_Atlas->GetDC()
+				, (int)(frm.StartPos.x), (int)(frm.StartPos.y)
+				, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
+				, bf);
+
+		/*StretchBlt(DC
+			, (int)(vRenderPos.x - frm.SliceSize.x / 2.f + frm.Offset.x)
+			, (int)(vRenderPos.y - frm.SliceSize.y / 2.f + frm.Offset.y)
+			, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
+			, m_Atlas->GetDC()
+			, (int)(frm.StartPos.x), (int)(frm.StartPos.y)
+			, (int)(frm.SliceSize.x), (int)(frm.SliceSize.y)
+			, SRCCOPY);*/
+	}
+
+	
 }
 
 void CAnimation::Create(CTexture* _AtlasTex, Vec2 _StartPos, Vec2 _SliceSize, int _FrameCount, int _FPS)

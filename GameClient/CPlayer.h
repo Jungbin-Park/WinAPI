@@ -37,10 +37,11 @@ private:
     }
 
 public:
-    virtual CObj* Clone() override { return new CPlayer(*this); }; // { return new CObj(*this); }
+    CLONE(CPlayer);
 
 public:
     CPlayer();
+    CPlayer(const CPlayer& _Other);
     ~CPlayer();
 };
 

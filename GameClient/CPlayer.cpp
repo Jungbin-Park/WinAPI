@@ -43,27 +43,29 @@ CPlayer::CPlayer()
 
 
 	//// Animation 추가
-	//CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left.bmp");
-	//CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right.bmp");
+	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left.bmp");
+	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right.bmp");
 
-	//m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(128.f, 128.f), 1, 10);
-	//m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(896.f, 0.f), Vec2(128.f, 128.f), 1, 10);
-	//m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(128.f, 0.f), Vec2(128.f, 128.f), 3, 10);
-	//m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(512.f, 0.f), Vec2(128.f, 128.f), 3, 10);
+	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(128.f, 128.f), 1, 10);
+	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(896.f, 0.f), Vec2(128.f, 128.f), 1, 10);
+	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(128.f, 0.f), Vec2(128.f, 128.f), 3, 10);
+	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(512.f, 0.f), Vec2(128.f, 128.f), 3, 10);
 
-	//m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\player\\");
-	//m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\player\\");
-	//m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\player\\");
-	//m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\player\\");
+	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\player\\");
+	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\player\\");
+	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\player\\");
+	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\player\\");
 
+
+	// 오프셋 조정
 	//m_Animator->FindAnimation(L"IDLE_RIGHT")->GetFrame(1).Offset = Vec2(1.f, 0.f); 
 	
 
 	// Animation 로드
-	m_Animator->LoadAnimation(L"animation\\player\\IDLE_LEFT.anim");
+	/*m_Animator->LoadAnimation(L"animation\\player\\IDLE_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\IDLE_RIGHT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\WALK_LEFT.anim");
-	m_Animator->LoadAnimation(L"animation\\player\\WALK_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\WALK_RIGHT.anim");*/
 	
 	m_Animator->Play(L"IDLE_RIGHT", true);
 
@@ -84,6 +86,23 @@ CPlayer::CPlayer()
 
 	// Delegate
 	m_RigidBody->SetGroundDelegate(this, (DELEGATE)&CPlayer::RestoreJumpCount);
+}
+
+CPlayer::CPlayer(const CPlayer& _Other)
+	: CObj(_Other)
+	, m_Speed(_Other.m_Speed)
+	, m_PlayerImg(_Other.m_PlayerImg)	// 에셋은 공유해서 쓰는 개념이기 때문에 그대로 복사해도 됨. 굳이 같은 이미지를 새로 또 로딩할 필요가 없음
+	, m_JumpCount(_Other.m_JumpCount)
+	, m_CurJumpCount(_Other.m_CurJumpCount)
+	, m_BodyCol(nullptr)
+	, m_Animator(nullptr)
+	, m_RigidBody(nullptr)
+{
+	// 부모의 복사생성자를 통해 컴포넌트들의 복사가 이루어졌다면
+	// 복사된 컴포넌트들을 찾아서 가리키기만 하면 됨.
+	m_BodyCol = GetComponent<CCollider>();
+	m_Animator = GetComponent<CAnimator>();
+	m_RigidBody = GetComponent<CRigidBody>();
 }
 
 CPlayer::~CPlayer()
@@ -156,7 +175,7 @@ void CPlayer::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _Ot
 
 void CPlayer::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
-
+	
 }
 
 void CPlayer::Shoot()

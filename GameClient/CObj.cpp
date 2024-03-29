@@ -18,6 +18,21 @@ CObj::CObj()
 
 }
 
+CObj::CObj(const CObj& _Other)
+	: CEntity(_Other)
+	, m_Pos(_Other.m_Pos)
+	, m_PrevPos(_Other.m_PrevPos)
+	, m_Scale(_Other.m_Scale)
+	, m_Animator(nullptr)
+	, m_Type(LAYER_TYPE::NONE)
+	, m_bDead(false)
+{
+	for (size_t i = 0; i < _Other.m_vecCom.size(); ++i)
+	{
+		AddComponent(_Other.m_vecCom[i]->Clone());
+	}
+}
+
 CObj::~CObj()
 {
 	Safe_Del_Vec(m_vecCom);

@@ -33,9 +33,13 @@ void CLevelMgr::init()
 	// 레벨에 플레이어 추가
 	CObj* pObject = new CPlayer;
 	pObject->SetName(L"Player");
-	pObject->SetPos(640.f, 550.f);
+	pObject->SetPos(640.f, 600.f);
 	pObject->SetScale(100.f, 100.f);
 	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pObject);
+
+	CObj* pPlayerClone = pObject->Clone();
+	pPlayerClone->SetPos(800.f, 400.f);
+	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pPlayerClone);
 
 	// 몬스터 추가
 	pObject = new CMonster;
@@ -54,12 +58,12 @@ void CLevelMgr::init()
 	// 플랫폼 생성
 	pObject = new CPlatform;
 	pObject->SetName(L"Platform1");
-	pObject->SetPos(Vec2(640.f, 400.f));
+	pObject->SetPos(Vec2(800.f, 550.f));
 	m_pCurrentLevel->AddObject(LAYER_TYPE::PLATFORM, pObject);
 
 	pObject = new CPlatform;
 	pObject->SetName(L"Platform2");
-	pObject->SetPos(Vec2(640.f, 700.f));
+	pObject->SetPos(Vec2(600.f, 700.f));
 	m_pCurrentLevel->AddObject(LAYER_TYPE::PLATFORM, pObject);
 
 
@@ -67,6 +71,7 @@ void CLevelMgr::init()
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::PLATFORM);
 
 	// 레벨 시작(플레이)
 	m_pCurrentLevel->begin();

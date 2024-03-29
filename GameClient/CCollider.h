@@ -41,7 +41,8 @@ private:
 
 public:
     virtual void finaltick() override;
-    virtual CCollider* Clone() { return new CCollider; }
+    
+    CLONE(CCollider);
 
 public:
     CCollider();

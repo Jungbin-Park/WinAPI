@@ -73,10 +73,11 @@ public:
     virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) {}
 
 public:
-    virtual CObj* Clone() = 0; // { return new CObj(*this); }
+    virtual CObj* Clone() = 0;
 
 public:
     CObj();
+    CObj(const CObj& _Other);
     ~CObj();
 
     friend class CLevel;
