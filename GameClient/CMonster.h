@@ -1,11 +1,15 @@
 #pragma once
 #include "CObj.h"
 
+class CTexture;
+
 class CMonster :
     public CObj
 {
 private:
     int         m_HP;
+
+    CTexture*   m_Img;
 
     CCollider*  m_Collider;
     CRigidBody* m_RigidBody;

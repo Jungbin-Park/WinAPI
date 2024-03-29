@@ -1,5 +1,7 @@
 #pragma once
 
+class CTexture;
+
 // 게임 최고 관리자
 class CEngine
 {
@@ -10,8 +12,7 @@ private:
 	POINT		m_Resolution;	// 메인 윈도우 해상도
 	HDC			m_hDC;			// 메인 윈도우 DC
 
-	HDC			m_hSubDC;		// 보조 DC
-	HBITMAP		m_hSubBitmap;	// 보조 Bitmap
+	CTexture*	m_SubTex;		// 더블 버퍼링 용도 텍스쳐
 
 	HPEN		m_arrPen[(UINT)PEN_TYPE::END];
 	HBRUSH		m_arrBrush[(UINT)BRUSH_TYPE::END];
@@ -28,7 +29,7 @@ public:
 	HINSTANCE GetProcessInstance() { return m_hInstance; }
 	HWND GetMainWnd() { return m_hMainWnd; }
 	HDC GetMainDC() { return m_hDC; }
-	HDC	GetSubDC() { return m_hSubDC; }
+	HDC	GetSubDC();
 
 	Vec2 GetResolution() { return m_Resolution; }
 

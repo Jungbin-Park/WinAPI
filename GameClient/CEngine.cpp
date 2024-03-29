@@ -9,9 +9,9 @@
 #include "CCollisionMgr.h"
 #include "CAssetMgr.h"
 #include "CTaskMgr.h"
-
-#include "CTexture.h"
 #include "CCamera.h"
+#include "CTexture.h"
+
 
 CEngine::CEngine()
 	: m_hMainWnd(nullptr)	
@@ -90,18 +90,17 @@ void CEngine::progress()
 	// =========
 	// 화면 Clear
 	{
-		USE_BRUSH(m_hSubDC, BRUSH_TYPE::BRUSH_GRAY);
-		Rectangle(m_hSubDC, -1, -1, m_Resolution.x + 1, m_Resolution.y + 1);
+		USE_BRUSH(m_SubTex->GetDC(), BRUSH_TYPE::BRUSH_GRAY);
+		Rectangle(m_SubTex->GetDC(), -1, -1, m_Resolution.x + 1, m_Resolution.y + 1);
 	}
 
 	CLevelMgr::GetInst()->render();
-
 	//CPathMgr::GetInst()->render();
-
+	CCamera::GetInst()->render();
 	CDbgRender::GetInst()->render();
 
 	// Sub -> Main
-	BitBlt(m_hDC, 0, 0, m_Resolution.x, m_Resolution.y, m_hSubDC, 0, 0, SRCCOPY);
+	BitBlt(m_hDC, 0, 0, m_Resolution.x, m_Resolution.y, m_SubTex->GetDC(), 0, 0, SRCCOPY);
 
 	// ================================
 	// Task 처리 (프레임의 마지막에 처리)
@@ -114,15 +113,8 @@ void CEngine::CreateDefaultGDIObject()
 	// 메인 윈도우를 타겟으로 지정하는	DC 생성
 	m_hDC = ::GetDC(m_hMainWnd);
 
-	// Sub DC 생성
-	m_hSubDC = CreateCompatibleDC(m_hDC);
-
-	// Sub Bitmap 생성
-	m_hSubBitmap = CreateCompatibleBitmap(m_hDC, m_Resolution.x, m_Resolution.y);
-
-	// SubDC 가 SubBitmap 을 지정하게 함
-	HBITMAP hPrevBitmap = (HBITMAP)SelectObject(m_hSubDC, m_hSubBitmap);
-	DeleteObject(hPrevBitmap);
+	// 메인 비트맵(윈도우)에 출력하기전에 먼저 그림들이 그려지는 텍스쳐
+	m_SubTex = CAssetMgr::GetInst()->CreateTexture(L"SubTexture", (UINT)m_Resolution.x, (UINT)m_Resolution.y);
 
 	// 자주 사용할 펜 생성
 	m_arrPen[(UINT)PEN_TYPE::PEN_RED] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
@@ -137,4 +129,9 @@ void CEngine::CreateDefaultGDIObject()
 	m_arrBrush[(UINT)BRUSH_TYPE::BRUSH_HOLLOW] = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
 	m_arrBrush[(UINT)BRUSH_TYPE::BRUSH_BLACK] = (HBRUSH)GetStockObject(BLACK_BRUSH);
 
+}
+
+HDC CEngine::GetSubDC()
+{
+	return m_SubTex->GetDC();
 }

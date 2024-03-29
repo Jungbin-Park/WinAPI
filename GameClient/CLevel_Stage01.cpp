@@ -12,6 +12,11 @@ CLevel_Stage01::~CLevel_Stage01()
 {
 }
 
+void CLevel_Stage01::begin()
+{
+	CCamera::GetInst()->SetCameraEffect(CAM_EFFECT::FADE_IN, 2.f);
+}
+
 void CLevel_Stage01::tick()
 {
 	CLevel::tick();

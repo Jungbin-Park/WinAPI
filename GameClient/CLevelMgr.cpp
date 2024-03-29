@@ -67,6 +67,9 @@ void CLevelMgr::init()
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
+
+	// 레벨 시작(플레이)
+	m_pCurrentLevel->begin();
 }
 
 void CLevelMgr::progress()
