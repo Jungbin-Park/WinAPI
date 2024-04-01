@@ -17,6 +17,8 @@ public:
 	void AddDbgRenderInfo(const tDbgRenderInfo& _info){ m_RenderList.push_back(_info); }
 	void AddDbgLog(const tDbgLog& _info) { m_LogList.push_back(_info); }
 
+	bool IsDbgRender() { return m_bRender; }
+
 public:
 	void tick();
 	void render();

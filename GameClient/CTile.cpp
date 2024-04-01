@@ -1,9 +1,12 @@
 #include "pch.h"
 #include "CTile.h"
 
+#include "CTileMap.h"
+
+
 CTile::CTile()
 {
-	SetScale(Vec2(TILE_SIZE, TILE_SIZE));
+	m_TileMap = (CTileMap*)AddComponent(new CTileMap);
 }
 
 CTile::~CTile()
@@ -20,14 +23,27 @@ void CTile::tick()
 
 void CTile::render()
 {
-	Vec2 vRenderPos = GetRenderPos();
-	Vec2 vScale = GetScale();
+	m_TileMap->render();
+}
 
-	USE_PEN(DC, PEN_TYPE::PEN_GREEN);
-	USE_BRUSH(DC, BRUSH_TYPE::BRUSH_HOLLOW);
+void CTile::SetRow(UINT _Row)
+{
+	m_TileMap->SetRow(_Row);
+}
 
-	Rectangle(DC, (int)vRenderPos.x, (int)vRenderPos.y
-		, (int)vRenderPos.x + (int)vScale.x, (int)vRenderPos.y + (int)vScale.y);
+void CTile::SetCol(UINT _Col)
+{
+	m_TileMap->SetCol(_Col);
+}
+
+void CTile::SetRowCol(UINT _Row, UINT _Col)
+{
+	m_TileMap->SetRowCol(_Row, _Col);
+}
+
+void CTile::SetAtlasTex(CTexture* _Atlas)
+{
+	m_TileMap->SetAtlasTex(_Atlas);
 }
 
 

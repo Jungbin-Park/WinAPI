@@ -29,7 +29,10 @@ void CLevel_Editor::tick()
 
 void CLevel_Editor::Enter()
 {
-	CObj* pTile = new CTile;
+	CTile* pTile = new CTile;
+	pTile->SetRowCol(10, 10);
+	pTile->SetAtlasTex(CAssetMgr::GetInst()->LoadTexture(L"texture\\TILE.bmp", L"texture\\TILE.bmp"));
+
 	AddObject(LAYER_TYPE::TILE, pTile);
 }
 

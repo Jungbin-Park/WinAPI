@@ -131,6 +131,9 @@
     <Filter Include="03. Game\03. Manager\11.SoundMgr">
       <UniqueIdentifier>{f7be398e-7a63-4cb4-872b-d4a57fa523e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\06. Component\05. TileMap">
+      <UniqueIdentifier>{184a0aa7-ac9f-40bd-8665-5f1433c71fce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -283,6 +286,9 @@
     <ClInclude Include="CDeadState.h">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
     </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>03. Game\06. Component\05. TileMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -427,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="CDeadState.cpp">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>03. Game\06. Component\05. TileMap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
