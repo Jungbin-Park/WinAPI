@@ -13,9 +13,10 @@ protected:
     CObj* GetObj() { return m_Owner->GetOwner(); }
     CFSM* GetFSM() { return m_Owner; }
 
-    void* GetBlackboardData(const wstring& _DataName)
+    template<typename T>
+    T& GetBlackboardData(const wstring& _DataName)
     {
-        //return m_Owner->GetBlackboardData(_DataName);
+        return m_Owner->GetBlackboardData<T>(_DataName);
     }
 
 public:

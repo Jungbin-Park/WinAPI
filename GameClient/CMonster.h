@@ -8,7 +8,9 @@ class CMonster :
 {
 private:
     int         m_HP;
-    int         m_DetectRange;  // Å½Áö ¹üÀ§
+    float       m_DetectRange;  // Å½Áö ¹üÀ§
+
+    Vec2        m_Data;
 
     CTexture*   m_Img;
 
