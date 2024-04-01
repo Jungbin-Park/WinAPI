@@ -39,6 +39,11 @@ void CLevel_Stage01::tick()
 		pForce->SetForce(1000.f, 300.f, 0.3f);
 		SpawnObject(this, LAYER_TYPE::FORCE, pForce);*/
 	}
+
+	if (KEY_TAP(KEY::ENTER))
+	{
+		ChangeLevel(LEVEL_TYPE::EDITOR);
+	}
 }
 
 void CLevel_Stage01::Enter()
@@ -91,6 +96,7 @@ void CLevel_Stage01::Enter()
 void CLevel_Stage01::Exit()
 {
 	// 레벨에 있는 모든 오브젝트 삭제한다
+	DeleteAllObjects();
 
 	// Dontdestroy 할 것들은 예외처리
 }

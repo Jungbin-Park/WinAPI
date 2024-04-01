@@ -119,12 +119,22 @@ CObj* CLevel::FindObjectByName(LAYER_TYPE _Type, const wstring& _Name)
 
 void CLevel::DeleteAllObjects()
 {
-
+	for (UINT i = 0; i < (UINT)LAYER_TYPE::END; ++i)
+	{
+		DeleteObjects((LAYER_TYPE)i);
+	}
 }
 
 void CLevel::DeleteObjects(LAYER_TYPE _LayerType)
 {
+	vector<CObj*>& vecObjects = m_arrObj[(UINT)_LayerType];
 
+	for (size_t i = 0; i < vecObjects.size(); ++i)
+	{
+		delete vecObjects[i];
+	}
+
+	vecObjects.clear();
 }
 
 

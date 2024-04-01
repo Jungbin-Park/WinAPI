@@ -1,5 +1,7 @@
  #include "pch.h"
 #include "CLevelMgr.h"
+
+#include "CLevel_Editor.h"
 #include "CLevel_Stage01.h"
 
 CLevelMgr::CLevelMgr()
@@ -14,18 +16,15 @@ CLevelMgr::~CLevelMgr()
 	Safe_Del_Arr(m_arrLevel);
 }
 
-CObj* CLevelMgr::FindObjectByName(const wstring& _strName)
-{
-	// 중복된 이름 조심
-	return m_pCurrentLevel->FindObjectByName(_strName);
-}
-
 void CLevelMgr::init()
 {
 	// 모든 레벨 생성
+	m_arrLevel[(UINT)LEVEL_TYPE::EDITOR] = new CLevel_Editor;
 	m_arrLevel[(UINT)LEVEL_TYPE::STAGE_01] = new CLevel_Stage01;
+	
+	// 초기 레벨 지정
 	// TaskMgr로 전역함수(func에 선언되어 있는) ChangeLevel를 넘겨준다.
-	::ChangeLevel(LEVEL_TYPE::STAGE_01);
+	::ChangeLevel(LEVEL_TYPE::EDITOR);
 }
 
 void CLevelMgr::progress()
@@ -65,4 +64,10 @@ void CLevelMgr::ChangeLevel(LEVEL_TYPE _NextLevelType)
 	// 변경된 새로운 레벨로 Enter한다.
 	m_pCurrentLevel->Enter();
 	m_pCurrentLevel->begin();
+}
+
+CObj* CLevelMgr::FindObjectByName(const wstring& _strName)
+{
+	// 중복된 이름 조심
+	return m_pCurrentLevel->FindObjectByName(_strName);
 }
