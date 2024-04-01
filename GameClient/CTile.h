@@ -16,6 +16,8 @@ public:
 
     void SetAtlasTex(CTexture* _Atlas);
 
+    void Clicked(Vec2 _vMousePos);
+
 private:
     virtual void begin() override;
     virtual void tick() override;

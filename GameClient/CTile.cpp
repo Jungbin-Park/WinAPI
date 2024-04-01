@@ -46,4 +46,9 @@ void CTile::SetAtlasTex(CTexture* _Atlas)
 	m_TileMap->SetAtlasTex(_Atlas);
 }
 
+void CTile::Clicked(Vec2 _vMousePos)
+{
+	m_TileMap->Clicked(_vMousePos);
+}
+
 
