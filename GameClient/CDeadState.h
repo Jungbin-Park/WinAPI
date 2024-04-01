@@ -1,20 +1,20 @@
 #pragma once
 #include "CState.h"
 
-class CIdleState :
+class CDeadState :
     public CState
 {
 private:
+
 
 public:
     virtual void Enter() override;
     virtual void FinalTick() override;
     virtual void Exit() override;
 
-    CLONE(CIdleState);
+    CLONE(CDeadState);
 public:
-    CIdleState();
-    ~CIdleState();
-
+    CDeadState();
+    ~CDeadState();
 };
 

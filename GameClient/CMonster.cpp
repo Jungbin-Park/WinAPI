@@ -10,25 +10,41 @@
 #include "CRigidBody.h"
 
 #include "CMissile.h"
-
+#include "CFSM.h"
+#include "CIdleState.h"
+#include "CTraceState.h"
+#include "CAttackState.h"
+#include "CDeadState.h"
 
 
 CMonster::CMonster()
 	: m_HP(5)
 	, m_Img(nullptr)
+	, m_DetectRange(500)
 {
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Animator = (CAnimator*)AddComponent(new CAnimator);
 	m_RigidBody = (CRigidBody*)AddComponent(new CRigidBody);
+	m_FSM = (CFSM*)AddComponent(new CFSM);
 
+	// Collider
 	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
 	m_Collider->SetScale(Vec2(120.f, 120.f));
 	m_Collider->SetActive(true);
 	
+
+	// RigidBody
 	m_RigidBody->SetMass(2.f);
 	m_RigidBody->SetInitialWalkSpeed(0.f);
 	m_RigidBody->SetMaxWalkSpeed(400.f);
 	m_RigidBody->SetFriction(2000.f);
+
+
+	// FSM
+	m_FSM->AddState(L"Idle", new CIdleState);
+	m_FSM->AddState(L"Trace", new CTraceState);
+	m_FSM->AddState(L"Attack", new CAttackState);
+	m_FSM->AddState(L"Attack", new CDeadState);
 
 
 	//Animation
@@ -47,13 +63,13 @@ CMonster::CMonster()
 
 	m_Animator->Play(L"IDLE_RIGHT", true);
 
-	// Rigidbody
+	// Rigidbody 설정
 	m_RigidBody->SetMass(1.f);
 	m_RigidBody->SetInitialWalkSpeed(0.f);
 	m_RigidBody->SetMaxWalkSpeed(400.f);
 	m_RigidBody->SetFriction(2000.f);
 
-	// 중력
+	// 중력 설정
 	m_RigidBody->UseGravity(true);
 	m_RigidBody->SetMaxGravitySpeed(980.f);
 	m_RigidBody->SetJumpSpeed(600.f);
@@ -62,6 +78,12 @@ CMonster::CMonster()
 
 CMonster::~CMonster()
 {
+}
+
+void CMonster::begin()
+{
+	//m_FSM->SetBlackboardData(L"DetectRange", &m_DetectRange);
+	m_FSM->ChangeState(L"Idle");
 }
 
 void CMonster::tick()
