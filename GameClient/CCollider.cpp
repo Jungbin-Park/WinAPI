@@ -6,9 +6,19 @@
 
 
 CCollider::CCollider()
-	: m_CollisionCount(0)
+	: m_OverlapCount(0)
 	, m_Active(true)
 	, m_bRegister(true)
+{
+}
+
+CCollider::CCollider(const CCollider& _Other)
+	: CComponent(_Other)
+	, m_OffsetPos(_Other.m_OffsetPos)
+	, m_Scale(_Other.m_Scale)
+	, m_OverlapCount(0)
+	, m_Active(_Other.m_Active)
+	, m_bRegister(_Other.m_bRegister)
 {
 }
 
@@ -37,7 +47,7 @@ void CCollider::finaltick()
 	if (!m_Active)
 		return;
 
-	if (0 != m_CollisionCount)
+	if (0 != m_OverlapCount)
 	{
 		DrawDebugRect(PEN_TYPE::PEN_RED, m_FinalPos, m_Scale, 0.f);
 	}
@@ -51,7 +61,7 @@ void CCollider::finaltick()
 
 void CCollider::BeginOverlap(CCollider* _OtherCollider)
 {
-	m_CollisionCount++;
+	m_OverlapCount++;
 
 	GetOwner()->BeginOverlap(this, _OtherCollider->GetOwner(), _OtherCollider);
 }
@@ -63,7 +73,7 @@ void CCollider::OnOverlap(CCollider* _OtherCollider)
 
 void CCollider::EndOverlap(CCollider* _OtherCollider)
 {
-	m_CollisionCount--;
+	m_OverlapCount--;
 
 	GetOwner()->EndOverlap(this, _OtherCollider->GetOwner(), _OtherCollider);
 }

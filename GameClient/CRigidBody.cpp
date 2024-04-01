@@ -10,6 +10,7 @@ CRigidBody::CRigidBody()
 	, m_Friction(600.f)
 	, m_GravityAccel(980.f)
 	, m_UseGravity(false)
+	, m_Ground(false)
 	, m_JumpSpeed(600.f)
 	, m_GroundFunc(nullptr)
 	, m_AirFunc(nullptr)
@@ -18,6 +19,27 @@ CRigidBody::CRigidBody()
 	, m_AirInst(nullptr)
 	, m_AirDelegate(nullptr)
 {
+}
+
+CRigidBody::CRigidBody(const CRigidBody& _Other)
+	: CComponent(_Other)
+	, m_Mass(_Other.m_Mass)
+	, m_InitWalkSpeed(_Other.m_InitWalkSpeed)
+	, m_MaxWalkSpeed(_Other.m_MaxWalkSpeed)
+	, m_MaxGravitySpeed(_Other.m_MaxGravitySpeed)
+	, m_Friction(_Other.m_Friction)
+	, m_GravityAccel(_Other.m_GravityAccel)
+	, m_UseGravity(_Other.m_UseGravity)
+	, m_Ground(_Other.m_Ground)
+	, m_JumpSpeed(_Other.m_JumpSpeed)
+	, m_GroundFunc(nullptr)
+	, m_AirFunc(nullptr)
+	, m_GroundInst(nullptr)
+	, m_GroundDelegate(nullptr)
+	, m_AirInst(nullptr)
+	, m_AirDelegate(nullptr)
+{
+
 }
 
 CRigidBody::~CRigidBody()

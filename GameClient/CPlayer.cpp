@@ -80,12 +80,7 @@ CPlayer::CPlayer()
 	m_RigidBody->SetMaxGravitySpeed(980.f);
 	m_RigidBody->SetJumpSpeed(600.f);
 
-	// Callback 설정
-	m_RigidBody->SetGroundFunc(&BeGround);
-	m_RigidBody->SetAirFunc(&BeAir);
-
-	// Delegate
-	m_RigidBody->SetGroundDelegate(this, (DELEGATE)&CPlayer::RestoreJumpCount);
+	
 }
 
 CPlayer::CPlayer(const CPlayer& _Other)
@@ -111,6 +106,12 @@ CPlayer::~CPlayer()
 
 void CPlayer::begin()
 {
+	// Callback 설정
+	m_RigidBody->SetGroundFunc(&BeGround);
+	m_RigidBody->SetAirFunc(&BeAir);
+
+	// Delegate
+	m_RigidBody->SetGroundDelegate(this, (DELEGATE)&CPlayer::RestoreJumpCount);
 }
 
 void CPlayer::tick()

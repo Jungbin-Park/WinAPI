@@ -18,6 +18,7 @@ public:
 
 public:
     CComponent();
+    CComponent(const CComponent& _Other);
     ~CComponent();
 
     friend class CObj;

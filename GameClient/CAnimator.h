@@ -29,6 +29,7 @@ public:
 public:
     CLONE(CAnimator);
     CAnimator();
+    CAnimator(const CAnimator& _Other);
     ~CAnimator();
 };
 
