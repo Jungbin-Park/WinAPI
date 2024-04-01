@@ -25,7 +25,6 @@ void CIdleState::FinalTick()
 
 	// 몬스터의 탐지 범위를 시각화
 	DrawDebugCircle(PEN_TYPE::PEN_GREEN, pSelf->GetPos(), Vec2(Range * 2.f, Range * 2.f), 0);
-	
 
 	// 플레이어가 탐지되면 Trace 상태로 변경
 	if (pPlayer->GetPos().GetDistance(pSelf->GetPos()) < Range)

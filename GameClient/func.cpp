@@ -107,4 +107,13 @@ void SpawnObject(CLevel* _Level, LAYER_TYPE _type, CObj* _pSpawned)
 	CTaskMgr::GetInst()->AddTask(task);
 }
 
+void ChangeLevel(LEVEL_TYPE _NextLevelType)
+{
+	tTask task = {};
+	task.Type = TASK_TYPE::CHANGE_LEVEL;
+	task.Param1 = (DWORD_PTR)_NextLevelType;
+
+	CTaskMgr::GetInst()->AddTask(task);
+}
+
 

@@ -1,14 +1,6 @@
  #include "pch.h"
 #include "CLevelMgr.h"
-
-#include "CCollisionMgr.h"
-
-#include "CLevel.h"
 #include "CLevel_Stage01.h"
-
-#include "CPlayer.h"
-#include "CMonster.h"
-#include "CPlatform.h"
 
 CLevelMgr::CLevelMgr()
 	: m_arrLevel{}
@@ -32,55 +24,8 @@ void CLevelMgr::init()
 {
 	// 모든 레벨 생성
 	m_arrLevel[(UINT)LEVEL_TYPE::STAGE_01] = new CLevel_Stage01;
-
-	// 현재 레벨 지정
-	m_pCurrentLevel = m_arrLevel[(UINT)LEVEL_TYPE::STAGE_01];
-
-	// 레벨에 플레이어 추가
-	CObj* pObject = new CPlayer;
-	pObject->SetName(L"Player");
-	pObject->SetPos(640.f, 600.f);
-	pObject->SetScale(100.f, 100.f);
-	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pObject);
-
-	/*CObj* pPlayerClone = pObject->Clone();
-	pPlayerClone->SetPos(800.f, 400.f);
-	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pPlayerClone);*/
-
-	// 몬스터 추가
-	pObject = new CMonster;
-	pObject->SetName(L"Monster");
-	pObject->SetPos(800.f, 200.f);
-	pObject->SetScale(100.f, 100.f);
-	m_pCurrentLevel->AddObject(LAYER_TYPE::MONSTER, pObject);
-
-	pObject = new CMonster;
-	pObject->SetName(L"Monster");
-	pObject->SetPos(100.f, 100.f);
-	pObject->SetScale(100.f, 100.f);
-	m_pCurrentLevel->AddObject(LAYER_TYPE::MONSTER, pObject);
-
-
-	// 플랫폼 생성
-	pObject = new CPlatform;
-	pObject->SetName(L"Platform1");
-	pObject->SetPos(Vec2(800.f, 550.f));
-	m_pCurrentLevel->AddObject(LAYER_TYPE::PLATFORM, pObject);
-
-	pObject = new CPlatform;
-	pObject->SetName(L"Platform2");
-	pObject->SetPos(Vec2(600.f, 700.f));
-	m_pCurrentLevel->AddObject(LAYER_TYPE::PLATFORM, pObject);
-
-
-	// 레벨 충돌 설정하기
-	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
-	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
-	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
-	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::PLATFORM);
-
-	// 레벨 시작(플레이)
-	m_pCurrentLevel->begin();
+	// TaskMgr로 전역함수(func에 선언되어 있는) ChangeLevel를 넘겨준다.
+	::ChangeLevel(LEVEL_TYPE::STAGE_01);
 }
 
 void CLevelMgr::progress()
@@ -90,13 +35,34 @@ void CLevelMgr::progress()
 
 	// 레벨 안에 있는 물체들이 매 프레임마다 할 일을 정의
 	m_pCurrentLevel->tick();		// 오브젝트가 할 일을 수행
-		
 	m_pCurrentLevel->finaltick();	// 컴포넌트가 할 일을 수행
-	
-	m_pCurrentLevel->render();
 }
 
 void CLevelMgr::render()
 {
+	if (nullptr == m_pCurrentLevel)
+		return;
+
 	m_pCurrentLevel->render();
+}
+
+void CLevelMgr::ChangeLevel(LEVEL_TYPE _NextLevelType)
+{
+	if (m_arrLevel[(UINT)_NextLevelType] == m_pCurrentLevel)
+	{
+		LOG(LOG_TYPE::DBG_ERROR, L"현재 레벨과 변경하려는 레벨이 동일합니다.");
+		return;
+	}
+
+	// 기존 레벨에서 Exit 한다.
+	if (m_pCurrentLevel)
+		m_pCurrentLevel->Exit();
+
+	// 새로운 레벨로 포인터의 주소값을 교체한다.
+	m_pCurrentLevel = m_arrLevel[(UINT)_NextLevelType];
+	assert(m_pCurrentLevel);
+
+	// 변경된 새로운 레벨로 Enter한다.
+	m_pCurrentLevel->Enter();
+	m_pCurrentLevel->begin();
 }

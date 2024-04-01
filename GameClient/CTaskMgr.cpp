@@ -36,6 +36,9 @@ void CTaskMgr::ClearGC()
 
 void CTaskMgr::ExecuteTask()
 {
+	static bool bLevelChanged = false;
+	bLevelChanged = false;
+
 	for (size_t i = 0; i < m_vecTask.size(); ++i)
 	{
 		switch (m_vecTask[i].Type)
@@ -51,6 +54,7 @@ void CTaskMgr::ExecuteTask()
 				delete pObj;
 			}
 			pSpawnLevel->AddObject(Layer, pObj);
+			pObj->begin();
 		}
 		break;
 		case TASK_TYPE::DELETE_OBJECT:
@@ -65,7 +69,11 @@ void CTaskMgr::ExecuteTask()
 		break;
 		case TASK_TYPE::CHANGE_LEVEL:
 		{
+			assert(!bLevelChanged);
+			bLevelChanged = true;
 
+			LEVEL_TYPE NextType = (LEVEL_TYPE)m_vecTask[i].Param1;
+			CLevelMgr::GetInst()->ChangeLevel(NextType);
 		}
 		break;
 		}

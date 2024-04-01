@@ -61,3 +61,4 @@ void LoadWString(wstring& _str, FILE* _File);
 // Task 관련 함수
 // ==============
 void SpawnObject(CLevel* Level, LAYER_TYPE type, CObj* pSpawned);
+void ChangeLevel(LEVEL_TYPE _NextLevelType);

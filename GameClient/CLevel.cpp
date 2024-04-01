@@ -117,4 +117,14 @@ CObj* CLevel::FindObjectByName(LAYER_TYPE _Type, const wstring& _Name)
 	return nullptr;
 }
 
+void CLevel::DeleteAllObjects()
+{
+
+}
+
+void CLevel::DeleteObjects(LAYER_TYPE _LayerType)
+{
+
+}
+
 
