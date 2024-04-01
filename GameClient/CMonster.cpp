@@ -16,11 +16,14 @@
 #include "CAttackState.h"
 #include "CDeadState.h"
 
+#include "CLevelMgr.h"
+
 
 CMonster::CMonster()
 	: m_HP(5)
 	, m_Img(nullptr)
-	, m_DetectRange(500)
+	, m_DetectRange(200)
+	, m_Speed(100)
 {
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Animator = (CAnimator*)AddComponent(new CAnimator);
@@ -78,12 +81,20 @@ CMonster::CMonster()
 
 CMonster::~CMonster()
 {
+
 }
 
 void CMonster::begin()
 {
+	// 블랙보드 추가는 프레임마다 호출하는 대신 begin() 쪽에다가
 	m_FSM->SetBlackboardData(L"DetectRange", DATA_TYPE::FLOAT, &m_DetectRange);
+	m_FSM->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
 	m_FSM->SetBlackboardData(L"Self", DATA_TYPE::OBJECT, this);
+
+
+	// 플레이어를 타겟으로 설정해서 블랙보드에 추가
+	CObj* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	m_FSM->SetBlackboardData(L"Target", DATA_TYPE::OBJECT, pPlayer);
 
 	m_FSM->ChangeState(L"Idle");
 }

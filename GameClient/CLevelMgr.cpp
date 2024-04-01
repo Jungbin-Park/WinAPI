@@ -22,6 +22,12 @@ CLevelMgr::~CLevelMgr()
 	Safe_Del_Arr(m_arrLevel);
 }
 
+CObj* CLevelMgr::FindObjectByName(const wstring& _strName)
+{
+	// 중복된 이름 조심
+	return m_pCurrentLevel->FindObjectByName(_strName);
+}
+
 void CLevelMgr::init()
 {
 	// 모든 레벨 생성
@@ -37,9 +43,9 @@ void CLevelMgr::init()
 	pObject->SetScale(100.f, 100.f);
 	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pObject);
 
-	CObj* pPlayerClone = pObject->Clone();
+	/*CObj* pPlayerClone = pObject->Clone();
 	pPlayerClone->SetPos(800.f, 400.f);
-	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pPlayerClone);
+	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pPlayerClone);*/
 
 	// 몬스터 추가
 	pObject = new CMonster;

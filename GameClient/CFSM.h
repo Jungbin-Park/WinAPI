@@ -36,7 +36,7 @@ public:
     void SetBlackboardData(const wstring& _DataKey, DATA_TYPE _Type, void* _pData);
 
     template<typename T>
-    T& GetBlackboardData(const wstring& _DataKey);
+    T GetBlackboardData(const wstring& _DataKey);
 
 public:
     virtual void finaltick() override;
@@ -48,7 +48,7 @@ public:
 };
 
 template<typename T>
-inline T& CFSM::GetBlackboardData(const wstring& _DataKey)
+inline T CFSM::GetBlackboardData(const wstring& _DataKey)
 {
     map<wstring, tBlackboardData>::iterator iter = m_mapData.find(_DataKey);
 
@@ -72,10 +72,10 @@ inline T& CFSM::GetBlackboardData(const wstring& _DataKey)
         return *((T*)iter->second.pData);
     }
 
-    if (std::is_same_v<CObj, T>)
+    if constexpr (std::is_same_v<CObj*, T>)
     {
         assert(DATA_TYPE::OBJECT == iter->second.Type);
-        return *((T*)iter->second.pData);
+        return (T)iter->second.pData;
     }
 }
 

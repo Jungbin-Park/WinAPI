@@ -14,7 +14,7 @@ protected:
     CFSM* GetFSM() { return m_Owner; }
 
     template<typename T>
-    T& GetBlackboardData(const wstring& _DataName)
+    T GetBlackboardData(const wstring& _DataName)
     {
         return m_Owner->GetBlackboardData<T>(_DataName);
     }

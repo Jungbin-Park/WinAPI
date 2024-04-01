@@ -59,7 +59,6 @@ CPlayer::CPlayer()
 
 	// 오프셋 조정
 	//m_Animator->FindAnimation(L"IDLE_RIGHT")->GetFrame(1).Offset = Vec2(1.f, 0.f); 
-	
 
 	// Animation 로드
 	/*m_Animator->LoadAnimation(L"animation\\player\\IDLE_LEFT.anim");

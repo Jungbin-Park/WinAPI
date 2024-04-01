@@ -9,6 +9,7 @@ CFSM::CFSM()
 
 CFSM::~CFSM()
 {
+	Safe_Del_Map(m_mapState);
 }
 
 void CFSM::finaltick()

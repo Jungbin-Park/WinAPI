@@ -9,6 +9,7 @@ class CMonster :
 private:
     int         m_HP;
     float       m_DetectRange;  // Å½Áö ¹üÀ§
+    float       m_Speed;
 
     Vec2        m_Data;
 
