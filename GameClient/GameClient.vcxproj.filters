@@ -289,6 +289,9 @@
     <ClInclude Include="CTileMap.h">
       <Filter>03. Game\06. Component\05. TileMap</Filter>
     </ClInclude>
+    <ClInclude Include="CCollider_Editor.h">
+      <Filter>03. Game\04. Level\02. Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -436,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
       <Filter>03. Game\06. Component\05. TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider_Editor.cpp">
+      <Filter>03. Game\04. Level\02. Editor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
