@@ -12,6 +12,7 @@
 
 #include "CMissile.h"
 #include "CGuidedMissile.h"
+#include "CSnow.h"
 
 #include "CDbgRender.h"
 
@@ -50,11 +51,16 @@ CPlayer::CPlayer()
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(896.f, 0.f), Vec2(128.f, 128.f), 1, 10);
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(128.f, 0.f), Vec2(128.f, 128.f), 3, 10);
 	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(512.f, 0.f), Vec2(128.f, 128.f), 3, 10);
+	m_Animator->CreateAnimation(L"JUMP_LEFT", pAtlasL, Vec2(0.f, 128.f), Vec2(128.f, 128.f), 6, 10);
+	m_Animator->CreateAnimation(L"JUMP_RIGHT", pAtlasR, Vec2(256.f, 128.f), Vec2(128.f, 128.f), 6, 10);
+
 
 	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\player\\");
 	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\player\\");
 	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\player\\");
 	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\player\\");
+	m_Animator->FindAnimation(L"JUMP_LEFT")->Save(L"animation\\player\\");
+	m_Animator->FindAnimation(L"JUMP_RIGHT")->Save(L"animation\\player\\");
 
 
 	// 오프셋 조정
@@ -77,7 +83,7 @@ CPlayer::CPlayer()
 	// 중력 관련 설정
 	m_RigidBody->UseGravity(true);
 	m_RigidBody->SetMaxGravitySpeed(980.f);
-	m_RigidBody->SetJumpSpeed(600.f);
+	m_RigidBody->SetJumpSpeed(450.f);
 
 	
 }
@@ -124,6 +130,7 @@ void CPlayer::tick()
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		m_RigidBody->AddForce(Vec2(-1000.f, 0.f));
+		
 	}
 	else if (KEY_TAP(KEY::LEFT))
 	{
@@ -137,6 +144,7 @@ void CPlayer::tick()
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
 		m_RigidBody->AddForce(Vec2(1000.f, 0.f));
+		
 	}
 	else if (KEY_TAP(KEY::RIGHT))
 	{
@@ -147,14 +155,19 @@ void CPlayer::tick()
 		m_Animator->Play(L"IDLE_RIGHT", true);
 	}
 
-	// Space 키가 눌리면 미사일을 쏜다.
 	if (KEY_TAP(KEY::SPACE))
 	{
 		if (m_JumpCount > m_CurJumpCount)
 		{
 			Jump();
 			m_CurJumpCount += 1;
+			m_Animator->Play(L"JUMP_LEFT", false);
 		}
+	}
+
+	if (KEY_TAP(KEY::CTRL))
+	{
+		Shoot();
 	}
 
 	SetPos(vPos);
@@ -180,16 +193,16 @@ void CPlayer::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _O
 
 void CPlayer::Shoot()
 {
-	CMissile* pMissile = new CGuidedMissile;
-	pMissile->SetName(L"Missile");
+	CSnow* pSnow = new CSnow;
+	pSnow->SetName(L"Snow");
 
-	Vec2 vMissilePos = GetPos();
-	vMissilePos.y -= GetScale().y / 2.f;
+	Vec2 vSnowPos = GetPos();
+	vSnowPos.y -= GetScale().y / 2.f;
 
-	pMissile->SetPos(vMissilePos);
-	pMissile->SetScale(Vec2(20.f, 20.f));
+	pSnow->SetPos(vSnowPos);
+	pSnow->SetScale(Vec2(20.f, 20.f));
 
-	SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pMissile);
+	SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pSnow);
 
 	LOG(LOG_TYPE::DBG_WARNING, L"미사일 발사");
 

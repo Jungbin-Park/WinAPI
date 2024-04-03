@@ -16,7 +16,6 @@
 #include "CAttackState.h"
 #include "CDeadState.h"
 
-#include "CLevelMgr.h"
 
 
 CMonster::CMonster()

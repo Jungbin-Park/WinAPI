@@ -148,10 +148,14 @@
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CAttackState.h" />
+    <ClInclude Include="CBackground.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider.h" />
-    <ClInclude Include="CCollider_Editor.h" />
+    <ClInclude Include="CCollider_Editor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CDbgRender.h" />
@@ -167,6 +171,7 @@
     <ClInclude Include="CLevelMgr.h" />
     <ClInclude Include="CLevel_Editor.h" />
     <ClInclude Include="CLevel_Stage01.h" />
+    <ClInclude Include="CLevel_Start.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CObj.h" />
@@ -175,6 +180,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CRigidBody.h" />
     <ClInclude Include="CSelectObj.h" />
+    <ClInclude Include="CSnow.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CSoundMgr.h" />
     <ClInclude Include="CState.h" />
@@ -202,10 +208,14 @@
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CAttackState.cpp" />
+    <ClCompile Include="CBackground.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
-    <ClCompile Include="CCollider_Editor.cpp" />
+    <ClCompile Include="CCollider_Editor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CDbgRender.cpp" />
@@ -221,6 +231,7 @@
     <ClCompile Include="CLevelMgr.cpp" />
     <ClCompile Include="CLevel_Editor.cpp" />
     <ClCompile Include="CLevel_Stage01.cpp" />
+    <ClCompile Include="CLevel_Start.cpp" />
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CObj.cpp" />
@@ -229,6 +240,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRigidBody.cpp" />
     <ClCompile Include="CSelectObj.cpp" />
+    <ClCompile Include="CSnow.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />
     <ClCompile Include="CState.cpp" />

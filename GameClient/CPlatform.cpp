@@ -6,9 +6,13 @@
 
 CPlatform::CPlatform()
 {
-	SetScale(Vec2(800.f, 50.f));
+	SetScale(Vec2(1000.f, 50.f));
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Collider->SetScale(GetScale());
+}
+
+CPlatform::CPlatform(Vec2(_StartPos), Vec2(_EndPos))
+{
 }
 
 CPlatform::~CPlatform()

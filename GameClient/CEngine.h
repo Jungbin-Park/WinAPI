@@ -36,6 +36,8 @@ public:
 	HPEN GetPen(PEN_TYPE _type) { return m_arrPen[(UINT)_type]; }
 	HBRUSH GetBrush(BRUSH_TYPE _type) { return m_arrBrush[(UINT)_type]; }
 
+	void ChangeWindowSize(Vec2 _Resolution, bool _bMenu);
+
 };
 
 

@@ -8,6 +8,7 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CPlatform.h"
+#include "CBackground.h"
 
 CLevel_Stage01::CLevel_Stage01()
 {
@@ -48,8 +49,15 @@ void CLevel_Stage01::tick()
 
 void CLevel_Stage01::Enter()
 {
+	// 배경 추가
+	CObj* pObject = new CBackground;
+	pObject->SetName(L"Stage1");
+	pObject->SetPos(720.f, 498.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
+
+
 	// 레벨에 플레이어 추가
-	CObj* pObject = new CPlayer;
+	pObject = new CPlayer;
 	pObject->SetName(L"Player");
 	pObject->SetPos(640.f, 600.f);
 	pObject->SetScale(100.f, 100.f);
@@ -76,13 +84,13 @@ void CLevel_Stage01::Enter()
 	// 플랫폼 생성
 	pObject = new CPlatform;
 	pObject->SetName(L"Platform1");
-	pObject->SetPos(Vec2(800.f, 550.f));
+	pObject->SetPos(Vec2(720.f, 900.f));
 	AddObject(LAYER_TYPE::PLATFORM, pObject);
 
-	pObject = new CPlatform;
-	pObject->SetName(L"Platform2");
-	pObject->SetPos(Vec2(600.f, 700.f));
-	AddObject(LAYER_TYPE::PLATFORM, pObject);
+	//pObject = new CPlatform;
+	//pObject->SetName(L"Platform2");
+	//pObject->SetPos(Vec2(600.f, 700.f));
+	//AddObject(LAYER_TYPE::PLATFORM, pObject);
 
 
 	// 레벨 충돌 설정하기

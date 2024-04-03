@@ -8,6 +8,7 @@ class CLevel_Editor :
 {
 private:
     CTile* m_EditTile;
+    HMENU  m_hMenu;
 
 public:
     virtual void begin() override;
@@ -17,8 +18,12 @@ public:
     virtual void Exit() override;
 
 public:
+    CTile* GetEditTile() { return m_EditTile; }
+    void OpenSaveTile();
+    void OpenLoadTile();
+
+public:
     CLevel_Editor();
     ~CLevel_Editor();
-
 };
 

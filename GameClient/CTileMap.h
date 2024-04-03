@@ -41,6 +41,9 @@ public:
     virtual void finaltick() override;
     void render();
 
+    void SaveToFile(FILE* _File);
+    void LoadFromFile(FILE* _File);
+
 private:
     void render_grid();
     void render_tile();

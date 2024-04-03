@@ -5,6 +5,12 @@ class CTile;
 class CPlatform;
 class CCamera;
 
+struct CInfo
+{
+	Vec2 StartPos;
+	Vec2 EndPos;
+};
+
 class CCollider_Editor :
     public CLevel
 {
@@ -22,13 +28,19 @@ private:
 
 
 private:
-	void SaveToFile(const wstring& _strRelativePath);
+	void SaveToFile(const wstring& _RelativePath);
+	void LoadFromFile(const wstring& _RelativePath);
 
 
 private:
 	CTile*			m_EditTile;
 
+	CPlatform*		m_Platform;
 	CPlatform*		m_TestPlatform;
+
+	CInfo			m_Info;
 	CInfo			m_TestInfo;
+
+	vector<CPlatform*> m_vecEditPlat;
 };
 

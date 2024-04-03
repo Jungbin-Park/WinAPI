@@ -50,7 +50,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UpdateWindow(g_hWnd);
     
     // Engine 초기화
-    if (FAILED(CEngine::GetInst()->init(hInst, g_hWnd, POINT{1280, 768})))
+    if (FAILED(CEngine::GetInst()->init(hInst, g_hWnd, POINT{1440, 996})))
     {
         // Engine 초기화 실패 ==> 프로그램 종료
         MessageBox(nullptr, L"엔진 초기화 실패", L"에러 발생", MB_OK);        
@@ -114,13 +114,11 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 }
 
 
-// CallBack
-// 함수의 주소를 알려줘서, 특정 상황(조건) 이 맞으면 알려준 함수가 호출되는 구조
+INT_PTR CALLBACK TileInfoProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-// 각 윈도우들은 해당 윈도우에 메세지가 발생했을 때 처리를 해줄 프로시저함수를 등록해야한다.
-// 메인 윈도우는 MyRegisterClass 함수 안에서 윈도우 정보를 만들때 호출함 함수의 주소를 등록해둠
-// 도움말 윈도우는 다이얼로그 형태로서, DialogBox 함수를 호출할때 사용할 
-// 프로시저 함수의 주소를 입력으로 넣어줬다.
+#include "CLevelMgr.h"
+#include "CLevel_Editor.h"
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -132,13 +130,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_ABOUT:
-                // 윈도우 생성 함수
-                // 
+                // 모달(Modal) 방식 <-> 모달리스(Modaless)
+
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
+            case ID_TILEINFO:
+                DialogBox(hInst, MAKEINTRESOURCE(IDD_TILEINFO), hWnd, TileInfoProc);
+                break;
+
+            case ID_TILESAVE:
+            {
+                CLevel_Editor* pLevel = dynamic_cast<CLevel_Editor*>(CLevelMgr::GetInst()->GetCurrentLevel());
+                if (pLevel)
+                {
+                    pLevel->OpenSaveTile();
+                }
+            }
+
+            break;
+
+            case ID_TILELOAD:
+            {
+                CLevel_Editor* pLevel = dynamic_cast<CLevel_Editor*>(CLevelMgr::GetInst()->GetCurrentLevel());
+                if (pLevel)
+                {
+                    pLevel->OpenLoadTile();
+                }
+            }
+            break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -179,7 +201,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         return (INT_PTR)TRUE;
 
     case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+        if (/*LOWORD(wParam) == IDOK ||*/ LOWORD(wParam) == IDCANCEL)
         {
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;

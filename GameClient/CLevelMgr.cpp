@@ -2,6 +2,7 @@
 #include "CLevelMgr.h"
 
 #include "CLevel_Editor.h"
+#include "CCollider_Editor.h"
 #include "CLevel_Stage01.h"
 
 CLevelMgr::CLevelMgr()
@@ -20,11 +21,12 @@ void CLevelMgr::init()
 {
 	// 모든 레벨 생성
 	m_arrLevel[(UINT)LEVEL_TYPE::EDITOR] = new CLevel_Editor;
+	m_arrLevel[(UINT)LEVEL_TYPE::COLLIDER_EDITOR] = new CCollider_Editor;
 	m_arrLevel[(UINT)LEVEL_TYPE::STAGE_01] = new CLevel_Stage01;
 	
 	// 초기 레벨 지정
 	// TaskMgr로 전역함수(func에 선언되어 있는) ChangeLevel를 넘겨준다.
-	::ChangeLevel(LEVEL_TYPE::EDITOR);
+	::ChangeLevel(LEVEL_TYPE::COLLIDER_EDITOR);
 }
 
 void CLevelMgr::progress()
