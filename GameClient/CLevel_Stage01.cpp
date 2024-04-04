@@ -1,14 +1,19 @@
 #include "pch.h"
 #include "CLevel_Stage01.h"
-
-#include "CKeyMgr.h"
-#include "CForce.h"
+#include "CCollider_Editor.h"
 
 #include "CCollisionMgr.h"
+#include "CKeyMgr.h"
+#include "CPathMgr.h"
+
+#include "CForce.h"
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CPlatform.h"
-#include "CBackground.h"
+
+#include "CStage01.h"
+#include "CStage02.h"
+#include "CStage03.h"
 
 CLevel_Stage01::CLevel_Stage01()
 {
@@ -18,6 +23,8 @@ CLevel_Stage01::~CLevel_Stage01()
 {
 	
 }
+
+
 
 void CLevel_Stage01::begin()
 {
@@ -43,16 +50,51 @@ void CLevel_Stage01::tick()
 
 	if (KEY_TAP(KEY::ENTER))
 	{
-		ChangeLevel(LEVEL_TYPE::EDITOR);
+		ChangeLevel(LEVEL_TYPE::COLLIDER_EDITOR);
+	}
+
+	
+	if (KEY_TAP(KEY::P))
+	{
+		m_vecEditPlat.clear();
+		LoadFromFile(L"platform\\platform.plat");
+	}
+
+	if (KEY_TAP(KEY::_1))
+	{
+		CCamera::GetInst()->SetCameraDes(Vec2(720.f, 498.f));
+	}
+
+	if (KEY_TAP(KEY::_2))
+	{
+		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -498.f));
+	}
+
+	if (KEY_TAP(KEY::_3))
+	{
+		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -1494.f));
 	}
 }
 
 void CLevel_Stage01::Enter()
 {
-	// 배경 추가
-	CObj* pObject = new CBackground;
+	// 플랫폼 생성
+	LoadFromFile(L"platform\\platform.plat");
+
+	// 배경 추가 (1440 * 996)
+	CObj* pObject = new CStage01;
 	pObject->SetName(L"Stage1");
 	pObject->SetPos(720.f, 498.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
+
+	pObject = new CStage02;
+	pObject->SetName(L"Stage2");
+	pObject->SetPos(720.f, -498.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
+
+	pObject = new CStage03;
+	pObject->SetName(L"Stage3");
+	pObject->SetPos(720.f, -1494.f);
 	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
 
@@ -87,12 +129,6 @@ void CLevel_Stage01::Enter()
 	pObject->SetPos(Vec2(720.f, 900.f));
 	AddObject(LAYER_TYPE::PLATFORM, pObject);
 
-	//pObject = new CPlatform;
-	//pObject->SetName(L"Platform2");
-	//pObject->SetPos(Vec2(600.f, 700.f));
-	//AddObject(LAYER_TYPE::PLATFORM, pObject);
-
-
 	// 레벨 충돌 설정하기
 	CCollisionMgr::GetInst()->CollisionCheckClear();
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
@@ -107,4 +143,29 @@ void CLevel_Stage01::Exit()
 	DeleteAllObjects();
 
 	// Dontdestroy 할 것들은 예외처리
+}
+
+void CLevel_Stage01::LoadFromFile(const wstring& _RelativePath)
+{
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _RelativePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+
+	size_t len;
+	fread(&len, sizeof(size_t), 1, pFile);
+
+	for (size_t i = 0; i < len; ++i)
+	{
+		Vec2 vPos, vScale;
+		fread(&vPos, sizeof(Vec2), 1, pFile);
+		fread(&vScale, sizeof(Vec2), 1, pFile);
+
+		m_Platform = new CPlatform(vPos, vScale);
+		m_vecEditPlat.push_back(m_Platform);
+		AddObject(LAYER_TYPE::PLATFORM, m_Platform);
+	}
+
+	fclose(pFile);
 }

@@ -19,7 +19,7 @@ public:
     CLONE(CPlatform)
 public:
     CPlatform();
-    CPlatform(Vec2(_StartPos), Vec2(_EndPos));
+    CPlatform(Vec2(_Pos), Vec2(_Scale));
     ~CPlatform();
 };
 

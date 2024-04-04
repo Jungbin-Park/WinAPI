@@ -6,13 +6,17 @@
 
 CPlatform::CPlatform()
 {
-	SetScale(Vec2(1000.f, 50.f));
+	//SetScale(Vec2(1000.f, 50.f));
 	m_Collider = (CCollider*)AddComponent(new CCollider);
-	m_Collider->SetScale(GetScale());
+	//m_Collider->SetScale(GetScale());
 }
 
-CPlatform::CPlatform(Vec2(_StartPos), Vec2(_EndPos))
+CPlatform::CPlatform(Vec2(_Pos), Vec2(_Scale))
 {
+	SetPos(_Pos);
+	SetScale(_Scale);
+	m_Collider = (CCollider*)AddComponent(new CCollider);
+	m_Collider->SetScale(GetScale());
 }
 
 CPlatform::~CPlatform()
@@ -27,7 +31,7 @@ void CPlatform::tick()
 
 void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
-	if (_OtherObj->GetName() == L"Player" || _OtherObj->GetName() == L"Monster")
+	if (_OtherObj->GetName() == L"Player")
 	{
 		float pPrevYPos = _OtherObj->GetPrevPos().y + _OtherObj->GetScale().y / 2;
 		float yPos = GetPos().y - GetScale().y / 2;
@@ -39,6 +43,18 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 		}
 		
 	}
+	if (_OtherObj->GetName() == L"Monster")
+	{
+		float pPrevYPos = _OtherObj->GetPrevPos().y + _OtherObj->GetScale().y / 2;
+		float yPos = GetPos().y - GetScale().y / 2;
+
+		if (pPrevYPos < yPos)
+		{
+			CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+			pRB->SetGround(true);
+		}
+	}
+
 }
 
 void CPlatform::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
@@ -49,6 +65,12 @@ void CPlatform::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _
 void CPlatform::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
 	if (_OtherObj->GetName() == L"Player")
+	{
+		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+		pRB->SetGround(false);
+	}
+
+	if (_OtherObj->GetName() == L"Monster")
 	{
 		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 		pRB->SetGround(false);

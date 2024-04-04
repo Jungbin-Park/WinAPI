@@ -9,8 +9,11 @@
 #include "CTexture.h"
 
 CCamera::CCamera()
-	: m_CamSpeed(500.f)
+	: m_CamSpeed(600.f)
 	, m_FadeTex(nullptr)
+	, m_bCameraMove(false)
+	, m_MoveDir(0.f, 0.f)
+	, m_DesY(498)
 {
 
 }
@@ -59,6 +62,22 @@ void CCamera::tick()
 
 	// 카메라 효과
 	CameraEffect();
+
+	if (m_bCameraMove)
+	{
+		m_MoveDir.y = (int)(m_DesY - m_LookAt.y);
+		
+		if (!m_MoveDir.IsZero())
+		{
+			m_MoveDir.Normalize();
+			m_LookAt.y += (int)(m_MoveDir.y * DT * m_CamSpeed);
+
+		}
+		else
+		{
+			m_bCameraMove = false;
+		}
+	}
 }
 
 void CCamera::render()
@@ -93,6 +112,8 @@ void CCamera::Move()
 		m_LookAt.x -= DT * m_CamSpeed;
 	if (KEY_PRESSED(KEY::D))
 		m_LookAt.x += DT * m_CamSpeed;
+
+	
 }
 
 void CCamera::CameraEffect()
@@ -139,4 +160,10 @@ void CCamera::SetCameraEffect(CAM_EFFECT _Effect, float _Duration)
 	info.Alpha = 0.f;
 
 	m_EffectList.push_back(info);
+}
+
+void CCamera::SetCameraDes(Vec2 _Pos)
+{
+	m_bCameraMove = true;
+	m_DesY = _Pos.y;
 }

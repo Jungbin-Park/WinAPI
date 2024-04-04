@@ -6,7 +6,9 @@
 #include "CKeyMgr.h"
 #include "CPlatform.h"
 #include "CCollider.h"
-#include "CBackground.h"
+#include "CStage01.h"
+#include "CStage02.h"
+#include "CStage03.h"
 
 CCollider_Editor::CCollider_Editor()
 	: m_EditTile(nullptr)
@@ -42,16 +44,18 @@ void CCollider_Editor::tick()
 		m_TestPlatform = new CPlatform();
 		m_Info.StartPos = CCamera::GetInst()->GetRealPos(CKeyMgr::GetInst()->GetMousePos());
 		m_TestInfo.StartPos = CCamera::GetInst()->GetRealPos(CKeyMgr::GetInst()->GetMousePos());
-		m_TestPlatform->SetPos(m_TestInfo.StartPos);
-		m_TestPlatform->SetName(L"Test");
+		
+		m_TestPlatform->SetName(L"TestPlatform");
 		AddObject(LAYER_TYPE::PLATFORM, m_TestPlatform);
-
 	}
 	else if (KEY_PRESSED(KEY::LBTN))
 	{
-		m_TestInfo.EndPos = CCamera::GetInst()->GetRenderPos(CKeyMgr::GetInst()->GetMousePos());
-		m_TestPlatform->SetScale(m_TestInfo.EndPos);
-		m_TestPlatform->GetCollider()->SetScale(m_TestPlatform->GetScale());
+		m_TestInfo.EndPos = CCamera::GetInst()->GetRealPos(CKeyMgr::GetInst()->GetMousePos());
+		m_TestPlatform->SetPos((m_TestInfo.StartPos + m_TestInfo.EndPos) * 0.5f) ;
+		m_TestPlatform->SetScale(m_TestInfo.EndPos - m_TestInfo.StartPos);
+		
+		Vec2 tpScale = m_TestPlatform->GetScale();
+		m_TestPlatform->GetCollider()->SetScale(tpScale);
 	}
 	else if (KEY_RELEASED(KEY::LBTN))
 	{
@@ -88,19 +92,21 @@ void CCollider_Editor::tick()
 
 void CCollider_Editor::Enter()
 {
-	//m_EditTile = new qTile;
-	//m_EditTile->SetPos(Vec2(100.f, 100.f));
+	// 배경 추가 (1440 * 996)
+	CObj* pObject = new CStage01;
+	pObject->SetName(L"Stage1");
+	pObject->SetPos(720.f, 498.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
-	//m_EditTile->SetRowCol(10, 10);
-	//m_EditTile->SetAtlasTex(qAssetMgr::GetInst()->LoadTexture(L"texture\\TILE.bmp", L"texture\\TILE.bmp"));
+	pObject = new CStage02;
+	pObject->SetName(L"Stage2");
+	pObject->SetPos(720.f, -498.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
-	//AddObject(LAYER_TYPE::TILE, m_EditTile);
-
-	//Background
-	CObj* pBack = new CBackground;
-	pBack->SetName(L"Stage1");
-	pBack->SetPos(720.f, 498.f);
-	AddObject(LAYER_TYPE::BACKGROUND, pBack);
+	pObject = new CStage03;
+	pObject->SetName(L"Stage3");
+	pObject->SetPos(720.f, -1494.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
 }
 
@@ -145,12 +151,14 @@ void CCollider_Editor::LoadFromFile(const wstring& _RelativePath)
 
 	for (size_t i = 0; i < len; ++i)
 	{
-		Vec2 vPos = m_vecEditPlat[i]->GetPos();
-		Vec2 vScale = m_vecEditPlat[i]->GetScale();
+		Vec2 vPos, vScale;
 		fread(&vPos, sizeof(Vec2), 1, pFile);
 		fread(&vScale, sizeof(Vec2), 1, pFile);
-	}
 
+		m_Platform = new CPlatform(vPos, vScale);
+		m_vecEditPlat.push_back(m_Platform);
+		AddObject(LAYER_TYPE::PLATFORM, m_Platform);
+	}
 
 	fclose(pFile);
 }

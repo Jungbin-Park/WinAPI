@@ -53,10 +53,10 @@ CMonster::CMonster()
 	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"MonsterLeftTex", L"texture\\Monster\\Enemy\\Demonio_Left.png");
 	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"MonsterRightTex", L"texture\\Monster\\Enemy\\Demonio_Right.png");
 
-	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(128.f, 128.f), 1, 10);
-	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(512.f, 0.f), Vec2(128.f, 128.f), 1, 10);
-	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(128.f, 0.f), Vec2(128.f, 128.f), 3, 10);
-	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(128.f, 0.f), Vec2(128.f, 128.f), 3, 10);
+	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
+	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
 
 	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\monster\\");
@@ -149,7 +149,7 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 {
 	CMissile* pMissile = dynamic_cast<CMissile*>(_OtherObj);
 
-	if (_OtherObj->GetName() == L"Missile")
+	if (_OtherObj->GetName() == L"Snow")
 	{
 		--m_HP;
 

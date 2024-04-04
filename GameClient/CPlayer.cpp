@@ -39,20 +39,20 @@ CPlayer::CPlayer()
 
 	m_BodyCol->SetName(L"Body Collider");
 	m_BodyCol->SetOffsetPos(Vec2(0.f, 0.f));
-	m_BodyCol->SetScale(Vec2(64.f, 110.f));
+	m_BodyCol->SetScale(Vec2(80.f, 128.f));
 	m_BodyCol->SetActive(true);
 
 
 	//// Animation 추가
-	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left.bmp");
-	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right.bmp");
+	/*CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left1.bmp");
+	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right1.bmp");
 
-	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(128.f, 128.f), 1, 10);
-	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(896.f, 0.f), Vec2(128.f, 128.f), 1, 10);
-	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(128.f, 0.f), Vec2(128.f, 128.f), 3, 10);
-	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(512.f, 0.f), Vec2(128.f, 128.f), 3, 10);
-	m_Animator->CreateAnimation(L"JUMP_LEFT", pAtlasL, Vec2(0.f, 128.f), Vec2(128.f, 128.f), 6, 10);
-	m_Animator->CreateAnimation(L"JUMP_RIGHT", pAtlasR, Vec2(256.f, 128.f), Vec2(128.f, 128.f), 6, 10);
+	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(1120.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
+	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 3, 10);
+	m_Animator->CreateAnimation(L"JUMP_LEFT", pAtlasL, Vec2(0.f, 160.f), Vec2(160.f, 160.f), 6, 7);
+	m_Animator->CreateAnimation(L"JUMP_RIGHT", pAtlasR, Vec2(320.f, 160.f), Vec2(160.f, 160.f), 6, 7);
 
 
 	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\player\\");
@@ -60,17 +60,19 @@ CPlayer::CPlayer()
 	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\player\\");
 	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\player\\");
 	m_Animator->FindAnimation(L"JUMP_LEFT")->Save(L"animation\\player\\");
-	m_Animator->FindAnimation(L"JUMP_RIGHT")->Save(L"animation\\player\\");
+	m_Animator->FindAnimation(L"JUMP_RIGHT")->Save(L"animation\\player\\");*/
 
 
 	// 오프셋 조정
 	//m_Animator->FindAnimation(L"IDLE_RIGHT")->GetFrame(1).Offset = Vec2(1.f, 0.f); 
 
 	// Animation 로드
-	/*m_Animator->LoadAnimation(L"animation\\player\\IDLE_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\IDLE_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\IDLE_RIGHT.anim");
 	m_Animator->LoadAnimation(L"animation\\player\\WALK_LEFT.anim");
-	m_Animator->LoadAnimation(L"animation\\player\\WALK_RIGHT.anim");*/
+	m_Animator->LoadAnimation(L"animation\\player\\WALK_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\JUMP_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\player\\JUMP_RIGHT.anim");
 	
 	m_Animator->Play(L"IDLE_RIGHT", true);
 
@@ -83,9 +85,8 @@ CPlayer::CPlayer()
 	// 중력 관련 설정
 	m_RigidBody->UseGravity(true);
 	m_RigidBody->SetMaxGravitySpeed(980.f);
-	m_RigidBody->SetJumpSpeed(450.f);
-
-	
+	m_RigidBody->SetJumpSpeed(600.f);
+		
 }
 
 CPlayer::CPlayer(const CPlayer& _Other)
@@ -124,35 +125,22 @@ void CPlayer::tick()
 	// 이전 좌표 기록을 위해서 CObj의 tick()을 먼저 구현해주어야 함
 	CObj::tick();
 
-	Vec2 vPos = GetPos();
-
-	// 왼쪽키가 눌린적이 있으면(눌려있으면) 왼쪽으로 1픽셀 이동
-	if (KEY_PRESSED(KEY::LEFT))
+	switch (m_State)
 	{
-		m_RigidBody->AddForce(Vec2(-1000.f, 0.f));
-		
-	}
-	else if (KEY_TAP(KEY::LEFT))
-	{
-		m_Animator->Play(L"WALK_LEFT", true);
-	}
-	else if (KEY_RELEASED(KEY::LEFT))
-	{
-		m_Animator->Play(L"IDLE_LEFT", true);
-	}
-
-	if (KEY_PRESSED(KEY::RIGHT))
-	{
-		m_RigidBody->AddForce(Vec2(1000.f, 0.f));
-		
-	}
-	else if (KEY_TAP(KEY::RIGHT))
-	{
-		m_Animator->Play(L"WALK_RIGHT", true);
-	}
-	else if (KEY_RELEASED(KEY::RIGHT))
-	{
-		m_Animator->Play(L"IDLE_RIGHT", true);
+	case CPlayer::eState::IDLE:
+		Idle();
+		break;
+	case CPlayer::eState::MOVE:
+		Move();
+		break;
+	case CPlayer::eState::ATTACK:
+		Attack();
+		break;
+	case CPlayer::eState::JUMP:
+		Jump();
+		break;
+	default:
+		break;
 	}
 
 	if (KEY_TAP(KEY::SPACE))
@@ -165,10 +153,7 @@ void CPlayer::tick()
 		}
 	}
 
-	if (KEY_TAP(KEY::CTRL))
-	{
-		Shoot();
-	}
+	
 
 	SetPos(vPos);
 }
@@ -189,6 +174,84 @@ void CPlayer::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _Ot
 void CPlayer::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
 	
+}
+
+void CPlayer::Idle()
+{
+	switch (m_Direction)
+	{
+	case CPlayer::eDirection::Left:
+		m_Animator->Play(L"IDLE_LEFT", true);
+		break;
+	case CPlayer::eDirection::Right:
+		m_Animator->Play(L"IDLE_RIGHT", true);
+		break;
+	default:
+		break;
+	}
+
+	if (KEY_PRESSED(KEY::A))
+	{
+		m_Direction = eDirection::Left;
+		m_State = CPlayer::eState::MOVE;
+		m_Animator->Play(L"WALK_LEFT", true);
+	}
+	if (KEY_PRESSED(KEY::D))
+	{
+		m_Direction = eDirection::Right;
+		m_State = CPlayer::eState::MOVE;
+		m_Animator->Play(L"WALK_RIGHT", true);
+	}
+	if (KEY_TAP(KEY::CTRL))
+	{
+		m_State = CPlayer::eState::ATTACK;
+		switch (m_Direction)
+		{
+		case CPlayer::eDirection::Left:
+			m_Animator->Play(L"ATTACK_LEFT", false);
+			break;
+		case CPlayer::eDirection::Right:
+			m_Animator->Play(L"ATTACK_RIGHT", false);
+			break;
+		default:
+			break;
+		}
+		
+	}
+}
+
+void CPlayer::Move()
+{
+	Vec2 vPos = GetPos();
+
+	if (KEY_PRESSED(KEY::LEFT))
+	{
+		vPos.x -= m_Speed * DT;
+	}
+	if (KEY_PRESSED(KEY::RIGHT))
+	{
+		vPos.x += m_Speed * DT;
+	}
+
+	SetPos(vPos);
+
+	if (KEY_RELEASED(KEY::LEFT))
+	{
+		m_Direction = eDirection::Left;
+		m_State = CPlayer::eState::IDLE;
+		m_Animator->Play(L"IDLE_LEFT", true);
+	}
+	else if (KEY_RELEASED(KEY::RIGHT))
+	{
+		m_Direction = eDirection::Right;
+		m_State = CPlayer::eState::IDLE;
+		m_Animator->Play(L"IDLE_RIGHT", true);
+	}
+}
+
+void CPlayer::Attack()
+{
+
 }
 
 void CPlayer::Shoot()

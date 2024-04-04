@@ -148,7 +148,7 @@
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CAttackState.h" />
-    <ClInclude Include="CBackground.h" />
+    <ClInclude Include="CStage01.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider.h" />
@@ -183,6 +183,8 @@
     <ClInclude Include="CSnow.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CSoundMgr.h" />
+    <ClInclude Include="CStage02.h" />
+    <ClInclude Include="CStage03.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CTaskMgr.h" />
     <ClInclude Include="CTexture.h" />
@@ -198,6 +200,7 @@
     <ClInclude Include="func.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PIdleState.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="struct.h" />
     <ClInclude Include="targetver.h" />
@@ -208,7 +211,7 @@
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CAttackState.cpp" />
-    <ClCompile Include="CBackground.cpp" />
+    <ClCompile Include="CStage01.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -243,6 +246,8 @@
     <ClCompile Include="CSnow.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />
+    <ClCompile Include="CStage02.cpp" />
+    <ClCompile Include="CStage03.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CTaskMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />
@@ -258,6 +263,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PIdleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc" />

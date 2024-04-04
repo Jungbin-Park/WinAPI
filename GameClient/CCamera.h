@@ -28,14 +28,21 @@ private:
 	float					m_CamSpeed;
 	list<CAM_EFFECT_INFO>	m_EffectList;
 
+	// 카메라 이동 관련
+	Vec2					m_MoveDir;	
+	int						m_DesY;
+
 	CTexture*	m_FadeTex;
 	CTexture*	m_RedTex;
+
+	bool					m_bCameraMove;
 
 public:
 	Vec2 GetRenderPos(Vec2 _RealPos) { return _RealPos - m_Diff; }
 	Vec2 GetRealPos(Vec2 _RenderPos) { return _RenderPos + m_Diff; }
 
 	void SetCameraEffect(CAM_EFFECT _Effect, float _Duration);
+	void SetCameraDes(Vec2 _Pos);
 
 public:
 	void init();
