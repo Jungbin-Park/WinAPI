@@ -6,9 +6,7 @@
 
 CPlatform::CPlatform()
 {
-	//SetScale(Vec2(1000.f, 50.f));
 	m_Collider = (CCollider*)AddComponent(new CCollider);
-	//m_Collider->SetScale(GetScale());
 }
 
 CPlatform::CPlatform(Vec2(_Pos), Vec2(_Scale))
@@ -43,7 +41,7 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 		}
 		
 	}
-	if (_OtherObj->GetName() == L"Monster")
+	else if (_OtherObj->GetName() == L"Monster")
 	{
 		float pPrevYPos = _OtherObj->GetPrevPos().y + _OtherObj->GetScale().y / 2;
 		float yPos = GetPos().y - GetScale().y / 2;
@@ -54,7 +52,7 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 			pRB->SetGround(true);
 		}
 	}
-
+	
 }
 
 void CPlatform::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)

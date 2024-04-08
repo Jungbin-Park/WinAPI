@@ -10,12 +10,14 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CPlatform.h"
+#include "CWall.h"
 
 #include "CStage01.h"
 #include "CStage02.h"
 #include "CStage03.h"
 
 CLevel_Stage01::CLevel_Stage01()
+	: m_Platform(nullptr)
 {
 }
 
@@ -37,27 +39,16 @@ void CLevel_Stage01::tick()
 {
 	CLevel::tick();
 
-	if (KEY_TAP(KEY::LBTN))
-	{
-		/*Vec2 vMousePos = CKeyMgr::GetInst()->GetMousePos();
-		Vec2 vPos = CCamera::GetInst()->GetRealPos(vMousePos);
 
-		CForce* pForce = new CForce;
-		pForce->SetPos(vPos);
-		pForce->SetForce(1000.f, 300.f, 0.3f);
-		SpawnObject(this, LAYER_TYPE::FORCE, pForce);*/
-	}
+	/*if (KEY_TAP(KEY::P))
+	{
+		m_vecEditPlat.clear();
+		LoadFromFile(L"platform\\platform.plat");
+	}*/
 
 	if (KEY_TAP(KEY::ENTER))
 	{
 		ChangeLevel(LEVEL_TYPE::COLLIDER_EDITOR);
-	}
-
-	
-	if (KEY_TAP(KEY::P))
-	{
-		m_vecEditPlat.clear();
-		LoadFromFile(L"platform\\platform.plat");
 	}
 
 	if (KEY_TAP(KEY::_1))
@@ -78,10 +69,18 @@ void CLevel_Stage01::tick()
 
 void CLevel_Stage01::Enter()
 {
-	// 플랫폼 생성
-	LoadFromFile(L"platform\\platform.plat");
+	// ============================
+	//			플랫폼 생성
+	// ============================
 
-	// 배경 추가 (1440 * 996)
+	LoadPlat(L"platform\\platform.plat");
+	LoadWall(L"wall\\wall.wall");
+
+
+	// ============================
+	//    배경 추가 (1440 * 996)
+	// ============================
+
 	CObj* pObject = new CStage01;
 	pObject->SetName(L"Stage1");
 	pObject->SetPos(720.f, 498.f);
@@ -98,7 +97,10 @@ void CLevel_Stage01::Enter()
 	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
 
-	// 레벨에 플레이어 추가
+	// ============================
+	//		  플레이어 추가
+	// ============================
+
 	pObject = new CPlayer;
 	pObject->SetName(L"Player");
 	pObject->SetPos(640.f, 600.f);
@@ -109,7 +111,10 @@ void CLevel_Stage01::Enter()
 	pPlayerClone->SetPos(800.f, 400.f);
 	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pPlayerClone);*/
 
-	// 몬스터 추가
+
+	// ============================
+	//			몬스터 추가
+	// ============================
 	pObject = new CMonster;
 	pObject->SetName(L"Monster");
 	pObject->SetPos(800.f, 200.f);
@@ -123,29 +128,30 @@ void CLevel_Stage01::Enter()
 	AddObject(LAYER_TYPE::MONSTER, pObject);
 
 
-	// 플랫폼 생성
-	pObject = new CPlatform;
-	pObject->SetName(L"Platform1");
-	pObject->SetPos(Vec2(720.f, 900.f));
-	AddObject(LAYER_TYPE::PLATFORM, pObject);
+	// ============================
+	//		  레벨 충돌 설정
+	// ============================
 
-	// 레벨 충돌 설정하기
 	CCollisionMgr::GetInst()->CollisionCheckClear();
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
-	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::WALL);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::WALL);
+
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::PLATFORM);
 }
 
 void CLevel_Stage01::Exit()
 {
-	// 레벨에 있는 모든 오브젝트 삭제한다
+	// 레벨에 있는 모든 오브젝트 삭제
 	DeleteAllObjects();
 
 	// Dontdestroy 할 것들은 예외처리
 }
 
-void CLevel_Stage01::LoadFromFile(const wstring& _RelativePath)
+void CLevel_Stage01::LoadPlat(const wstring& _RelativePath)
 {
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
 	strFilePath += _RelativePath;
@@ -163,9 +169,38 @@ void CLevel_Stage01::LoadFromFile(const wstring& _RelativePath)
 		fread(&vScale, sizeof(Vec2), 1, pFile);
 
 		m_Platform = new CPlatform(vPos, vScale);
+		m_Platform->SetName(L"Platform");
 		m_vecEditPlat.push_back(m_Platform);
 		AddObject(LAYER_TYPE::PLATFORM, m_Platform);
 	}
 
 	fclose(pFile);
 }
+
+void CLevel_Stage01::LoadWall(const wstring& _RelativePath)
+{
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _RelativePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+
+	size_t len;
+	fread(&len, sizeof(size_t), 1, pFile);
+
+	for (size_t i = 0; i < len; ++i)
+	{
+		Vec2 vPos, vScale;
+		fread(&vPos, sizeof(Vec2), 1, pFile);
+		fread(&vScale, sizeof(Vec2), 1, pFile);
+
+		m_Wall = new CWall(vPos, vScale);
+		m_Wall->SetName(L"Wall");
+		m_vecEditWall.push_back(m_Wall);
+		AddObject(LAYER_TYPE::WALL, m_Wall);
+	}
+
+	fclose(pFile);
+}
+
+

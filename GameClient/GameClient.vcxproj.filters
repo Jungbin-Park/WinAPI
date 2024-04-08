@@ -140,6 +140,9 @@
     <Filter Include="03. Game\05. Object\Snow">
       <UniqueIdentifier>{434840c7-ab92-4ed9-827d-8331673130ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\05. Object\Wall">
+      <UniqueIdentifier>{55585f39-f805-4c80-a38e-2655b8252aa6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -295,9 +298,6 @@
     <ClInclude Include="CTileMap.h">
       <Filter>03. Game\06. Component\05. TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="CBackground.h">
-      <Filter>03. Game\05. Object\Background</Filter>
-    </ClInclude>
     <ClInclude Include="CCollider_Editor.h">
       <Filter>03. Game\04. Level\02. Editor</Filter>
     </ClInclude>
@@ -306,6 +306,22 @@
     </ClInclude>
     <ClInclude Include="CSnow.h">
       <Filter>03. Game\05. Object\Snow</Filter>
+    </ClInclude>
+    <ClInclude Include="PIdleState.h" />
+    <ClInclude Include="CStage03.h">
+      <Filter>03. Game\05. Object\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="CStage01.h">
+      <Filter>03. Game\05. Object\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="CStage02.h">
+      <Filter>03. Game\05. Object\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonster_Editor.h">
+      <Filter>03. Game\04. Level\02. Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CWall.h">
+      <Filter>03. Game\05. Object\Wall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -455,9 +471,6 @@
     <ClCompile Include="CTileMap.cpp">
       <Filter>03. Game\06. Component\05. TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="CBackground.cpp">
-      <Filter>03. Game\05. Object\Background</Filter>
-    </ClCompile>
     <ClCompile Include="CCollider_Editor.cpp">
       <Filter>03. Game\04. Level\02. Editor</Filter>
     </ClCompile>
@@ -466,6 +479,22 @@
     </ClCompile>
     <ClCompile Include="CSnow.cpp">
       <Filter>03. Game\05. Object\Snow</Filter>
+    </ClCompile>
+    <ClCompile Include="PIdleState.cpp" />
+    <ClCompile Include="CStage01.cpp">
+      <Filter>03. Game\05. Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage02.cpp">
+      <Filter>03. Game\05. Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage03.cpp">
+      <Filter>03. Game\05. Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster_Editor.cpp">
+      <Filter>03. Game\04. Level\02. Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CWall.cpp">
+      <Filter>03. Game\05. Object\Wall</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

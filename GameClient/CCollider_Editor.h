@@ -1,7 +1,7 @@
 #pragma once
 #include "CLevel.h"
 
-class CTile;
+class CWall;
 class CPlatform;
 class CCamera;
 
@@ -28,19 +28,23 @@ private:
 
 
 private:
-	void SaveToFile(const wstring& _RelativePath);
-	void LoadFromFile(const wstring& _RelativePath);
+	void SavePlat(const wstring& _RelativePath);
+	void SaveWall(const wstring& _RelativePath);
+	void LoadPlat(const wstring& _RelativePath);
+	void LoadWall(const wstring& _RelativePath);
 
 
 private:
-	CTile*			m_EditTile;
-
 	CPlatform*		m_Platform;
 	CPlatform*		m_TestPlatform;
+
+	CWall*			m_Wall;
+	CWall*			m_TestWall;
 
 	CInfo			m_Info;
 	CInfo			m_TestInfo;
 
-	vector<CPlatform*> m_vecEditPlat;
+	vector<CPlatform*>	m_vecEditPlat;
+	vector<CWall*>		m_vecEditWall;
 };
 

@@ -30,7 +30,11 @@ private:
     float   m_GravityAccel;         // 중력가속도(모든 물체에게 동일하게 적용)
     bool    m_UseGravity;           // 중력 On/Off
     bool    m_Ground;               // 땅 위에 서 있는지 체크
+    bool    m_Wall;                 // 벽에 닿였을때 체크
     float   m_JumpSpeed;            // 점프 속력
+
+    Vec2    m_MissileDir;
+    float   m_MissileSpeed;
 
     // Ground On/Off 호출시킬 함수 포인터(함수의 주소를 받아놨다가 필요한 순간에 호출)
     // CallBack : 전역함수포인터
@@ -44,6 +48,12 @@ private:
     CObj*       m_AirInst;
     DELEGATE    m_AirDelegate;
 
+    CObj*       m_WallInst;
+    DELEGATE    m_WallDelegate;
+
+    CObj*       m_WallOffInst;
+    DELEGATE    m_WallOffDelegate;
+
 public:
     void AddForce(Vec2 _vForce) { m_Force += _vForce; }
 
@@ -53,8 +63,10 @@ public:
     void SetMaxGravitySpeed(float _Speed) { m_MaxGravitySpeed = _Speed; }
     void SetFriction(float _Friction) { m_Friction = _Friction; }
     void SetJumpSpeed(float _Speed) { m_JumpSpeed = _Speed; }
+    void SetMissileSpeed(float _Speed) { m_MissileSpeed = _Speed; }
 
     void Jump();
+    void Shoot(Vec2 _Dir);
     void SetGravityVelocity(Vec2 _Velocity) { m_VelocityByGravity = _Velocity; }
 
     float GetMass() { return m_Mass; }
@@ -71,10 +83,23 @@ public:
         m_GroundInst = _Inst;
         m_GroundDelegate = _MemFunc;
     }
+    
     void SetAirDelegate(CObj* _Inst, DELEGATE _MemFunc)
     {
         m_AirInst = _Inst;
         m_AirDelegate = _MemFunc;
+    }
+
+    void SetWallDelegate(CObj* _Inst, DELEGATE _MemFunc)
+    {
+        m_WallInst = _Inst;
+        m_WallDelegate = _MemFunc;
+    }
+
+    void SetWallOffDelegate(CObj* _Inst, DELEGATE _MemFunc)
+    {
+        m_WallOffInst = _Inst;
+        m_WallOffDelegate = _MemFunc;
     }
 
     void UseGravity(bool _Use) 
@@ -111,7 +136,27 @@ public:
         }
     }
 
+    void SetWall(bool _Wall)
+    {
+        if (m_Wall == _Wall)
+            return;
+
+        m_Wall = _Wall;
+
+        if (m_Wall)
+        {
+            if (m_WallInst && m_WallDelegate)
+                (m_WallInst->*m_WallDelegate)();
+        }
+        else
+        {
+            if (m_WallOffInst && m_WallOffDelegate)
+                (m_WallOffInst->*m_WallOffDelegate)();
+        }
+    }
+
     bool IsGround() { return m_Ground; }
+    bool IsWall() { return m_Wall; }
 
 public:
     virtual void finaltick() override;

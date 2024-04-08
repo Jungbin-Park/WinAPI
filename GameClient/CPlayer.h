@@ -14,28 +14,28 @@ public:
         IDLE,
         MOVE,
         ATTACK,
-        JUMP,
     };
 
-    enum class eDirection
-    {
-        Left,
-        Right,
-    };
+    
 
 private: 
-    float       m_Speed;
-    CTexture*   m_PlayerImg;
+    float           m_Speed;
+    CTexture*       m_PlayerImg;
 
-    int         m_JumpCount;
-    int         m_CurJumpCount;
+    int             m_JumpCount;
+    int             m_CurJumpCount;
     
-    CCollider*  m_BodyCol;
-    CAnimator*  m_Animator;
-    CRigidBody* m_RigidBody;
+    CCollider*      m_BodyCol;
+    CAnimator*      m_Animator;
+    CRigidBody*     m_RigidBody;
 
-    eState      m_State;
-    eDirection  m_Direction;
+    eState          m_State;
+    eDirection      m_Direction;
+
+    bool            m_StopLeft;
+    bool            m_StopRight;
+
+    bool            m_Ground;
 
 public:
     virtual void begin();
@@ -46,17 +46,12 @@ public:
     virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
 
 private:
-    void Idle();
-    void Move();
-    void Attack();
-
-    void Shoot();
     void Jump();
 
-    void RestoreJumpCount()
-    {
-        m_CurJumpCount = 0;
-    }
+    void Ground();
+    void Air();
+    void SetWall();
+    void SetWallOff();
 
 public:
     CLONE(CPlayer);

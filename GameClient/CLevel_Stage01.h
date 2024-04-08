@@ -2,17 +2,21 @@
 #include "CLevel.h"
 
 class CPlatform;
+class CWall;
 
 class CLevel_Stage01 
 	: public CLevel
 {
 private:
-	CPlatform* m_Platform;
+	CPlatform*			m_Platform;
+	CWall*				m_Wall;
 
-	vector<CPlatform*> m_vecEditPlat;
+	vector<CPlatform*>	m_vecEditPlat;
+	vector<CWall*>		m_vecEditWall;
 
 private:
-	void LoadFromFile(const wstring& _RelativePath);
+	void LoadPlat(const wstring& _RelativePath);
+	void LoadWall(const wstring& _RelativePath);
 
 public:
 	virtual void begin() override;

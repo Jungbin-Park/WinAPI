@@ -1,26 +1,38 @@
 #pragma once
 #include "CObj.h"
+
+class CAnimator;
+
+
 class CSnow :
     public CObj
 {
 private:
     float       m_Speed;
-    float       m_Angle;    // ¶óµð¾È
 
-    CCollider* m_Collider;
+    eDirection  m_Direction;
 
-protected:
+    CCollider*  m_Collider;
+    CRigidBody* m_RigidBody;
+
+    CAnimator*  m_Animator;
+
+    bool        m_PlayOnce;
+
+public:
+    void SetDirection(eDirection _Dir) { m_Direction = _Dir; }
     void SetSpeed(float _Speed) { m_Speed = _Speed; }
-    void SetAngle(float _Angle) { m_Angle = _Angle; }
 
     float GetSpeed() { return m_Speed; }
-    float GetAngle() { return m_Angle; }
-
     CCollider* GetCollider() { return m_Collider; }
+    CRigidBody* GetRigidBody() { return m_RigidBody; }
+
+    virtual void BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier) override;
+    virtual void OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
+    virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
 
 protected:
     virtual void tick() override;
-    virtual void render() override;
 
 public:
     CLONE(CSnow);

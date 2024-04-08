@@ -14,6 +14,13 @@ class CAnimator;
 class CRigidBody;
 class CFSM;
 
+enum class eDirection
+{
+    None,
+    Left,
+    Right,
+};
+
 class CObj : public CEntity
 {
 private:

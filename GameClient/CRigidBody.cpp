@@ -12,6 +12,7 @@ CRigidBody::CRigidBody()
 	, m_UseGravity(false)
 	, m_Ground(false)
 	, m_JumpSpeed(300.f)
+	, m_MissileSpeed(500.f)
 	, m_GroundFunc(nullptr)
 	, m_AirFunc(nullptr)
 	, m_GroundInst(nullptr)
@@ -32,6 +33,7 @@ CRigidBody::CRigidBody(const CRigidBody& _Other)
 	, m_UseGravity(_Other.m_UseGravity)
 	, m_Ground(_Other.m_Ground)
 	, m_JumpSpeed(_Other.m_JumpSpeed)
+	, m_MissileSpeed(_Other.m_MissileSpeed)
 	, m_GroundFunc(nullptr)
 	, m_AirFunc(nullptr)
 	, m_GroundInst(nullptr)
@@ -50,6 +52,11 @@ void CRigidBody::Jump()
 {
 	m_VelocityByGravity += Vec2(0.f, -1.f) * m_JumpSpeed;
 	SetGround(false);
+}
+
+void CRigidBody::Shoot(Vec2 _Dir)
+{
+	m_Velocity += _Dir * m_MissileSpeed;
 }
 
 void CRigidBody::finaltick()

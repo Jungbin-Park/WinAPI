@@ -20,7 +20,6 @@
 
 CMonster::CMonster()
 	: m_HP(5)
-	, m_Img(nullptr)
 	, m_DetectRange(200)
 	, m_Speed(100)
 {
@@ -31,8 +30,7 @@ CMonster::CMonster()
 
 	// Collider
 	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
-	m_Collider->SetScale(Vec2(120.f, 120.f));
-	m_Collider->SetActive(true);
+	m_Collider->SetScale(GetScale());
 	
 
 	// RigidBody
@@ -63,6 +61,11 @@ CMonster::CMonster()
 	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\monster\\");
 
+	/*m_Animator->LoadAnimation(L"IDLE_LEFT");
+	m_Animator->LoadAnimation(L"IDLE_RIGHT");
+	m_Animator->LoadAnimation(L"WALK_LEFT");
+	m_Animator->LoadAnimation(L"WALK_RIGHT");*/
+
 	m_Animator->Play(L"IDLE_RIGHT", true);
 
 	// Rigidbody 설정
@@ -76,6 +79,70 @@ CMonster::CMonster()
 	m_RigidBody->SetMaxGravitySpeed(980.f);
 	m_RigidBody->SetJumpSpeed(600.f);
 
+}
+
+CMonster::CMonster(Vec2(_Pos), Vec2(_Scale))
+	: m_HP(5)
+	, m_DetectRange(200)
+	, m_Speed(100)
+{
+	SetPos(_Pos);
+	SetScale(_Scale);
+
+	m_Collider = (CCollider*)AddComponent(new CCollider);
+	m_Animator = (CAnimator*)AddComponent(new CAnimator);
+	m_RigidBody = (CRigidBody*)AddComponent(new CRigidBody);
+	m_FSM = (CFSM*)AddComponent(new CFSM);
+
+	// Collider
+	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
+	m_Collider->SetScale(GetScale());
+
+	// RigidBody
+	m_RigidBody->SetMass(2.f);
+	m_RigidBody->SetInitialWalkSpeed(0.f);
+	m_RigidBody->SetMaxWalkSpeed(400.f);
+	m_RigidBody->SetFriction(2000.f);
+
+
+	// FSM
+	m_FSM->AddState(L"Idle", new CIdleState);
+	m_FSM->AddState(L"Trace", new CTraceState);
+	m_FSM->AddState(L"Attack", new CAttackState);
+	m_FSM->AddState(L"Dead", new CDeadState);
+
+
+	//Animation
+	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"MonsterLeftTex", L"texture\\Monster\\Enemy\\Demonio_Left.png");
+	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"MonsterRightTex", L"texture\\Monster\\Enemy\\Demonio_Right.png");
+
+	/*m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
+	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
+
+	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\monster\\");*/
+
+	m_Animator->LoadAnimation(L"IDLE_LEFT");
+	m_Animator->LoadAnimation(L"IDLE_RIGHT");
+	m_Animator->LoadAnimation(L"WALK_LEFT");
+	m_Animator->LoadAnimation(L"WALK_RIGHT");
+
+	m_Animator->Play(L"IDLE_RIGHT", true);
+
+	// Rigidbody 설정
+	m_RigidBody->SetMass(1.f);
+	m_RigidBody->SetInitialWalkSpeed(0.f);
+	m_RigidBody->SetMaxWalkSpeed(400.f);
+	m_RigidBody->SetFriction(2000.f);
+
+	// 중력 설정
+	m_RigidBody->UseGravity(true);
+	m_RigidBody->SetMaxGravitySpeed(980.f);
+	m_RigidBody->SetJumpSpeed(600.f);
 }
 
 CMonster::~CMonster()
@@ -158,4 +225,12 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 			Destroy();
 		}
 	}
+}
+
+void CMonster::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
+}
+
+void CMonster::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
 }

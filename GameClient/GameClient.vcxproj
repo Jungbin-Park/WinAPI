@@ -148,6 +148,9 @@
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CAttackState.h" />
+    <ClInclude Include="CMonster_Editor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="CStage01.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
@@ -194,6 +197,7 @@
     <ClInclude Include="CTraceState.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIMgr.h" />
+    <ClInclude Include="CWall.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="enum.h" />
     <ClInclude Include="framework.h" />
@@ -211,6 +215,9 @@
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CAttackState.cpp" />
+    <ClCompile Include="CMonster_Editor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="CStage01.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
@@ -257,6 +264,7 @@
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
+    <ClCompile Include="CWall.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
