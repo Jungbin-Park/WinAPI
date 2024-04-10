@@ -5,12 +5,14 @@
 #include "CCollisionMgr.h"
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
+#include "CLevelMgr.h"
 
 #include "CForce.h"
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CPlatform.h"
 #include "CWall.h"
+#include "CSnowObj.h"
 
 #include "CStage01.h"
 #include "CStage02.h"
@@ -65,6 +67,18 @@ void CLevel_Stage01::tick()
 	{
 		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -1494.f));
 	}
+
+	if (KEY_TAP(KEY::N))
+	{
+		if (nullptr == CLevelMgr::GetInst()->GetCurrentLevel()->FindObjectByName(L"Player"))
+		{
+			CObj* pObject = new CPlayer;
+			pObject->SetName(L"Player");
+			pObject->SetPos(200.f, 600.f);
+			pObject->SetScale(100.f, 100.f);
+			AddObject(LAYER_TYPE::PLAYER, pObject);
+		}
+	}
 }
 
 void CLevel_Stage01::Enter()
@@ -103,7 +117,7 @@ void CLevel_Stage01::Enter()
 
 	pObject = new CPlayer;
 	pObject->SetName(L"Player");
-	pObject->SetPos(640.f, 600.f);
+	pObject->SetPos(600.f, 100.f);
 	pObject->SetScale(100.f, 100.f);
 	AddObject(LAYER_TYPE::PLAYER, pObject);
 
@@ -113,13 +127,29 @@ void CLevel_Stage01::Enter()
 
 
 	// ============================
+	//		 테스트용 눈덩이
+	// ============================
+	pObject = new CSnowObj;
+	pObject->SetName(L"SnowObj");
+	pObject->SetPos(700.f, 100.f);
+	pObject->SetScale(100.f, 100.f);
+	AddObject(LAYER_TYPE::SNOW, pObject);
+
+	pObject = new CSnowObj;
+	pObject->SetName(L"SnowObj");
+	pObject->SetPos(700.f, 800.f);
+	pObject->SetScale(100.f, 100.f);
+	AddObject(LAYER_TYPE::SNOW, pObject);
+
+
+	// ============================
 	//			몬스터 추가
 	// ============================
-	pObject = new CMonster;
+	/*pObject = new CMonster;
 	pObject->SetName(L"Monster");
-	pObject->SetPos(800.f, 200.f);
+	pObject->SetPos(800.f, 150.f);
 	pObject->SetScale(100.f, 100.f);
-	AddObject(LAYER_TYPE::MONSTER, pObject);
+	AddObject(LAYER_TYPE::MONSTER, pObject);*/
 
 	pObject = new CMonster;
 	pObject->SetName(L"Monster");
@@ -134,13 +164,21 @@ void CLevel_Stage01::Enter()
 
 	CCollisionMgr::GetInst()->CollisionCheckClear();
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
+
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::PLATFORM);
+
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::WALL);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::WALL);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::WALL);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::WALL);
+
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::PLAYER);
 }
 
 void CLevel_Stage01::Exit()

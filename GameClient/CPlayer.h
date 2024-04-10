@@ -4,6 +4,7 @@
 class CCollider;
 class CAnimator;
 class CRigidBody;
+class CSnowObj;
 
 class CPlayer :
     public CObj
@@ -16,26 +17,29 @@ public:
         ATTACK,
     };
 
-    
-
 private: 
     float           m_Speed;
-    CTexture*       m_PlayerImg;
 
     int             m_JumpCount;
     int             m_CurJumpCount;
+
+    CSnowObj*       m_SnowObj;
     
-    CCollider*      m_BodyCol;
+    CCollider*      m_Collider;
     CAnimator*      m_Animator;
     CRigidBody*     m_RigidBody;
 
     eState          m_State;
     eDirection      m_Direction;
 
+    bool            m_bDead;
+
     bool            m_StopLeft;
     bool            m_StopRight;
 
     bool            m_Ground;
+
+    bool            m_PushSnow;
 
 public:
     virtual void begin();

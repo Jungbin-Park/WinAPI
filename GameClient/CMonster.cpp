@@ -9,19 +9,28 @@
 #include "CAnimation.h"
 #include "CRigidBody.h"
 
-#include "CMissile.h"
+#include "CSnow.h"
+
 #include "CFSM.h"
 #include "CIdleState.h"
 #include "CTraceState.h"
 #include "CAttackState.h"
 #include "CDeadState.h"
+#include "CMoveState.h"
+#include "CSnowState.h"
+#include "CJumpState.h"
 
 
 
 CMonster::CMonster()
 	: m_HP(5)
-	, m_DetectRange(200)
-	, m_Speed(100)
+	, m_DetectRange(300)
+	, m_Speed(300)
+	, m_bDead(false)
+	, m_Ground(false)
+	, m_Direction(eDirection::None)
+	, m_StopLeft(false)
+	, m_StopRight(false)
 {
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Animator = (CAnimator*)AddComponent(new CAnimator);
@@ -30,7 +39,7 @@ CMonster::CMonster()
 
 	// Collider
 	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
-	m_Collider->SetScale(GetScale());
+	m_Collider->SetScale(Vec2(100.f, 120.f));
 	
 
 	// RigidBody
@@ -45,28 +54,51 @@ CMonster::CMonster()
 	m_FSM->AddState(L"Trace", new CTraceState);
 	m_FSM->AddState(L"Attack", new CAttackState);
 	m_FSM->AddState(L"Dead", new CDeadState);
+	m_FSM->AddState(L"Move", new CMoveState);
+	m_FSM->AddState(L"Snow", new CSnowState);
+	m_FSM->AddState(L"Jump", new CJumpState);
 
 
 	//Animation
 	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"MonsterLeftTex", L"texture\\Monster\\Enemy\\Demonio_Left.png");
 	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"MonsterRightTex", L"texture\\Monster\\Enemy\\Demonio_Right.png");
 
-	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	/*m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
 	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
+	m_Animator->CreateAnimation(L"JUMP_LEFT", pAtlasL, Vec2(160.f, 320.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"JUMP_RIGHT", pAtlasR, Vec2(480.f, 320.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"AIR_LEFT", pAtlasL, Vec2(320.f, 320.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"AIR_RIGHT", pAtlasR, Vec2(320.f, 320.f), Vec2(160.f, 160.f), 1, 10);
 
 	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"JUMP_LEFT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"JUMP_RIGHT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"AIR_LEFT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"AIR_RIGHT")->Save(L"animation\\monster\\");
+	*/
+	
+	m_Animator->CreateAnimation(L"JUMPREADY_LEFT", pAtlasL, Vec2(480.f, 320.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"JUMPREADY_RIGHT", pAtlasR, Vec2(160.f, 320.f), Vec2(160.f, 160.f), 1, 10);
 
-	/*m_Animator->LoadAnimation(L"IDLE_LEFT");
-	m_Animator->LoadAnimation(L"IDLE_RIGHT");
-	m_Animator->LoadAnimation(L"WALK_LEFT");
-	m_Animator->LoadAnimation(L"WALK_RIGHT");*/
+	m_Animator->FindAnimation(L"JUMPREADY_LEFT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"JUMPREADY_RIGHT")->Save(L"animation\\monster\\");
 
-	m_Animator->Play(L"IDLE_RIGHT", true);
+	m_Animator->LoadAnimation(L"animation\\monster\\IDLE.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\WALK_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\WALK_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMP_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMP_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\AIR_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\AIR_RIGHT.anim");
+
+	//m_Animator->Play(L"IDLE_RIGHT", true);
 
 	// Rigidbody 설정
 	m_RigidBody->SetMass(1.f);
@@ -110,6 +142,7 @@ CMonster::CMonster(Vec2(_Pos), Vec2(_Scale))
 	m_FSM->AddState(L"Trace", new CTraceState);
 	m_FSM->AddState(L"Attack", new CAttackState);
 	m_FSM->AddState(L"Dead", new CDeadState);
+	
 
 
 	//Animation
@@ -126,12 +159,13 @@ CMonster::CMonster(Vec2(_Pos), Vec2(_Scale))
 	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\monster\\");*/
 
-	m_Animator->LoadAnimation(L"IDLE_LEFT");
+	// Load
+	/*m_Animator->LoadAnimation(L"IDLE_LEFT");
 	m_Animator->LoadAnimation(L"IDLE_RIGHT");
 	m_Animator->LoadAnimation(L"WALK_LEFT");
-	m_Animator->LoadAnimation(L"WALK_RIGHT");
+	m_Animator->LoadAnimation(L"WALK_RIGHT");*/
 
-	m_Animator->Play(L"IDLE_RIGHT", true);
+	//m_Animator->Play(L"IDLE_RIGHT", true);
 
 	// Rigidbody 설정
 	m_RigidBody->SetMass(1.f);
@@ -150,12 +184,15 @@ CMonster::~CMonster()
 
 }
 
+
+
 void CMonster::begin()
 {
 	// 블랙보드 추가는 프레임마다 호출하는 대신 begin() 쪽에다가
 	m_FSM->SetBlackboardData(L"DetectRange", DATA_TYPE::FLOAT, &m_DetectRange);
 	m_FSM->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
 	m_FSM->SetBlackboardData(L"Self", DATA_TYPE::OBJECT, this);
+	m_FSM->SetBlackboardData(L"Animator", DATA_TYPE::ANIMATOR, &m_Animator);
 
 
 	// 플레이어를 타겟으로 설정해서 블랙보드에 추가
@@ -163,10 +200,17 @@ void CMonster::begin()
 	m_FSM->SetBlackboardData(L"Target", DATA_TYPE::OBJECT, pPlayer);
 
 	m_FSM->ChangeState(L"Idle");
+
+	// Delegate
+	m_RigidBody->SetGroundDelegate(this, (DELEGATE)&CMonster::Ground);
+	m_RigidBody->SetAirDelegate(this, (DELEGATE)&CMonster::Air);
+	m_RigidBody->SetWallDelegate(this, (DELEGATE)&CMonster::SetWall);
+	m_RigidBody->SetWallOffDelegate(this, (DELEGATE)&CMonster::SetWallOff);
 }
 
 void CMonster::tick()
 {
+	CObj::tick();
 }
 
 //void CMonster::render()
@@ -214,7 +258,7 @@ void CMonster::tick()
 
 void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier)
 {
-	CMissile* pMissile = dynamic_cast<CMissile*>(_OtherObj);
+	CSnow* pSnow = dynamic_cast<CSnow*>(_OtherObj);
 
 	if (_OtherObj->GetName() == L"Snow")
 	{
@@ -233,4 +277,47 @@ void CMonster::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _O
 
 void CMonster::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
+}
+
+void CMonster::Jump()
+{
+	if (m_Direction == eDirection::Left)
+		m_Animator->Play(L"JUMP_LEFT", false);
+	else if (m_Direction == eDirection::Right)
+		m_Animator->Play(L"JUMP_RIGHT", false);
+
+	Vec2 vGV = m_RigidBody->GetGravityVelocity();
+
+	if (0.f < vGV.y)
+		m_RigidBody->SetGravityVelocity(Vec2(0.f, 0.f));
+
+	m_RigidBody->Jump();
+}
+
+void CMonster::Ground()
+{
+	m_Ground = true;
+}
+
+void CMonster::Air()
+{
+	m_Ground = false;
+}
+
+void CMonster::SetWall()
+{
+	if (m_Direction == eDirection::Left)
+	{
+		m_StopLeft = true;
+	}
+	else if (m_Direction == eDirection::Right)
+	{
+		m_StopRight = true;
+	}
+}
+
+void CMonster::SetWallOff()
+{
+	m_StopLeft = false;
+	m_StopRight = false;
 }

@@ -7,6 +7,7 @@ enum class DATA_TYPE
     FLOAT,
     VEC2,
     OBJECT,
+    ANIMATOR,
 };
 
 struct tBlackboardData
@@ -75,6 +76,12 @@ inline T CFSM::GetBlackboardData(const wstring& _DataKey)
     if constexpr (std::is_same_v<CObj*, T>)
     {
         assert(DATA_TYPE::OBJECT == iter->second.Type);
+        return (T)iter->second.pData;
+    }
+
+    if constexpr (std::is_same_v<CAnimator*, T>)
+    {
+        assert(DATA_TYPE::ANIMATOR == iter->second.Type);
         return (T)iter->second.pData;
     }
 }

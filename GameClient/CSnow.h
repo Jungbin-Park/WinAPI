@@ -27,6 +27,9 @@ public:
     CCollider* GetCollider() { return m_Collider; }
     CRigidBody* GetRigidBody() { return m_RigidBody; }
 
+public:
+    void shoot();
+
     virtual void BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier) override;
     virtual void OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
     virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;

@@ -39,9 +39,19 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 			CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 			pRB->SetGround(true);
 		}
-		
 	}
 	else if (_OtherObj->GetName() == L"Monster")
+	{
+		float pPrevYPos = _OtherObj->GetPrevPos().y + _OtherObj->GetScale().y / 2;
+		float yPos = GetPos().y - GetScale().y / 2;
+
+		if (pPrevYPos < yPos)
+		{
+			CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+			pRB->SetGround(true);
+		}
+	}
+	else if (_OtherObj->GetName() == L"SnowObj")
 	{
 		float pPrevYPos = _OtherObj->GetPrevPos().y + _OtherObj->GetScale().y / 2;
 		float yPos = GetPos().y - GetScale().y / 2;
@@ -69,6 +79,12 @@ void CPlatform::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 	}
 
 	if (_OtherObj->GetName() == L"Monster")
+	{
+		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+		pRB->SetGround(false);
+	}
+
+	if (_OtherObj->GetName() == L"SnowObj")
 	{
 		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 		pRB->SetGround(false);

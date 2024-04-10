@@ -143,6 +143,12 @@
     <Filter Include="03. Game\05. Object\Wall">
       <UniqueIdentifier>{55585f39-f805-4c80-a38e-2655b8252aa6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\08. Module\State\PlayerState">
+      <UniqueIdentifier>{a54cc173-a68c-41de-bcc8-5392998a5a6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\05. Object\SnowObj">
+      <UniqueIdentifier>{e12be6c7-a185-4da4-bee1-c36690bdf2bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -307,7 +313,6 @@
     <ClInclude Include="CSnow.h">
       <Filter>03. Game\05. Object\Snow</Filter>
     </ClInclude>
-    <ClInclude Include="PIdleState.h" />
     <ClInclude Include="CStage03.h">
       <Filter>03. Game\05. Object\Background</Filter>
     </ClInclude>
@@ -322,6 +327,21 @@
     </ClInclude>
     <ClInclude Include="CWall.h">
       <Filter>03. Game\05. Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="PIdleState.h">
+      <Filter>03. Game\08. Module\State\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="CMoveState.h">
+      <Filter>03. Game\08. Module\State\MonsterState</Filter>
+    </ClInclude>
+    <ClInclude Include="CSnowState.h">
+      <Filter>03. Game\08. Module\State\MonsterState</Filter>
+    </ClInclude>
+    <ClInclude Include="CSnowObj.h">
+      <Filter>03. Game\05. Object\SnowObj</Filter>
+    </ClInclude>
+    <ClInclude Include="CJumpState.h">
+      <Filter>03. Game\08. Module\State\MonsterState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -480,7 +500,6 @@
     <ClCompile Include="CSnow.cpp">
       <Filter>03. Game\05. Object\Snow</Filter>
     </ClCompile>
-    <ClCompile Include="PIdleState.cpp" />
     <ClCompile Include="CStage01.cpp">
       <Filter>03. Game\05. Object\Background</Filter>
     </ClCompile>
@@ -495,6 +514,21 @@
     </ClCompile>
     <ClCompile Include="CWall.cpp">
       <Filter>03. Game\05. Object\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="PIdleState.cpp">
+      <Filter>03. Game\08. Module\State\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="CMoveState.cpp">
+      <Filter>03. Game\08. Module\State\MonsterState</Filter>
+    </ClCompile>
+    <ClCompile Include="CSnowState.cpp">
+      <Filter>03. Game\08. Module\State\MonsterState</Filter>
+    </ClCompile>
+    <ClCompile Include="CSnowObj.cpp">
+      <Filter>03. Game\05. Object\SnowObj</Filter>
+    </ClCompile>
+    <ClCompile Include="CJumpState.cpp">
+      <Filter>03. Game\08. Module\State\MonsterState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

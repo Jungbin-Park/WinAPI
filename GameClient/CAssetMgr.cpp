@@ -7,13 +7,13 @@
 
 CAssetMgr::CAssetMgr()
 {
-    Safe_Del_Map(m_mapTex);
-    Safe_Del_Map(m_mapSound);
+    
 }
 
 CAssetMgr::~CAssetMgr()
 {
-
+    Safe_Del_Map(m_mapTex);
+    Safe_Del_Map(m_mapSound);
 }
 
 void CAssetMgr::init()

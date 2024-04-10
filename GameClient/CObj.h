@@ -34,6 +34,7 @@ private:
     LAYER_TYPE              m_Type;     // 소속 레이어
     bool                    m_bDead;    // 삭제 예정상태
 
+    
 public:
     void SetPos(Vec2 _Pos) { m_Pos = _Pos; }
     void SetScale(Vec2 _Scale) { m_Scale = _Scale; }

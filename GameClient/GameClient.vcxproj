@@ -148,9 +148,13 @@
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CAttackState.h" />
+    <ClInclude Include="CJumpState.h" />
     <ClInclude Include="CMonster_Editor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="CMoveState.h" />
+    <ClInclude Include="CSnowObj.h" />
+    <ClInclude Include="CSnowState.h" />
     <ClInclude Include="CStage01.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
@@ -215,9 +219,13 @@
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CAttackState.cpp" />
+    <ClCompile Include="CJumpState.cpp" />
     <ClCompile Include="CMonster_Editor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="CMoveState.cpp" />
+    <ClCompile Include="CSnowObj.cpp" />
+    <ClCompile Include="CSnowState.cpp" />
     <ClCompile Include="CStage01.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />

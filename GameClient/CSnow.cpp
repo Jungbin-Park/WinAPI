@@ -47,7 +47,6 @@ CSnow::CSnow()
 	m_RigidBody->UseGravity(true);
 	m_RigidBody->SetMaxGravitySpeed(400.f);
 
-
 	// Sound
 
 }
@@ -89,6 +88,11 @@ void CSnow::tick()
 
 	SetPos(vPos);
 	
+}
+
+void CSnow::shoot()
+{
+
 }
 
 void CSnow::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier)
