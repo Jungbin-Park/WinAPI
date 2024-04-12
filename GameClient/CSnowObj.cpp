@@ -12,6 +12,8 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 
+#include "CFSM.h"
+
 CSnowObj::CSnowObj()
 	: m_Owner(nullptr)
 	, m_Speed(1000.f)
@@ -176,7 +178,8 @@ void CSnowObj::Shoot(Vec2 _Dir)
 void CSnowObj::Boom()
 {
 	m_Animator->Play(L"BOOM", false);
-	m_Owner->Destroy();
+	//m_Owner->Destroy();
+	m_Owner->GetFSM()->ChangeState(L"Dead");
 	m_bBoom = true;
 }
 

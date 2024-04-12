@@ -35,42 +35,28 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
 		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
 		Vec2 platPos = GetPos();
-		float pPlatPos = GetPos().y;
+		float pPlatPos = GetPos().y + GetScale().y;
 
 		if (pPrevFootPos < pNowFootPos && pNowFootPos < pPlatPos)
 		{
 			pRB->SetGround(true);
 		}
 	}
-	else if (_OtherObj->GetName() == L"Monster")
+	else if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER)
 	{
 		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
-		Vec2 pPrevYPos = _OtherObj->GetPrevPos();
-		Vec2 pNowYPos = _OtherObj->GetPos();
-		Vec2 pFootPos = _OtherObj->GetPos() + _OtherObj->GetScale().y / 2;
-		Vec2 pPlatPos = GetPos();
+		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
+		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
+		Vec2 platPos = GetPos();
+		float pPlatPos = GetPos().y + GetScale().y;
 
-		if (pPrevYPos.y < pNowYPos.y && pFootPos.y < pPlatPos.y)
+		if (pPrevFootPos < pNowFootPos && pNowFootPos < pPlatPos)
 		{
 			pRB->SetGround(true);
 		}
 	}
 	else if (_OtherObj->GetName() == L"SnowObj")
 	{
-		/*CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
-		Vec2 pPrevPos = _OtherObj->GetPrevPos();
-		Vec2 pNowPos = _OtherObj->GetPos();
-		Vec2 pPlatPos = GetPos();
-
-		if (pPrevPos.y < pNowPos.y && pNowPos.y < pPlatPos.y)
-		{
-			pRB->SetGround(true);
-		}
-		else if (pNowPos.y > pPlatPos.y)
-		{
-			_OtherObj->SetPos(Vec2(pNowPos.x, pPlatPos.y - GetScale().y * 0.5f - _OtherObj->GetScale().y * 0.5f));
-			pRB->SetGround(true);
-		}*/
 		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
 		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
@@ -98,21 +84,23 @@ void CPlatform::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
 		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
 		Vec2 platPos = GetPos();
-		float pPlatPos = GetPos().y;
+		float pPlatPos = GetPos().y + GetScale().y;
 
 		if (pNowFootPos < pPlatPos)
 		{
 			pRB->SetGround(false);
 		}
 	}
-	else if (_OtherObj->GetName() == L"Monster")
+	else if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER)
 	{
-		Vec2 pPrevYPos = _OtherObj->GetPrevPos();
-		Vec2 pNowYPos = _OtherObj->GetPos();
+		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
+		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
+		Vec2 platPos = GetPos();
+		float pPlatPos = GetPos().y + GetScale().y;
 
-		if (pPrevYPos.y >= pNowYPos.y)
+		if (pNowFootPos < pPlatPos)
 		{
-			CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 			pRB->SetGround(false);
 		}
 	}

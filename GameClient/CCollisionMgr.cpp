@@ -78,6 +78,7 @@ void CCollisionMgr::tick()
 							// 두 충돌체 중 하나라도 Dead 상태거나 비활성화 상태라면 추가로 충돌 해제
 							if (bDead || bDeactive)
 							{
+								
 								vecLeft[i]->EndOverlap(vecRight[j]);
 								vecRight[j]->EndOverlap(vecLeft[i]);
 								iter->second = false;

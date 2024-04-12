@@ -41,12 +41,9 @@ void CLevel_Stage01::tick()
 {
 	CLevel::tick();
 
-
-	/*if (KEY_TAP(KEY::P))
-	{
-		m_vecEditPlat.clear();
-		LoadFromFile(L"platform\\platform.plat");
-	}*/
+	// 몬스터 전체 목록을 받아옴
+	/*CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	const vector<CObj*>& vecMonster = pCurLevel->GetObjects(LAYER_TYPE::MONSTER);*/
 
 	if (KEY_TAP(KEY::ENTER))
 	{
@@ -67,6 +64,7 @@ void CLevel_Stage01::tick()
 	{
 		Clear(3);
 	}
+
 }
 
 void CLevel_Stage01::Enter()
@@ -153,7 +151,8 @@ void CLevel_Stage01::Start(int _Level)
 		pObject->SetPos(200.f, 860.f);
 		pObject->SetScale(80.f, 128.f);
 		AddObject(LAYER_TYPE::PLAYER, pObject);
-		
+		//SpawnObject(this, LAYER_TYPE::PLAYER, pObject);
+
 		// 클론 생성
 		for (size_t i = 0; i < 4; i++)
 		{
@@ -171,6 +170,12 @@ void CLevel_Stage01::Start(int _Level)
 		pObject->SetScale(100.f, 100.f);
 		AddObject(LAYER_TYPE::MONSTER, pObject);
 
+		pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(700.f, 800.f);
+		pObject->SetScale(100.f, 100.f);
+		AddObject(LAYER_TYPE::MONSTER, pObject);
+
 		break;
 	}
 	case 2:
@@ -182,8 +187,8 @@ void CLevel_Stage01::Start(int _Level)
 		m_vecClone.pop_back();
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -136.f);
-		AddObject(LAYER_TYPE::PLAYER, pClone);
-
+		//AddObject(LAYER_TYPE::PLAYER, pClone);
+		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
 
 		// ============================
 		//			몬스터 추가
@@ -200,8 +205,8 @@ void CLevel_Stage01::Start(int _Level)
 		m_vecClone.pop_back();
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -1132.f);
-		AddObject(LAYER_TYPE::PLAYER, pClone);
-
+		//AddObject(LAYER_TYPE::PLAYER, pClone);
+		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
 
 		// ============================
 		//			몬스터 추가
@@ -218,7 +223,8 @@ void CLevel_Stage01::Start(int _Level)
 		m_vecClone.pop_back();
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -2128.f);
-		AddObject(LAYER_TYPE::PLAYER, pClone);
+		//AddObject(LAYER_TYPE::PLAYER, pClone);
+		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
 
 
 		// ============================

@@ -64,7 +64,7 @@ void CLevel::render()
 
 		for (; iter < m_arrObj[i].end();)
 		{
-			if ((*iter)->IsDead())
+			if ((*iter)->IsDead() && (*iter)->GetName() != L"Player")
 			{
 				iter = m_arrObj[i].erase(iter);
 			}

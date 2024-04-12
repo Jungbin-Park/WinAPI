@@ -24,8 +24,7 @@
 
 
 CMonster::CMonster()
-	: m_HP(5)
-	, m_DetectRange(300)
+	: m_DetectRange(300)
 	, m_Speed(300)
 	, m_bDead(false)
 	, m_bSnow(false)
@@ -66,6 +65,7 @@ CMonster::CMonster()
 	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"MonsterLeftTex", L"texture\\Monster\\Enemy\\Demonio_Left.png");
 	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"MonsterRightTex", L"texture\\Monster\\Enemy\\Demonio_Right.png");
 
+	// Create & Save
 	/*m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
@@ -93,9 +93,7 @@ CMonster::CMonster()
 	m_Animator->FindAnimation(L"SHAKE")->Save(L"animation\\monster\\");
 	*/
 	
-	
-	
-
+	// Load
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_RIGHT.anim");
@@ -126,9 +124,15 @@ CMonster::CMonster()
 }
 
 CMonster::CMonster(Vec2(_Pos), Vec2(_Scale))
-	: m_HP(5)
-	, m_DetectRange(200)
+	: m_DetectRange(200)
 	, m_Speed(100)
+	, m_bDead(false)
+	, m_bSnow(false)
+	, m_Ground(false)
+	, m_Direction(eDirection::None)
+	, m_StopLeft(false)
+	, m_StopRight(false)
+	, m_Wall(false)
 {
 	SetPos(_Pos);
 	SetScale(_Scale);
@@ -154,29 +158,26 @@ CMonster::CMonster(Vec2(_Pos), Vec2(_Scale))
 	m_FSM->AddState(L"Trace", new CTraceState);
 	m_FSM->AddState(L"Attack", new CAttackState);
 	m_FSM->AddState(L"Dead", new CDeadState);
+	m_FSM->AddState(L"Move", new CMoveState);
+	m_FSM->AddState(L"Snow", new CSnowState);
+	m_FSM->AddState(L"Jump", new CJumpState);
+
+
+	// Animation
+	m_Animator->LoadAnimation(L"animation\\monster\\IDLE.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\WALK_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\WALK_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMP_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMP_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\AIR_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\AIR_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMPREADY_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMPREADY_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\STRUGGLE.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\SHAKE.anim");
 	
-
-
-	//Animation
-	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"MonsterLeftTex", L"texture\\Monster\\Enemy\\Demonio_Left.png");
-	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"MonsterRightTex", L"texture\\Monster\\Enemy\\Demonio_Right.png");
-
-	/*m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
-	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
-	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
-	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
-
-	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\monster\\");
-	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\monster\\");
-	m_Animator->FindAnimation(L"WALK_LEFT")->Save(L"animation\\monster\\");
-	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\monster\\");*/
-
-	// Load
-	/*m_Animator->LoadAnimation(L"IDLE_LEFT");
-	m_Animator->LoadAnimation(L"IDLE_RIGHT");
-	m_Animator->LoadAnimation(L"WALK_LEFT");
-	m_Animator->LoadAnimation(L"WALK_RIGHT");*/
-
 	//m_Animator->Play(L"IDLE_RIGHT", true);
 
 	// Rigidbody 설정
@@ -195,7 +196,6 @@ CMonster::~CMonster()
 {
 
 }
-
 
 void CMonster::begin()
 {
@@ -225,87 +225,6 @@ void CMonster::tick()
 	CObj::tick();
 }
 
-//void CMonster::render()
-//{
-//	Vec2 vPos = GetRenderPos();
-//	Vec2 vScale = GetScale();
-//
-//	/*TransparentBlt(DC, (int)(vPos.x - m_Img->GetWidth() / 2.f)
-//					   , (int)(vPos.y - m_Img->GetHeight() / 2.f)
-//					   , m_Img->GetWidth(), m_Img->GetHeight()
-//					   , m_Img->GetDC(), 0, 0
-//					   , m_Img->GetWidth(), m_Img->GetHeight(), RGB(255, 0, 255));*/
-//
-//
-//	static float alpha = 0;
-//	static float dir = 1;
-//
-//	alpha += DT * 400.f * dir;
-//
-//	if (255.f <= alpha)
-//	{
-//		dir *= -1.f;
-//	}
-//	else if (alpha <= 0.f)
-//	{
-//		dir *= -1.f;
-//	}
-//
-//	// AlphaBlending  
-//	// 지정한 색을 출력을 아예 안하는 Transparent와는 다르게 
-//	// AlphaBlend는 (본인의 RGB x Alpha) + (목적지 색상 x (1-Alpha)) 값을 출력해준다.
-//	BLENDFUNCTION bf = {};
-//
-//	bf.BlendOp = AC_SRC_OVER;
-//	bf.BlendFlags = 0;
-//	bf.SourceConstantAlpha = 255;	// 투명도(0~255)
-//	bf.AlphaFormat = AC_SRC_ALPHA;	// 소스의 알팍값을 이용하겠다.
-//	
-//
-//	AlphaBlend(DC, (int)(vPos.x - m_Img->GetWidth() / 2.f)
-//				 , (int)(vPos.y - m_Img->GetHeight() / 2.f)
-//				 , m_Img->GetWidth(), m_Img->GetHeight()
-//				 , m_Img->GetDC(), 0, 0, m_Img->GetWidth(), m_Img->GetHeight(), bf);
-//}
-
-void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier)
-{
-	CSnow* pSnow = dynamic_cast<CSnow*>(_OtherObj);
-
-	if (_OtherObj->GetName() == L"Snow")
-	{
-		if (!m_bSnow)
-		{
-			CSnowObj* pObject = new CSnowObj;
-			pObject->SetName(L"SnowObj");
-			pObject->SetPos(GetPos() + Vec2(0.f, -20.f));
-			pObject->SetScale(120.f, 120.f);
-			pObject->SetOwner(this);
-			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(LAYER_TYPE::SNOW, pObject);
-		}
-		m_bSnow = true;
-		m_FSM->ChangeState(L"Snow");
-	}
-
-	if (_OtherObj->GetName() == L"Wall")
-	{
-		m_Wall = true;
-		m_FSM->ChangeState(L"Idle");
-	}
-}
-
-void CMonster::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
-{
-	
-}
-
-void CMonster::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
-{
-	if (_OtherObj->GetName() == L"Wall")
-	{
-		m_Wall = false;
-	}
-}
 
 void CMonster::Jump()
 {
@@ -349,3 +268,58 @@ void CMonster::SetWallOff()
 	m_StopLeft = false;
 	m_StopRight = false;
 }
+
+void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier)
+{
+	
+
+	if (_OtherObj->GetName() == L"Snow")
+	{
+		CSnow* pSnow = dynamic_cast<CSnow*>(_OtherObj);
+		if (!m_bSnow)
+		{
+			CSnowObj* pObject = new CSnowObj;
+			pObject->SetName(L"SnowObj");
+			pObject->SetPos(GetPos() + Vec2(0.f, -20.f));
+			pObject->SetScale(120.f, 120.f);
+			pObject->SetOwner(this);
+			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(LAYER_TYPE::SNOW, pObject);
+		}
+		m_bSnow = true;
+		m_FSM->ChangeState(L"Snow");
+	}
+
+	if (_OtherObj->GetName() == L"Wall")
+	{
+		m_Wall = true;
+		m_FSM->ChangeState(L"Idle");
+	}
+
+	if (_OtherObj->GetName() == L"SnowObj")
+	{
+		CSnowObj* pSnowObj = dynamic_cast<CSnowObj*>(_OtherObj);
+		if (pSnowObj->GetOwner() != this && pSnowObj->IsRoll())
+		{
+			// 날아감
+
+			// 날아가는 애니메이션
+
+			// 죽음
+		}
+	}
+}
+
+void CMonster::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
+	
+}
+
+void CMonster::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+{
+	if (_OtherObj->GetName() == L"Wall")
+	{
+		m_Wall = false;
+	}
+}
+
+

@@ -32,7 +32,7 @@ private:
     eState          m_State;
     eDirection      m_Direction;
 
-    bool            m_bDead;
+    //bool            m_bDead;
     bool            m_bClear;
 
     bool            m_StopLeft;

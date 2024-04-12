@@ -36,6 +36,7 @@ private:
 public:
     CRigidBody* GetRigidBody() { return m_RigidBody; }
     CAnimator* GetAnimator() { return m_Animator; }
+    CMonster* GetOwner() { return m_Owner; }
 
     bool IsActive() { return m_Active; }
     bool IsRoll() { return m_bRoll; }

@@ -12,6 +12,7 @@ class CLevel_Stage01
 private:
 	CPlatform*			m_Platform;
 	CWall*				m_Wall;
+
 	vector<CObj*>		m_vecClone;
 
 	vector<CPlatform*>	m_vecEditPlat;

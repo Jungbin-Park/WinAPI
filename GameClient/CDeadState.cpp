@@ -13,6 +13,7 @@ CDeadState::~CDeadState()
 
 void CDeadState::Enter()
 {
+	GetFSM()->GetOwner()->Dead(true);
 }
 
 void CDeadState::FinalTick()

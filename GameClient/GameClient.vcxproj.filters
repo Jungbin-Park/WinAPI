@@ -346,6 +346,12 @@
     <ClInclude Include="CStageBoss.h">
       <Filter>03. Game\05. Object\Background</Filter>
     </ClInclude>
+    <ClInclude Include="MRana.h">
+      <Filter>03. Game\05. Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="MDemonio.h">
+      <Filter>03. Game\05. Object\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -535,6 +541,12 @@
     </ClCompile>
     <ClCompile Include="CStageBoss.cpp">
       <Filter>03. Game\05. Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="MRana.cpp">
+      <Filter>03. Game\05. Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="MDemonio.cpp">
+      <Filter>03. Game\05. Object\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

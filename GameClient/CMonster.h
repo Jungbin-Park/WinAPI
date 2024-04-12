@@ -7,7 +7,6 @@ class CMonster :
     public CObj
 {
 private:
-    int             m_HP;
     float           m_DetectRange;  // Å½Áö ¹üÀ§
     float           m_Speed;
     bool            m_bDead;
@@ -35,6 +34,8 @@ public:
     CCollider* GetCollider() { return m_Collider; }
     CAnimator* GetAnimator() { return m_Animator; }
     eDirection GetDirection() { return m_Direction; }
+    CFSM* GetFSM() { return m_FSM; }
+
     bool IsGround() { return m_Ground; }
     bool IsStopLeft() { return m_StopLeft; }
     bool IsStopRight() { return m_StopRight; }
@@ -47,19 +48,17 @@ public:
 
     virtual void begin() override;
     virtual void tick() override;
-    //virtual void render() override;
     virtual void BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherClldier) override;
     virtual void OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
     virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
 
     CLONE(CMonster)
 
-private:
+protected:
     void Ground();
     void Air();
     void SetWall();
     void SetWallOff();
-
 
 public:
     CMonster();
