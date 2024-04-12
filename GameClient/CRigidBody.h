@@ -88,19 +88,16 @@ public:
         m_GroundInst = _Inst;
         m_GroundDelegate = _MemFunc;
     }
-    
     void SetAirDelegate(CObj* _Inst, DELEGATE _MemFunc)
     {
         m_AirInst = _Inst;
         m_AirDelegate = _MemFunc;
     }
-
     void SetWallDelegate(CObj* _Inst, DELEGATE _MemFunc)
     {
         m_WallInst = _Inst;
         m_WallDelegate = _MemFunc;
     }
-
     void SetWallOffDelegate(CObj* _Inst, DELEGATE _MemFunc)
     {
         m_WallOffInst = _Inst;

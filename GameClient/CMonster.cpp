@@ -10,6 +10,7 @@
 #include "CRigidBody.h"
 
 #include "CSnow.h"
+#include "CSnowObj.h"
 
 #include "CFSM.h"
 #include "CIdleState.h"
@@ -27,10 +28,12 @@ CMonster::CMonster()
 	, m_DetectRange(300)
 	, m_Speed(300)
 	, m_bDead(false)
+	, m_bSnow(false)
 	, m_Ground(false)
 	, m_Direction(eDirection::None)
 	, m_StopLeft(false)
 	, m_StopRight(false)
+	, m_Wall(false)
 {
 	m_Collider = (CCollider*)AddComponent(new CCollider);
 	m_Animator = (CAnimator*)AddComponent(new CAnimator);
@@ -71,6 +74,10 @@ CMonster::CMonster()
 	m_Animator->CreateAnimation(L"JUMP_RIGHT", pAtlasR, Vec2(480.f, 320.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"AIR_LEFT", pAtlasL, Vec2(320.f, 320.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"AIR_RIGHT", pAtlasR, Vec2(320.f, 320.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"JUMPREADY_LEFT", pAtlasL, Vec2(480.f, 320.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"JUMPREADY_RIGHT", pAtlasR, Vec2(160.f, 320.f), Vec2(160.f, 160.f), 1, 10);
+	m_Animator->CreateAnimation(L"STRUGGLE", pAtlasR, Vec2(480.f, 160.f), Vec2(160.f, 160.f), 2, 10);
+	m_Animator->CreateAnimation(L"SHAKE", pAtlasR, Vec2(160.f, 640.f), Vec2(160.f, 160.f), 2, 10);
 
 	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\monster\\");
@@ -80,13 +87,14 @@ CMonster::CMonster()
 	m_Animator->FindAnimation(L"JUMP_RIGHT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"AIR_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"AIR_RIGHT")->Save(L"animation\\monster\\");
-	*/
-	
-	m_Animator->CreateAnimation(L"JUMPREADY_LEFT", pAtlasL, Vec2(480.f, 320.f), Vec2(160.f, 160.f), 1, 10);
-	m_Animator->CreateAnimation(L"JUMPREADY_RIGHT", pAtlasR, Vec2(160.f, 320.f), Vec2(160.f, 160.f), 1, 10);
-
 	m_Animator->FindAnimation(L"JUMPREADY_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"JUMPREADY_RIGHT")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"STRUGGLE")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"SHAKE")->Save(L"animation\\monster\\");
+	*/
+	
+	
+	
 
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_LEFT.anim");
@@ -97,6 +105,10 @@ CMonster::CMonster()
 	m_Animator->LoadAnimation(L"animation\\monster\\JUMP_RIGHT.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\AIR_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\AIR_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMPREADY_LEFT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\JUMPREADY_RIGHT.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\STRUGGLE.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\SHAKE.anim");
 
 	//m_Animator->Play(L"IDLE_RIGHT", true);
 
@@ -185,7 +197,6 @@ CMonster::~CMonster()
 }
 
 
-
 void CMonster::begin()
 {
 	// 블랙보드 추가는 프레임마다 호출하는 대신 begin() 쪽에다가
@@ -193,6 +204,7 @@ void CMonster::begin()
 	m_FSM->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
 	m_FSM->SetBlackboardData(L"Self", DATA_TYPE::OBJECT, this);
 	m_FSM->SetBlackboardData(L"Animator", DATA_TYPE::ANIMATOR, &m_Animator);
+	m_FSM->SetBlackboardData(L"IsSnow", DATA_TYPE::BOOL, &m_bSnow);
 
 
 	// 플레이어를 타겟으로 설정해서 블랙보드에 추가
@@ -262,21 +274,37 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 
 	if (_OtherObj->GetName() == L"Snow")
 	{
-		--m_HP;
-
-		if (0 >= m_HP)
+		if (!m_bSnow)
 		{
-			Destroy();
+			CSnowObj* pObject = new CSnowObj;
+			pObject->SetName(L"SnowObj");
+			pObject->SetPos(GetPos() + Vec2(0.f, -20.f));
+			pObject->SetScale(120.f, 120.f);
+			pObject->SetOwner(this);
+			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(LAYER_TYPE::SNOW, pObject);
 		}
+		m_bSnow = true;
+		m_FSM->ChangeState(L"Snow");
+	}
+
+	if (_OtherObj->GetName() == L"Wall")
+	{
+		m_Wall = true;
+		m_FSM->ChangeState(L"Idle");
 	}
 }
 
 void CMonster::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
+	
 }
 
 void CMonster::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
+	if (_OtherObj->GetName() == L"Wall")
+	{
+		m_Wall = false;
+	}
 }
 
 void CMonster::Jump()

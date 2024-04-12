@@ -1,6 +1,8 @@
 #pragma once
 #include "CObj.h"
 
+class CMonster;
+
 class CSnowObj :
     public CObj
 {
@@ -9,8 +11,12 @@ public:
     ~CSnowObj();
 
 private:
+    CMonster*       m_Owner;
+
+    bool            m_Active;
     float           m_Speed;
-    int             m_HitCount;
+    int             m_WallHitCount;
+    int             m_SnowHitCount;
 
     CCollider*      m_Collider;
     CAnimator*      m_Animator;
@@ -25,14 +31,24 @@ private:
     bool            m_StopRight;
 
     bool            m_bRoll;
+    bool            m_bBoom;
 
 public:
     CRigidBody* GetRigidBody() { return m_RigidBody; }
+    CAnimator* GetAnimator() { return m_Animator; }
+
+    bool IsActive() { return m_Active; }
+    bool IsRoll() { return m_bRoll; }
+
+    void SetOwner(CMonster* _Owner) { m_Owner = _Owner; }
 
     CLONE(CSnowObj)
 
 public:
     void Shoot(Vec2 _Dir);
+
+private:
+    void Boom();
 
 public:
     virtual void begin() override;

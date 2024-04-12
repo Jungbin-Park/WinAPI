@@ -51,7 +51,7 @@ CRigidBody::CRigidBody(const CRigidBody& _Other)
 	, m_WallOffDelegate(nullptr)
 	, m_AirInst(nullptr)
 	, m_AirDelegate(nullptr)
-	, m_Active(_Other.m_Active)
+	, m_Active(true)
 {
 
 }

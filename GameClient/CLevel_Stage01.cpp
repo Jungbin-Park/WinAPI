@@ -17,6 +17,7 @@
 #include "CStage01.h"
 #include "CStage02.h"
 #include "CStage03.h"
+#include "CStageBoss.h"
 
 CLevel_Stage01::CLevel_Stage01()
 	: m_Platform(nullptr)
@@ -25,9 +26,8 @@ CLevel_Stage01::CLevel_Stage01()
 
 CLevel_Stage01::~CLevel_Stage01()
 {
-	
+	Safe_Del_Vec(m_vecClone);
 }
-
 
 
 void CLevel_Stage01::begin()
@@ -55,29 +55,17 @@ void CLevel_Stage01::tick()
 
 	if (KEY_TAP(KEY::_1))
 	{
-		CCamera::GetInst()->SetCameraDes(Vec2(720.f, 498.f));
+		Clear(1);
 	}
 
 	if (KEY_TAP(KEY::_2))
 	{
-		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -498.f));
+		Clear(2);
 	}
 
 	if (KEY_TAP(KEY::_3))
 	{
-		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -1494.f));
-	}
-
-	if (KEY_TAP(KEY::N))
-	{
-		if (nullptr == CLevelMgr::GetInst()->GetCurrentLevel()->FindObjectByName(L"Player"))
-		{
-			CObj* pObject = new CPlayer;
-			pObject->SetName(L"Player");
-			pObject->SetPos(200.f, 600.f);
-			pObject->SetScale(100.f, 100.f);
-			AddObject(LAYER_TYPE::PLAYER, pObject);
-		}
+		Clear(3);
 	}
 }
 
@@ -110,53 +98,10 @@ void CLevel_Stage01::Enter()
 	pObject->SetPos(720.f, -1494.f);
 	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
-
-	// ============================
-	//		  플레이어 추가
-	// ============================
-
-	pObject = new CPlayer;
-	pObject->SetName(L"Player");
-	pObject->SetPos(600.f, 100.f);
-	pObject->SetScale(100.f, 100.f);
-	AddObject(LAYER_TYPE::PLAYER, pObject);
-
-	/*CObj* pPlayerClone = pObject->Clone();
-	pPlayerClone->SetPos(800.f, 400.f);
-	m_pCurrentLevel->AddObject(LAYER_TYPE::PLAYER, pPlayerClone);*/
-
-
-	// ============================
-	//		 테스트용 눈덩이
-	// ============================
-	pObject = new CSnowObj;
-	pObject->SetName(L"SnowObj");
-	pObject->SetPos(700.f, 100.f);
-	pObject->SetScale(100.f, 100.f);
-	AddObject(LAYER_TYPE::SNOW, pObject);
-
-	pObject = new CSnowObj;
-	pObject->SetName(L"SnowObj");
-	pObject->SetPos(700.f, 800.f);
-	pObject->SetScale(100.f, 100.f);
-	AddObject(LAYER_TYPE::SNOW, pObject);
-
-
-	// ============================
-	//			몬스터 추가
-	// ============================
-	/*pObject = new CMonster;
-	pObject->SetName(L"Monster");
-	pObject->SetPos(800.f, 150.f);
-	pObject->SetScale(100.f, 100.f);
-	AddObject(LAYER_TYPE::MONSTER, pObject);*/
-
-	pObject = new CMonster;
-	pObject->SetName(L"Monster");
-	pObject->SetPos(100.f, 100.f);
-	pObject->SetScale(100.f, 100.f);
-	AddObject(LAYER_TYPE::MONSTER, pObject);
-
+	pObject = new CStageBoss;
+	pObject->SetName(L"StageBoss");
+	pObject->SetPos(720.f, -2490.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
 	// ============================
 	//		  레벨 충돌 설정
@@ -176,9 +121,12 @@ void CLevel_Stage01::Enter()
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::WALL);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::SNOW);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::PLAYER);
+
+	Start(1);
 }
 
 void CLevel_Stage01::Exit()
@@ -188,6 +136,162 @@ void CLevel_Stage01::Exit()
 
 	// Dontdestroy 할 것들은 예외처리
 }
+
+
+void CLevel_Stage01::Start(int _Level)
+{
+	switch (_Level)
+	{
+	case 1:
+	{
+		// ============================
+		//		  플레이어 추가
+		// ============================
+
+		CObj* pObject = new CPlayer;
+		pObject->SetName(L"Player");
+		pObject->SetPos(200.f, 860.f);
+		pObject->SetScale(80.f, 128.f);
+		AddObject(LAYER_TYPE::PLAYER, pObject);
+		
+		// 클론 생성
+		for (size_t i = 0; i < 4; i++)
+		{
+			CObj* pPlayerClone = pObject->Clone();
+			m_vecClone.push_back(pPlayerClone);
+		}
+
+		// ============================
+		//			몬스터 추가
+		// ============================
+
+		pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(100.f, 400.f);
+		pObject->SetScale(100.f, 100.f);
+		AddObject(LAYER_TYPE::MONSTER, pObject);
+
+		break;
+	}
+	case 2:
+	{
+		// ============================
+		//		  플레이어 추가
+		// ============================
+		CObj* pClone = m_vecClone.back();
+		m_vecClone.pop_back();
+		pClone->SetName(L"Player");
+		pClone->SetPos(200.f, -136.f);
+		AddObject(LAYER_TYPE::PLAYER, pClone);
+
+
+		// ============================
+		//			몬스터 추가
+		// ============================
+
+		break;
+	}
+	case 3:
+	{
+		// ============================
+		//		  플레이어 추가
+		// ============================
+		CObj* pClone = m_vecClone.back();
+		m_vecClone.pop_back();
+		pClone->SetName(L"Player");
+		pClone->SetPos(200.f, -1132.f);
+		AddObject(LAYER_TYPE::PLAYER, pClone);
+
+
+		// ============================
+		//			몬스터 추가
+		// ============================
+		
+		break;
+	}
+	case 4:
+	{
+		// ============================
+		//		  플레이어 추가
+		// ============================
+		CObj* pClone = m_vecClone.back();
+		m_vecClone.pop_back();
+		pClone->SetName(L"Player");
+		pClone->SetPos(200.f, -2128.f);
+		AddObject(LAYER_TYPE::PLAYER, pClone);
+
+
+		// ============================
+		//			몬스터 추가
+		// ============================
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void CLevel_Stage01::Clear(int _Level)
+{
+	switch (_Level)
+	{
+	case 1:
+	{
+		// 카메라 이동
+		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -498.f));
+
+		// 플레이어 날아가는 애니메이션
+		dynamic_cast<CPlayer*>(FindObjectByName(L"Player"))->RoundClear();
+
+		// 2라운드 시작
+		Start(2);
+		
+		break;
+	}
+	case 2:
+	{
+		// 카메라 이동
+		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -1494.f));
+
+		// 플레이어 날아가는 애니메이션
+		dynamic_cast<CPlayer*>(FindObjectByName(L"Player"))->RoundClear();
+
+		// 3라운드 시작
+		Start(3);
+		
+		break;
+	}
+	case 3:
+	{
+		// 카메라 이동
+		CCamera::GetInst()->SetCameraDes(Vec2(720.f, -2490.f));
+
+		// 플레이어 날아가는 애니메이션
+		dynamic_cast<CPlayer*>(FindObjectByName(L"Player"))->RoundClear();
+
+		// 보스 라운드 시작
+		Start(4);
+		
+		break;
+	}
+	case 4:
+	{
+		
+		break;
+	}
+	case 0:
+	{
+		CCamera::GetInst()->SetCameraDes(Vec2(720.f, 498.f));
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+// =============================
+//			벽, 바닥 
+// =============================
 
 void CLevel_Stage01::LoadPlat(const wstring& _RelativePath)
 {

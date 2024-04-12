@@ -4,12 +4,16 @@
 #include "CLevelMgr.h"
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
+
 #include "CPlatform.h"
 #include "CWall.h"
+
 #include "CCollider.h"
+
 #include "CStage01.h"
 #include "CStage02.h"
 #include "CStage03.h"
+#include "CStageBoss.h"
 
 CCollider_Editor::CCollider_Editor()
 	: m_Platform(nullptr)
@@ -129,6 +133,27 @@ void CCollider_Editor::tick()
 	{
 		ChangeLevel(LEVEL_TYPE::STAGE_01);
 	}
+
+
+	if (KEY_TAP(KEY::Q))
+	{
+		Vec2 mousePos = CCamera::GetInst()->GetRealPos(CKeyMgr::GetInst()->GetMousePos());
+
+		for (size_t i = 0; i < m_vecEditWall.size(); i++)
+		{
+			Vec2 Scale = m_vecEditWall[i]->GetScale();
+			m_vecEditWall[i]->GetPos();
+			Vec2 startPos = m_vecEditWall[i]->GetPos() - Vec2(Scale.x * 0.5f, Scale.y * 0.5f);
+			Vec2 endPos = m_vecEditWall[i]->GetPos() + Vec2(Scale.x * 0.5f, Scale.y * 0.5f);
+
+			if (mousePos.x > startPos.x && mousePos.x < endPos.x
+				&& mousePos.y > startPos.y && mousePos.y < endPos.y)
+			{
+				m_vecEditWall[i]->Destroy();
+			}
+		}
+		
+	}
 }
 
 void CCollider_Editor::Enter()
@@ -147,6 +172,11 @@ void CCollider_Editor::Enter()
 	pObject = new CStage03;
 	pObject->SetName(L"Stage3");
 	pObject->SetPos(720.f, -1494.f);
+	AddObject(LAYER_TYPE::BACKGROUND, pObject);
+
+	pObject = new CStageBoss;
+	pObject->SetName(L"StageBoss");
+	pObject->SetPos(720.f, -2490.f);
 	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
 }
@@ -170,7 +200,7 @@ void CCollider_Editor::SavePlat(const wstring& _strRelativePath)
 
 	for (size_t i = 0; i < len; ++i)
 	{
-		Vec2 vPos = m_vecEditPlat[i]->GetPos();
+		Vec2 vPos = m_vecEditPlat [i]->GetPos();
 		Vec2 vScale = m_vecEditPlat[i]->GetScale();
 		fwrite(&vPos, sizeof(Vec2), 1, pFile);
 		fwrite(&vScale, sizeof(Vec2), 1, pFile);

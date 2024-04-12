@@ -343,6 +343,9 @@
     <ClInclude Include="CJumpState.h">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
     </ClInclude>
+    <ClInclude Include="CStageBoss.h">
+      <Filter>03. Game\05. Object\Background</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -529,6 +532,9 @@
     </ClCompile>
     <ClCompile Include="CJumpState.cpp">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageBoss.cpp">
+      <Filter>03. Game\05. Object\Background</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

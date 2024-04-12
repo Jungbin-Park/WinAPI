@@ -42,6 +42,8 @@ CSnow::CSnow()
 	// 강체(Rigidbody) 설정
 	m_RigidBody->SetMass(1.f);
 	m_RigidBody->SetFriction(500.f);
+	m_RigidBody->SetInitialWalkSpeed(600.f);
+	m_RigidBody->SetMissileSpeed(600.f);
 
 	// 중력 관련 설정
 	m_RigidBody->UseGravity(true);

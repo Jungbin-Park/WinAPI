@@ -192,6 +192,7 @@
     <ClInclude Include="CSoundMgr.h" />
     <ClInclude Include="CStage02.h" />
     <ClInclude Include="CStage03.h" />
+    <ClInclude Include="CStageBoss.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CTaskMgr.h" />
     <ClInclude Include="CTexture.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="CSoundMgr.cpp" />
     <ClCompile Include="CStage02.cpp" />
     <ClCompile Include="CStage03.cpp" />
+    <ClCompile Include="CStageBoss.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CTaskMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />

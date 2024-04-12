@@ -60,7 +60,7 @@ void CMoveState::FinalTick()
 	}
 
 
-	if (Time >= 1.f)
+	if (Time >= 2.f)
 	{
 		GetFSM()->ChangeState(L"Idle");
 		Time = 0.f;

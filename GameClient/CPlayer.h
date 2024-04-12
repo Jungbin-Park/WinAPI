@@ -23,7 +23,7 @@ private:
     int             m_JumpCount;
     int             m_CurJumpCount;
 
-    CSnowObj*       m_SnowObj;
+    CSnowObj*       m_OverlappedSnowObj;
     
     CCollider*      m_Collider;
     CAnimator*      m_Animator;
@@ -33,6 +33,7 @@ private:
     eDirection      m_Direction;
 
     bool            m_bDead;
+    bool            m_bClear;
 
     bool            m_StopLeft;
     bool            m_StopRight;
@@ -56,6 +57,9 @@ private:
     void Air();
     void SetWall();
     void SetWallOff();
+    
+public:
+    void RoundClear();
 
 public:
     CLONE(CPlayer);

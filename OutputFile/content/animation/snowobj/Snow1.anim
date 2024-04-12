@@ -1,9 +1,9 @@
 [ANIMATION_NAME]
-IDLE
+Snow1
 
 [ATLAS_TEXTURE]
-[ATLAS_KEY]	SnowObjTex
-[ATLAS_PATH]	texture\Monster\SnowObj2.png
+[ATLAS_KEY]	Snow1Tex
+[ATLAS_PATH]	texture\Monster\Snow1.png
 
 [FRAME_COUNT]
 1

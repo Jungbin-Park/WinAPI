@@ -11,6 +11,7 @@ private:
     float           m_DetectRange;  // Å½Áö ¹üÀ§
     float           m_Speed;
     bool            m_bDead;
+    bool            m_bSnow;
 
     Vec2            m_Data;
 
@@ -25,9 +26,11 @@ private:
     bool            m_StopRight;
 
     bool            m_Ground;
+    bool            m_Wall;
 
 public:
     void SetDirection(eDirection _Dir) { m_Direction = _Dir; }
+    void SetSnow(bool _Val) { m_bSnow = _Val; }
 
     CCollider* GetCollider() { return m_Collider; }
     CAnimator* GetAnimator() { return m_Animator; }
@@ -35,6 +38,8 @@ public:
     bool IsGround() { return m_Ground; }
     bool IsStopLeft() { return m_StopLeft; }
     bool IsStopRight() { return m_StopRight; }
+    bool IsWall() { return m_Wall; }
+    bool IsSnow() { return m_bSnow; }
 
 
 public:
