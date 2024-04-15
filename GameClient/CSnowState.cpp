@@ -27,8 +27,6 @@ void CSnowState::FinalTick()
 	CMonster* pMon = dynamic_cast<CMonster*>(pSelf);
 	CAnimator* pAnimator = pMon->GetAnimator();
 
-	static float Time = 0.0f;
-
 	bool IsSnow = GetBlackboardData<bool>(L"IsSnow");
 
 	if (!IsSnow)

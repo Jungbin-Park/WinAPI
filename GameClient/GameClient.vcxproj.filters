@@ -149,6 +149,12 @@
     <Filter Include="03. Game\05. Object\SnowObj">
       <UniqueIdentifier>{e12be6c7-a185-4da4-bee1-c36690bdf2bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\08. Module\State\BossState">
+      <UniqueIdentifier>{1130f0c7-1511-4bb1-a453-b33b7b97cf0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\08. Module\State\MiniBossState">
+      <UniqueIdentifier>{7009aca7-ec90-40f5-a985-7c1e4e9fe19e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -328,9 +334,6 @@
     <ClInclude Include="CWall.h">
       <Filter>03. Game\05. Object\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="PIdleState.h">
-      <Filter>03. Game\08. Module\State\PlayerState</Filter>
-    </ClInclude>
     <ClInclude Include="CMoveState.h">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
     </ClInclude>
@@ -351,6 +354,30 @@
     </ClInclude>
     <ClInclude Include="MDemonio.h">
       <Filter>03. Game\05. Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CBoss.h">
+      <Filter>03. Game\05. Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BIdleState.h">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="BJumpState.h">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="BDeadState.h">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="BDownState.h">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="CMiniBoss.h">
+      <Filter>03. Game\05. Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="MMoveState.h">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClInclude>
+    <ClInclude Include="MIdleState.h">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -524,9 +551,6 @@
     <ClCompile Include="CWall.cpp">
       <Filter>03. Game\05. Object\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="PIdleState.cpp">
-      <Filter>03. Game\08. Module\State\PlayerState</Filter>
-    </ClCompile>
     <ClCompile Include="CMoveState.cpp">
       <Filter>03. Game\08. Module\State\MonsterState</Filter>
     </ClCompile>
@@ -547,6 +571,30 @@
     </ClCompile>
     <ClCompile Include="MDemonio.cpp">
       <Filter>03. Game\05. Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoss.cpp">
+      <Filter>03. Game\05. Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BIdleState.cpp">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="BDeadState.cpp">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="BJumpState.cpp">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="BDownState.cpp">
+      <Filter>03. Game\08. Module\State\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="CMiniBoss.cpp">
+      <Filter>03. Game\05. Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="MIdleState.cpp">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClCompile>
+    <ClCompile Include="MMoveState.cpp">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

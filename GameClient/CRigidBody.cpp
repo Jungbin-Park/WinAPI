@@ -66,6 +66,12 @@ void CRigidBody::Jump()
 	SetGround(false);
 }
 
+void CRigidBody::Jump(Vec2 _Dir)
+{
+	m_VelocityByGravity += _Dir * m_MissileSpeed;
+	SetGround(false);
+}
+
 void CRigidBody::Shoot(Vec2 _Dir)
 {
 	m_Velocity += _Dir * m_MissileSpeed;

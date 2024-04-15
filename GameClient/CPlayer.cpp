@@ -34,6 +34,7 @@ CPlayer::CPlayer()
 	, m_CurJumpCount(0)
 	, m_State(eState::IDLE)
 	, m_Direction(eDirection::Right)
+	, m_Dead(false)
 	, m_bClear(false)
 	, m_StopLeft(false)
 	, m_StopRight(false)
@@ -83,7 +84,6 @@ CPlayer::CPlayer()
 	
 	*/
 	
-
 	// 오프셋 조정
 	//m_Animator->FindAnimation(L"DEAD")->GetFrame(1).Offset = Vec2(1.f, 0.f); 
 
@@ -128,6 +128,7 @@ CPlayer::CPlayer(const CPlayer& _Other)
 	, m_State(eState::IDLE)
 	, m_Direction(eDirection::Right)
 	, m_bClear(false)
+	, m_Dead(false)
 	, m_StopLeft(false)
 	, m_StopRight(false)
 	, m_Ground(false)
@@ -179,9 +180,12 @@ void CPlayer::tick()
 		vPos.y -= 1000.f * DT;
 
 	if (vPos.y < -4000.f)
+	{	
 		Destroy();
+	}
+		
 
-	if (IsDead())
+	if (IsPDead())
 	{
 		m_RigidBody->SetActive(false);
 		m_Collider->SetActive(false);
@@ -241,6 +245,7 @@ void CPlayer::tick()
 			}
 			else
 			{
+				// 눈 굴릴 때
 				Vec2 vPos = GetPos();
 				Vec2 sPos = m_OverlappedSnowObj->GetPos();
 				float vDirX = sPos.x - vPos.x;
@@ -311,7 +316,9 @@ void CPlayer::tick()
 			{
 				m_State = eState::MOVE;
 				m_Direction = eDirection::Left;
-				m_Animator->Play(L"AIR_LEFT", true);
+				if(m_Animator->GetCurAnim()->GetName() != L"JUMP_LEFT"
+					&& m_Animator->GetCurAnim()->GetName() != L"JUMP_RIGHT")
+					m_Animator->Play(L"AIR_LEFT", true);
 			}
 			else if (KEY_PRESSED(KEY::LEFT) && !m_StopLeft)
 			{
@@ -323,7 +330,9 @@ void CPlayer::tick()
 			{
 				m_State = eState::IDLE;
 				m_Direction = eDirection::Left;
-				m_Animator->Play(L"AIR_LEFT", true);
+				if (m_Animator->GetCurAnim()->GetName() != L"JUMP_LEFT"
+					&& m_Animator->GetCurAnim()->GetName() != L"JUMP_RIGHT")
+					m_Animator->Play(L"AIR_LEFT", true);
 			}
 
 
@@ -331,7 +340,9 @@ void CPlayer::tick()
 			{
 				m_State = CPlayer::eState::MOVE;
 				m_Direction = eDirection::Right;
-				m_Animator->Play(L"AIR_RIGHT", true);
+				if (m_Animator->GetCurAnim()->GetName() != L"JUMP_LEFT"
+					&& m_Animator->GetCurAnim()->GetName() != L"JUMP_RIGHT")
+					m_Animator->Play(L"AIR_RIGHT", true);
 			}
 			else if (KEY_PRESSED(KEY::RIGHT) && !m_StopRight)
 			{
@@ -343,7 +354,9 @@ void CPlayer::tick()
 			{
 				m_State = eState::IDLE;
 				m_Direction = eDirection::Right;
-				m_Animator->Play(L"AIR_RIGHT", true);
+				if (m_Animator->GetCurAnim()->GetName() != L"JUMP_LEFT"
+					&& m_Animator->GetCurAnim()->GetName() != L"JUMP_RIGHT")
+					m_Animator->Play(L"AIR_RIGHT", true);
 			}
 		}
 
@@ -384,8 +397,6 @@ void CPlayer::tick()
 			{
 				m_State = CPlayer::eState::ATTACK;
 
-				LOG(LOG_TYPE::DBG_WARNING, L"미사일 발사");
-
 				switch (m_Direction)
 				{
 				case eDirection::Left:
@@ -401,9 +412,22 @@ void CPlayer::tick()
 					pSnow->SetPos(vSnowPos);
 					pSnow->SetScale(Vec2(30.f, 40.f));
 
-					SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pSnow);
-					pSnow->SetDirection(eDirection::Left);
-					pSnow->GetRigidBody()->Shoot(Vec2(-1.f, -0.5f));
+					if (KEY_PRESSED(KEY::LEFT))
+					{
+						pSnow->GetRigidBody()->SetMissileSpeed(800.f);
+						SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pSnow);
+						pSnow->SetDirection(eDirection::Left);
+						pSnow->GetRigidBody()->Shoot(Vec2(-1.f, -0.3f));
+					}
+					else
+					{
+						pSnow->GetRigidBody()->SetMissileSpeed(500.f);
+						SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pSnow);
+						pSnow->SetDirection(eDirection::Left);
+						pSnow->GetRigidBody()->Shoot(Vec2(-1.f, -0.5f));
+					}
+
+					
 					break;
 				}
 				case eDirection::Right:
@@ -419,9 +443,21 @@ void CPlayer::tick()
 					pSnow->SetPos(vSnowPos);
 					pSnow->SetScale(Vec2(30.f, 40.f));
 
-					SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pSnow);
-					pSnow->SetDirection(eDirection::Right);
-					pSnow->GetRigidBody()->Shoot(Vec2(1.f, -0.5f));
+					if (KEY_PRESSED(KEY::RIGHT))
+					{
+						pSnow->GetRigidBody()->SetMissileSpeed(800.f);
+						SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pSnow);
+						pSnow->SetDirection(eDirection::Right);
+						pSnow->GetRigidBody()->Shoot(Vec2(1.f, -0.3f));
+					}
+					else
+					{
+						pSnow->GetRigidBody()->SetMissileSpeed(500.f);
+						SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::PLAYER_MISSILE, pSnow);
+						pSnow->SetDirection(eDirection::Right);
+						pSnow->GetRigidBody()->Shoot(Vec2(1.f, -0.5f));
+					}
+
 					break;
 				}
 				default:
@@ -458,9 +494,6 @@ void CPlayer::tick()
 	}
 
 
-	
-
-
 	// =================================
 	//		애니메이션 끝났을 때 처리
 	// =================================
@@ -488,8 +521,10 @@ void CPlayer::tick()
 		// 사망 애니메이션
 		if (m_Animator->GetCurAnim()->GetName() == L"DEAD")
 		{
-			vPos = Vec2(200.f, 870.f);
-			Dead(false);
+			// -1240, -136
+			vPos = CCamera::GetInst()->GetLookAt() + Vec2(-520.f, 372.f);
+			//vPos = Vec2(200.f, 870.f);
+			m_Dead = false;
 			m_Animator->Play(L"IDLE_RIGHT", true);
 		}
 	}
@@ -556,7 +591,7 @@ void CPlayer::RoundClear()
 {
 	Vec2 vPos = GetPos();
 	m_Animator->Play(L"CLEAR", true);
-	Dead(true);
+	m_Dead = true;
 	m_bClear = true;
 	m_Collider->SetActive(false);
 }
@@ -566,13 +601,13 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 	if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER)
 	{
 		CMonster* Mon = dynamic_cast<CMonster*>(_OtherObj);
-		if (Mon->IsSnow())
+		if (Mon->IsSnow() || Mon->IsMonDead())
 		{
 
 		}
 		else
 		{
-			Dead(true);
+			m_Dead = true;
 
 			m_Animator->Play(L"DEAD", false);
 		}

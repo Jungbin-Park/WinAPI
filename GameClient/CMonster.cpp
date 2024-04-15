@@ -3,6 +3,7 @@
 
 #include "CLevelMgr.h"
 #include "CLevel.h"
+#include "CLevel_Stage01.h"
 
 #include "CCollider.h"
 #include "CAnimator.h"
@@ -26,7 +27,7 @@
 CMonster::CMonster()
 	: m_DetectRange(300)
 	, m_Speed(300)
-	, m_bDead(false)
+	, m_Dead(false)
 	, m_bSnow(false)
 	, m_Ground(false)
 	, m_Direction(eDirection::None)
@@ -42,14 +43,6 @@ CMonster::CMonster()
 	// Collider
 	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
 	m_Collider->SetScale(Vec2(100.f, 120.f));
-	
-
-	// RigidBody
-	m_RigidBody->SetMass(2.f);
-	m_RigidBody->SetInitialWalkSpeed(0.f);
-	m_RigidBody->SetMaxWalkSpeed(400.f);
-	m_RigidBody->SetFriction(2000.f);
-
 
 	// FSM
 	m_FSM->AddState(L"Idle", new CIdleState);
@@ -66,7 +59,8 @@ CMonster::CMonster()
 	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"MonsterRightTex", L"texture\\Monster\\Enemy\\Demonio_Right.png");
 
 	// Create & Save
-	/*m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	/*
+	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
 	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
@@ -78,6 +72,7 @@ CMonster::CMonster()
 	m_Animator->CreateAnimation(L"JUMPREADY_RIGHT", pAtlasR, Vec2(160.f, 320.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"STRUGGLE", pAtlasR, Vec2(480.f, 160.f), Vec2(160.f, 160.f), 2, 10);
 	m_Animator->CreateAnimation(L"SHAKE", pAtlasR, Vec2(160.f, 640.f), Vec2(160.f, 160.f), 2, 10);
+	m_Animator->CreateAnimation(L"DEAD", pAtlasL, Vec2(0.f, 800.f), Vec2(160.f, 160.f), 8, 10);
 
 	m_Animator->FindAnimation(L"IDLE_LEFT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"IDLE_RIGHT")->Save(L"animation\\monster\\");
@@ -91,8 +86,10 @@ CMonster::CMonster()
 	m_Animator->FindAnimation(L"JUMPREADY_RIGHT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"STRUGGLE")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"SHAKE")->Save(L"animation\\monster\\");
+	m_Animator->FindAnimation(L"DEAD")->Save(L"animation\\monster\\");
 	*/
 	
+
 	// Load
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_LEFT.anim");
@@ -107,6 +104,7 @@ CMonster::CMonster()
 	m_Animator->LoadAnimation(L"animation\\monster\\JUMPREADY_RIGHT.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\STRUGGLE.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\SHAKE.anim");
+	m_Animator->LoadAnimation(L"animation\\monster\\DEAD.anim");
 
 	//m_Animator->Play(L"IDLE_RIGHT", true);
 
@@ -120,13 +118,14 @@ CMonster::CMonster()
 	m_RigidBody->UseGravity(true);
 	m_RigidBody->SetMaxGravitySpeed(980.f);
 	m_RigidBody->SetJumpSpeed(600.f);
+	m_RigidBody->SetMissileSpeed(1000.f);
 
 }
 
 CMonster::CMonster(Vec2(_Pos), Vec2(_Scale))
 	: m_DetectRange(200)
 	, m_Speed(100)
-	, m_bDead(false)
+	, m_Dead(false)
 	, m_bSnow(false)
 	, m_Ground(false)
 	, m_Direction(eDirection::None)
@@ -223,6 +222,18 @@ void CMonster::begin()
 void CMonster::tick()
 {
 	CObj::tick();
+
+	// 애니메이션 끝났을 때
+	if (m_Animator->GetCurAnim()->IsFinish())
+	{
+		if (m_Animator->GetCurAnim()->GetName() == L"DEAD")
+		{
+			CLevel_Stage01* curLevel = dynamic_cast<CLevel_Stage01*>(CLevelMgr::GetInst()->GetCurrentLevel());
+			curLevel->AddScore();
+			GetFSM()->GetOwner()->Dead(true);
+		}
+		
+	}
 }
 
 
@@ -298,13 +309,21 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 	if (_OtherObj->GetName() == L"SnowObj")
 	{
 		CSnowObj* pSnowObj = dynamic_cast<CSnowObj*>(_OtherObj);
-		if (pSnowObj->GetOwner() != this && pSnowObj->IsRoll())
+
+		if (pSnowObj->GetOwner() != this && pSnowObj->IsRoll() && !m_bSnow)
 		{
 			// 날아감
-
-			// 날아가는 애니메이션
-
-			// 죽음
+			m_Dead = true;
+			if (GetPos().x < pSnowObj->GetPos().x)
+			{
+				m_RigidBody->Jump(Vec2(-0.5f, -1.f));
+			}
+			else
+			{
+				m_RigidBody->Jump(Vec2(0.5f, -1.f));
+			}
+			
+			m_FSM->ChangeState(L"Dead");
 		}
 	}
 }

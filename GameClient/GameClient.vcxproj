@@ -143,12 +143,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BDeadState.h" />
+    <ClInclude Include="BDownState.h" />
+    <ClInclude Include="BIdleState.h" />
+    <ClInclude Include="BJumpState.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CAttackState.h" />
+    <ClInclude Include="CBoss.h" />
     <ClInclude Include="CJumpState.h" />
+    <ClInclude Include="CMiniBoss.h" />
     <ClInclude Include="CMonster_Editor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -209,20 +215,27 @@
     <ClInclude Include="func.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="MDemonio.h" />
+    <ClInclude Include="MIdleState.h" />
+    <ClInclude Include="MMoveState.h" />
     <ClInclude Include="MRana.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PIdleState.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="struct.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BDeadState.cpp" />
+    <ClCompile Include="BDownState.cpp" />
+    <ClCompile Include="BIdleState.cpp" />
+    <ClCompile Include="BJumpState.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CAttackState.cpp" />
+    <ClCompile Include="CBoss.cpp" />
     <ClCompile Include="CJumpState.cpp" />
+    <ClCompile Include="CMiniBoss.cpp" />
     <ClCompile Include="CMonster_Editor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -280,12 +293,13 @@
     <ClCompile Include="func.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDemonio.cpp" />
+    <ClCompile Include="MIdleState.cpp" />
+    <ClCompile Include="MMoveState.cpp" />
     <ClCompile Include="MRana.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PIdleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc" />

@@ -30,7 +30,6 @@ void CMoveState::Enter()
 void CMoveState::FinalTick()
 {
 	static float Time = 0.f;
-	Time += DT;
 
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
 	float Range = GetBlackboardData<float>(L"DetectRange");
@@ -40,32 +39,36 @@ void CMoveState::FinalTick()
 	CMonster* pMon = dynamic_cast<CMonster*>(pSelf);
 	eDirection pDir = pMon->GetDirection();
 	Vec2 vPos = pSelf->GetPos();
-	
-	// 몬스터의 탐지 범위를 시각화
-	DrawDebugCircle(PEN_TYPE::PEN_GREEN, vPos, Vec2(Range * 2.f, Range * 2.f), 0);
 
-	if (pDir == eDirection::Right)
+	if (pMon->IsMonDead() != true)
 	{
-		if(pMon->IsGround() && !pMon->IsStopRight())
-			vPos.x += Speed * DT;
-		
-		pSelf->SetPos(vPos);
-	}
-	else if (pDir == eDirection::Left)
-	{
-		if(pMon->IsGround() && !pMon->IsStopLeft())
-			vPos.x -= Speed * DT;
-		
-		pSelf->SetPos(vPos);
-	}
+		Time += DT;
+
+		// 몬스터의 탐지 범위를 시각화
+		DrawDebugCircle(PEN_TYPE::PEN_GREEN, vPos, Vec2(Range * 2.f, Range * 2.f), 0);
+
+		if (pDir == eDirection::Right)
+		{
+			if (pMon->IsGround() && !pMon->IsStopRight())
+				vPos.x += Speed * DT;
+
+			pSelf->SetPos(vPos);
+		}
+		else if (pDir == eDirection::Left)
+		{
+			if (pMon->IsGround() && !pMon->IsStopLeft())
+				vPos.x -= Speed * DT;
+
+			pSelf->SetPos(vPos);
+		}
 
 
-	if (Time >= 2.f)
-	{
-		GetFSM()->ChangeState(L"Idle");
-		Time = 0.f;
+		if (Time >= 2.f)
+		{
+			GetFSM()->ChangeState(L"Idle");
+			Time = 0.f;
+		}
 	}
-	
 }
 
 void CMoveState::Exit()

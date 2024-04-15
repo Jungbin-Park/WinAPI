@@ -38,6 +38,7 @@ public:
     }
 
     tAnimFrm& GetFrame(int _Idx) { return m_vecFrm[_Idx]; }
+    int GetCurFrame() { return m_CurFrmIdx; }
 
 public:
     void finaltick();

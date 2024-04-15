@@ -1,16 +1,12 @@
 #pragma once
 #include "CObj.h"
-
-class CTexture;
-
-class CMonster :
+class CBoss :
     public CObj
 {
 private:
-    float           m_DetectRange;  // Å½Áö ¹üÀ§
-    float           m_Speed;
+    int             m_HP;
+
     bool            m_Dead;
-    bool            m_bSnow;
 
     Vec2            m_Data;
 
@@ -19,31 +15,17 @@ private:
     CRigidBody*     m_RigidBody;
     CFSM*           m_FSM;
 
-    eDirection      m_Direction;
-
-    bool            m_StopLeft;
-    bool            m_StopRight;
-
     bool            m_Ground;
-    bool            m_Wall;
+    bool            m_Down;
 
 public:
-    void SetDirection(eDirection _Dir) { m_Direction = _Dir; }
-    void SetSnow(bool _Val) { m_bSnow = _Val; }
-
     CCollider* GetCollider() { return m_Collider; }
     CAnimator* GetAnimator() { return m_Animator; }
-    eDirection GetDirection() { return m_Direction; }
     CRigidBody* GetRigidBody() { return m_RigidBody; }
     CFSM* GetFSM() { return m_FSM; }
+    bool IsDown() { return m_Down; }
 
-    bool IsGround() { return m_Ground; }
-    bool IsStopLeft() { return m_StopLeft; }
-    bool IsStopRight() { return m_StopRight; }
-    bool IsWall() { return m_Wall; }
-    bool IsSnow() { return m_bSnow; }
-    bool IsMonDead() { return m_Dead; }
-
+    void SetDown(bool _Val) { m_Down = _Val; }
 
 public:
     void Jump();
@@ -54,17 +36,14 @@ public:
     virtual void OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
     virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) override;
 
-    CLONE(CMonster)
+    CLONE(CBoss)
 
-protected:
+private:
     void Ground();
     void Air();
-    void SetWall();
-    void SetWallOff();
 
 public:
-    CMonster();
-    CMonster(Vec2(_Pos), Vec2(_Scale));
-    ~CMonster();
+    CBoss();
+    ~CBoss();
 };
 

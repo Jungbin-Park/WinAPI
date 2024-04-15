@@ -6,10 +6,12 @@
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
 #include "CLevelMgr.h"
+#include "CCamera.h"
 
 #include "CForce.h"
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "CBoss.h"
 #include "CPlatform.h"
 #include "CWall.h"
 #include "CSnowObj.h"
@@ -21,7 +23,10 @@
 
 CLevel_Stage01::CLevel_Stage01()
 	: m_Platform(nullptr)
+	, m_CurRound(1)
+	, m_Score(0)
 {
+
 }
 
 CLevel_Stage01::~CLevel_Stage01()
@@ -35,15 +40,13 @@ void CLevel_Stage01::begin()
 	CLevel::begin();
 	//CCamera::GetInst()->SetCameraEffect(CAM_EFFECT::FADE_OUT, 0.2f);
 	//CCamera::GetInst()->SetCameraEffect(CAM_EFFECT::FADE_IN, 0.2f);
+
+	CCamera::GetInst()->SetCamFixedDelegate(this, (CAMDELEGATE)&CLevel_Stage01::Start);
 }
 
 void CLevel_Stage01::tick()
 {
 	CLevel::tick();
-
-	// 몬스터 전체 목록을 받아옴
-	/*CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	const vector<CObj*>& vecMonster = pCurLevel->GetObjects(LAYER_TYPE::MONSTER);*/
 
 	if (KEY_TAP(KEY::ENTER))
 	{
@@ -65,12 +68,15 @@ void CLevel_Stage01::tick()
 		Clear(3);
 	}
 
+	if (m_Score == 2)
+		RoundClear(m_CurRound);
+
 }
 
 void CLevel_Stage01::Enter()
 {
 	// ============================
-	//			플랫폼 생성
+	//		 플랫폼, 벽 생성
 	// ============================
 
 	LoadPlat(L"platform\\platform.plat");
@@ -107,10 +113,12 @@ void CLevel_Stage01::Enter()
 
 	CCollisionMgr::GetInst()->CollisionCheckClear();
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::BOSS);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::BOSS, LAYER_TYPE::PLATFORM);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::WALL);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::WALL);
@@ -120,11 +128,13 @@ void CLevel_Stage01::Enter()
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::WALL);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::SNOW);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::BOSS);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::PLAYER);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::BOSS);
 
-	Start(1);
+	Start();
 }
 
 void CLevel_Stage01::Exit()
@@ -136,12 +146,14 @@ void CLevel_Stage01::Exit()
 }
 
 
-void CLevel_Stage01::Start(int _Level)
+void CLevel_Stage01::Start()
 {
-	switch (_Level)
+	switch (m_CurRound)
 	{
 	case 1:
 	{
+		m_Score = 0;
+
 		// ============================
 		//		  플레이어 추가
 		// ============================
@@ -183,16 +195,28 @@ void CLevel_Stage01::Start(int _Level)
 		// ============================
 		//		  플레이어 추가
 		// ============================
+		
 		CObj* pClone = m_vecClone.back();
 		m_vecClone.pop_back();
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -136.f);
-		//AddObject(LAYER_TYPE::PLAYER, pClone);
 		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
+
 
 		// ============================
 		//			몬스터 추가
 		// ============================
+		CObj *pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(700.f, -596.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(800.f, -296.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
 
 		break;
 	}
@@ -205,13 +229,25 @@ void CLevel_Stage01::Start(int _Level)
 		m_vecClone.pop_back();
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -1132.f);
-		//AddObject(LAYER_TYPE::PLAYER, pClone);
 		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
+
+
 
 		// ============================
 		//			몬스터 추가
 		// ============================
-		
+		CObj* pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(700.f, -1592.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(800.f, -1292.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
 		break;
 	}
 	case 4:
@@ -223,13 +259,18 @@ void CLevel_Stage01::Start(int _Level)
 		m_vecClone.pop_back();
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -2128.f);
-		//AddObject(LAYER_TYPE::PLAYER, pClone);
 		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
 
 
 		// ============================
-		//			몬스터 추가
+		//			보스 추가
 		// ============================
+		CObj* pObject = new CBoss;
+		pObject->SetName(L"Boss");
+		pObject->SetPos(1200.f, -2750.f);
+		pObject->SetScale(400.f, 400.f);
+		SpawnObject(this, LAYER_TYPE::BOSS, pObject);
+
 		break;
 	}
 	default:
@@ -250,7 +291,8 @@ void CLevel_Stage01::Clear(int _Level)
 		dynamic_cast<CPlayer*>(FindObjectByName(L"Player"))->RoundClear();
 
 		// 2라운드 시작
-		Start(2);
+		m_Score = 0;
+		m_CurRound = 2;
 		
 		break;
 	}
@@ -263,7 +305,8 @@ void CLevel_Stage01::Clear(int _Level)
 		dynamic_cast<CPlayer*>(FindObjectByName(L"Player"))->RoundClear();
 
 		// 3라운드 시작
-		Start(3);
+		m_Score = 0;
+		m_CurRound = 3;
 		
 		break;
 	}
@@ -276,7 +319,8 @@ void CLevel_Stage01::Clear(int _Level)
 		dynamic_cast<CPlayer*>(FindObjectByName(L"Player"))->RoundClear();
 
 		// 보스 라운드 시작
-		Start(4);
+		m_Score = 0;
+		m_CurRound = 4;
 		
 		break;
 	}
@@ -293,6 +337,11 @@ void CLevel_Stage01::Clear(int _Level)
 	default:
 		break;
 	}
+}
+
+void CLevel_Stage01::RoundClear(int _Level)
+{
+	Clear(_Level);
 }
 
 // =============================

@@ -19,10 +19,12 @@ private:
 	vector<CWall*>		m_vecEditWall;
 
 	int					m_CurRound;
+	int					m_Score;
 
 private:
-	void Start(int _Level);
+	void Start();
 	void Clear(int _Level);
+	void RoundClear(int _Level);
 
 	void LoadPlat(const wstring& _RelativePath);
 	void LoadWall(const wstring& _RelativePath);
@@ -33,6 +35,15 @@ public:
 
 	virtual void Enter() override;
 	virtual void Exit() override;
+
+public:
+	int GetScore() { return m_Score; }
+
+	void AddScore() 
+	{ 
+		m_Score++; 
+		LOG(LOG_TYPE::DBG_LOG, L"Score +1");
+	}
 
 public:
 	CLevel_Stage01();

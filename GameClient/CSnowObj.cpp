@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CSnowObj.h"
 
+#include "CLevel_Stage01.h"
+#include "CLevelMgr.h"
+
 #include "CTaskMgr.h"
 
 #include "CCollider.h"
@@ -32,7 +35,7 @@ CSnowObj::CSnowObj()
 
 	m_Collider->SetName(L"SnowObj Collider");
 	m_Collider->SetOffsetPos(Vec2(0.f, 10.f));
-	m_Collider->SetScale(Vec2(100.f, 140.f));
+	m_Collider->SetScale(Vec2(120.f, 140.f));
 	m_Collider->SetActive(true);
 
 
@@ -91,15 +94,25 @@ void CSnowObj::begin()
 void CSnowObj::tick()
 {
 	CObj::tick();
-
-	if (m_WallHitCount == 3)
-	{
-		Boom();
-		m_WallHitCount = 0;
-	}
-		
+	static float Time = 0.f;
+	
 	if (!m_bBoom)
 	{
+		Time += DT;
+
+		if (Time >= 3.f)
+		{
+			if (!m_bRoll)
+				m_SnowHitCount--;
+			Time = 0.0f;
+		}
+
+		if (m_WallHitCount == 3)
+		{
+			m_WallHitCount = 0;
+			Boom();
+		}
+
 		if (m_Active)
 		{
 			if (m_SnowHitCount < 5)
@@ -153,16 +166,6 @@ void CSnowObj::tick()
 		Destroy();
 	}
 		
-
-	static float Time = 0.f;
-	Time += DT;
-
-	if (Time >= 3.f)
-	{
-		if (!m_bRoll)
-			m_SnowHitCount--;
-		Time = 0.0f;
-	}
 }
 
 void CSnowObj::Shoot(Vec2 _Dir)
@@ -178,8 +181,9 @@ void CSnowObj::Shoot(Vec2 _Dir)
 void CSnowObj::Boom()
 {
 	m_Animator->Play(L"BOOM", false);
-	//m_Owner->Destroy();
-	m_Owner->GetFSM()->ChangeState(L"Dead");
+	CLevel_Stage01* curLevel = dynamic_cast<CLevel_Stage01*>(CLevelMgr::GetInst()->GetCurrentLevel());
+	curLevel->AddScore();
+	m_Owner->Destroy();
 	m_bBoom = true;
 }
 

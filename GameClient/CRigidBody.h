@@ -70,6 +70,7 @@ public:
     void SetActive(float _Set) { m_Active = _Set; }
 
     void Jump();
+    void Jump(Vec2 _Dir);
     void Shoot(Vec2 _Dir);
     void SetGravityVelocity(Vec2 _Velocity) { m_VelocityByGravity = _Velocity; }
     void SetGravityAccel(float _Accel) { m_GravityAccel = _Accel; }

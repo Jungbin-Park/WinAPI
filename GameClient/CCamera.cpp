@@ -12,6 +12,7 @@ CCamera::CCamera()
 	: m_CamSpeed(600.f)
 	, m_FadeTex(nullptr)
 	, m_bCameraMove(false)
+	, m_bCamFixed(false)
 	, m_MoveDir(0.f, 0.f)
 	, m_DesY(498)
 {
@@ -76,8 +77,20 @@ void CCamera::tick()
 		else
 		{
 			m_bCameraMove = false;
+			m_bCamFixed = true;
+	
 		}
 	}
+
+	if (m_bCamFixed)
+	{
+		if (m_CamFixedInst && m_CamFixedDelegate)
+		{
+			(m_CamFixedInst->*m_CamFixedDelegate)();
+			m_bCamFixed = false;
+		}
+	}
+	
 }
 
 void CCamera::render()
@@ -165,5 +178,6 @@ void CCamera::SetCameraEffect(CAM_EFFECT _Effect, float _Duration)
 void CCamera::SetCameraDes(Vec2 _Pos)
 {
 	m_bCameraMove = true;
+	m_bCamFixed = false;
 	m_DesY = _Pos.y;
 }

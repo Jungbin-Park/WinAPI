@@ -1,7 +1,7 @@
 #pragma once
 #include "CState.h"
 
-class PIdleState :
+class MIdleState :
     public CState
 {
 private:
@@ -11,9 +11,9 @@ public:
     virtual void FinalTick() override;
     virtual void Exit() override;
 
-    CLONE(PIdleState);
+    CLONE(MIdleState);
 public:
-    PIdleState();
-    ~PIdleState();
+    MIdleState();
+    ~MIdleState();
 };
 

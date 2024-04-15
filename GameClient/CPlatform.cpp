@@ -55,6 +55,19 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 			pRB->SetGround(true);
 		}
 	}
+	else if (_OtherObj->GetLayerType() == LAYER_TYPE::BOSS)
+	{
+		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
+		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
+		Vec2 platPos = GetPos();
+		float pPlatPos = GetPos().y + GetScale().y;
+
+		if (pPrevFootPos < pNowFootPos && pNowFootPos < pPlatPos)
+		{
+			pRB->SetGround(true);
+		}
+	}
 	else if (_OtherObj->GetName() == L"SnowObj")
 	{
 		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
@@ -104,16 +117,38 @@ void CPlatform::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 			pRB->SetGround(false);
 		}
 	}
+	else if (_OtherObj->GetLayerType() == LAYER_TYPE::BOSS)
+	{
+		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
+		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
+		Vec2 platPos = GetPos();
+		float pPlatPos = GetPos().y + GetScale().y;
+
+		if (pNowFootPos < pPlatPos)
+		{
+			pRB->SetGround(false);
+		}
+	}
 	else if (_OtherObj->GetName() == L"SnowObj")
 	{
-		Vec2 pPrevYPos = _OtherObj->GetPrevPos();
+		/*Vec2 pPrevYPos = _OtherObj->GetPrevPos();
 		Vec2 pNowYPos = _OtherObj->GetPos();
 
 		if (pPrevYPos.y >= pNowYPos.y)
 		{
 			CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 			pRB->SetGround(false);
-		}
+		}*/
+		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
+		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
+		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
+		Vec2 platPos = GetPos();
+		float pPlatPos = GetPos().y + GetScale().y;
 
+		if (pNowFootPos < pPlatPos)
+		{
+			pRB->SetGround(false);
+		}
 	}
 }
