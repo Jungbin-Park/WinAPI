@@ -1,25 +1,19 @@
 #pragma once
 #include "CState.h"
-class BDownState :
+
+class MBallState :
     public CState
 {
 private:
-    bool m_bShoot1;
-    bool m_bShoot2;
-    bool m_bShoot3;
 
 public:
     virtual void Enter() override;
     virtual void FinalTick() override;
     virtual void Exit() override;
 
-    CLONE(BDownState);
-
-private:
-    void Shoot();
-
+    CLONE(MBallState);
 public:
-    BDownState();
-    ~BDownState();
+    MBallState();
+    ~MBallState();
 };
 

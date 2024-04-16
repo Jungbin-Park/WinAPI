@@ -15,6 +15,7 @@
 #include "CSnow.h"
 #include "CSnowObj.h"
 #include "CMonster.h"
+#include "CMiniBoss.h"
 
 #include "CDbgRender.h"
 
@@ -601,16 +602,35 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 	if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER)
 	{
 		CMonster* Mon = dynamic_cast<CMonster*>(_OtherObj);
-		if (Mon->IsSnow() || Mon->IsMonDead())
+		CMiniBoss* MBoss = dynamic_cast<CMiniBoss*>(_OtherObj);
+		
+		if (Mon != nullptr)
 		{
+			if (Mon->IsSnow() || Mon->IsMonDead())
+			{
+				return;
+			}
+			else
+			{
+				m_Dead = true;
 
+				m_Animator->Play(L"DEAD", false);
+			}
 		}
-		else
+		if (MBoss != nullptr)
 		{
-			m_Dead = true;
+			if (MBoss->IsSnow() || MBoss->IsMonDead())
+			{
+				return;
+			}
+			else
+			{
+				m_Dead = true;
 
-			m_Animator->Play(L"DEAD", false);
+				m_Animator->Play(L"DEAD", false);
+			}
 		}
+		
 		
 	}
 

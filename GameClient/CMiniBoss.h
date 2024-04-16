@@ -16,17 +16,28 @@ private:
     CRigidBody*     m_RigidBody;
     CFSM*           m_FSM;
 
+    eDirection      m_Direction;
+
+    bool            m_StopLeft;
+    bool            m_StopRight;
+
     bool            m_Ground;
+    bool            m_Wall;
 
 public:
+    void SetDirection(eDirection _Dir) { m_Direction = _Dir; }
     void SetSnow(bool _Val) { m_bSnow = _Val; }
 
     CCollider* GetCollider() { return m_Collider; }
     CAnimator* GetAnimator() { return m_Animator; }
+    eDirection GetDirection() { return m_Direction; }
     CRigidBody* GetRigidBody() { return m_RigidBody; }
     CFSM* GetFSM() { return m_FSM; }
 
     bool IsGround() { return m_Ground; }
+    bool IsStopLeft() { return m_StopLeft; }
+    bool IsStopRight() { return m_StopRight; }
+    bool IsWall() { return m_Wall; }
     bool IsSnow() { return m_bSnow; }
     bool IsMonDead() { return m_Dead; }
 
@@ -43,6 +54,8 @@ public:
 protected:
     void Ground();
     void Air();
+    void SetWall();
+    void SetWallOff();
 
 public:
     CMiniBoss();

@@ -18,24 +18,54 @@ MMoveState::~MMoveState()
 void MMoveState::Enter()
 {
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
-	CMiniBoss* pBoss = dynamic_cast<CMiniBoss*>(pSelf);
-	CAnimator* pAnimator = pBoss->GetAnimator();
+	CMiniBoss* pMBoss = dynamic_cast<CMiniBoss*>(pSelf);
+	CAnimator* pAnimator = pMBoss->GetAnimator();
+	eDirection pDir = pMBoss->GetDirection();
 
-	pAnimator->Play(L"IDLE", true);
+	if (pDir == eDirection::Left)
+		pAnimator->Play(L"WALK_LEFT", true);
+	else if (pDir == eDirection::Right)
+		pAnimator->Play(L"WALK_RIGHT", true);
 }
 
 void MMoveState::FinalTick()
 {
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
+	float Speed = GetBlackboardData<float>(L"Speed");
+
 	CMiniBoss* pMBoss = dynamic_cast<CMiniBoss*>(pSelf);
 	CAnimator* pAnimator = pMBoss->GetAnimator();
+	eDirection pDir = pMBoss->GetDirection();
+	
+	Vec2 vPos = pSelf->GetPos();
 
-	Time += DT;
-
-	if (Time >= 2.f)
+	if (pMBoss->IsMonDead() != true)
 	{
-		GetFSM()->ChangeState(L"Move");
+		Time += DT;
+
+		if (pDir == eDirection::Left)
+		{
+			if (pMBoss->IsGround() && !pMBoss->IsStopLeft())
+				vPos.x -= Speed * DT;
+
+			pSelf->SetPos(vPos);
+		}
+		else if (pDir == eDirection::Right)
+		{
+			if (pMBoss->IsGround() && !pMBoss->IsStopRight())
+				vPos.x += Speed * DT;
+
+			pSelf->SetPos(vPos);
+		}
+
+		if (Time >= 2.f)
+		{
+			GetFSM()->ChangeState(L"Ball");
+		}
 	}
+
+	
+
 }
 
 void MMoveState::Exit()

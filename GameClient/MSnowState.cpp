@@ -1,46 +1,43 @@
 #include "pch.h"
-#include "MIdleState.h"
+#include "MSnowState.h"
 
 #include "CFSM.h"
 #include "CMiniBoss.h"
 #include "CAnimator.h"
 
-static float Time = 0.f;
-
-MIdleState::MIdleState()
+MSnowState::MSnowState()
 {
 }
 
-MIdleState::~MIdleState()
+MSnowState::~MSnowState()
 {
 }
 
-void MIdleState::Enter()
+void MSnowState::Enter()
 {
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
 	CMiniBoss* pMBoss = dynamic_cast<CMiniBoss*>(pSelf);
 	CAnimator* pAnimator = pMBoss->GetAnimator();
 
-	pAnimator->Play(L"IDLE", true);
+	pAnimator->Play(L"SHOOT", true);
 }
 
-void MIdleState::FinalTick()
+void MSnowState::FinalTick()
 {
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
 	CMiniBoss* pMBoss = dynamic_cast<CMiniBoss*>(pSelf);
 	CAnimator* pAnimator = pMBoss->GetAnimator();
 
-	Time += DT;
+	bool IsSnow = GetBlackboardData<bool>(L"IsSnow");
 
-	if (Time >= 2.f)
+	if (!IsSnow)
 	{
-		GetFSM()->ChangeState(L"Move");
+		GetFSM()->ChangeState(L"Wake");
 	}
 }
 
-void MIdleState::Exit()
+void MSnowState::Exit()
 {
-	Time = 0.f;
 }
 
 

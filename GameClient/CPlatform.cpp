@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CPlatform.h"
 
+#include "CMiniBoss.h"
+#include "CFSM.h"
+
 #include "CCollider.h"
 #include "CRigidBody.h"
 
@@ -50,10 +53,16 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 		Vec2 platPos = GetPos();
 		float pPlatPos = GetPos().y + GetScale().y;
 
+		if (_OtherObj->GetName() == L"MiniBoss")
+		{
+			dynamic_cast<CMiniBoss*>(_OtherObj)->GetFSM()->ChangeState(L"Wake");
+		}
+
 		if (pPrevFootPos < pNowFootPos && pNowFootPos < pPlatPos)
 		{
 			pRB->SetGround(true);
 		}
+
 	}
 	else if (_OtherObj->GetLayerType() == LAYER_TYPE::BOSS)
 	{

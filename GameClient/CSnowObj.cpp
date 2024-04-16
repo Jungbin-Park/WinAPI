@@ -14,6 +14,7 @@
 
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "CMiniBoss.h"
 
 #include "CFSM.h"
 
@@ -132,7 +133,16 @@ void CSnowObj::tick()
 			{
 				// 몬스터 Idle State로 전환
 				if (m_Owner != nullptr)
-					m_Owner->SetSnow(false);
+				{
+					CMonster* cMon = dynamic_cast<CMonster*>(m_Owner);
+					if (cMon != nullptr)
+						cMon->SetSnow(false);
+
+					CMiniBoss* cMBoss = dynamic_cast<CMiniBoss*>(m_Owner);
+					if (cMBoss != nullptr)
+						cMBoss->SetSnow(false);
+				}
+					
 
 				Destroy();
 			}

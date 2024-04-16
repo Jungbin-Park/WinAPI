@@ -11,7 +11,7 @@ public:
     ~CSnowObj();
 
 private:
-    CMonster*       m_Owner;
+    CObj*           m_Owner;
 
     bool            m_Active;
     float           m_Speed;
@@ -36,12 +36,12 @@ private:
 public:
     CRigidBody* GetRigidBody() { return m_RigidBody; }
     CAnimator* GetAnimator() { return m_Animator; }
-    CMonster* GetOwner() { return m_Owner; }
+    CObj* GetOwner() { return m_Owner; }
 
     bool IsActive() { return m_Active; }
     bool IsRoll() { return m_bRoll; }
 
-    void SetOwner(CMonster* _Owner) { m_Owner = _Owner; }
+    void SetOwner(CObj* _Owner) { m_Owner = _Owner; }
 
     CLONE(CSnowObj)
 

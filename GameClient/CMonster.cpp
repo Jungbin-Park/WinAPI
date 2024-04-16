@@ -59,8 +59,8 @@ CMonster::CMonster()
 	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"MonsterRightTex", L"texture\\Monster\\Enemy\\Demonio_Right.png");
 
 	// Create & Save
-	/*
-	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	
+	/*m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
 	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
@@ -86,8 +86,8 @@ CMonster::CMonster()
 	m_Animator->FindAnimation(L"JUMPREADY_RIGHT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"STRUGGLE")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"SHAKE")->Save(L"animation\\monster\\");
-	m_Animator->FindAnimation(L"DEAD")->Save(L"animation\\monster\\");
-	*/
+	m_Animator->FindAnimation(L"DEAD")->Save(L"animation\\monster\\");*/
+	
 	
 
 	// Load
@@ -232,7 +232,6 @@ void CMonster::tick()
 			curLevel->AddScore();
 			GetFSM()->GetOwner()->Dead(true);
 		}
-		
 	}
 }
 

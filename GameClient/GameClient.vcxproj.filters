@@ -376,7 +376,13 @@
     <ClInclude Include="MMoveState.h">
       <Filter>03. Game\08. Module\State\MiniBossState</Filter>
     </ClInclude>
-    <ClInclude Include="MIdleState.h">
+    <ClInclude Include="MBallState.h">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClInclude>
+    <ClInclude Include="MWakeState.h">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClInclude>
+    <ClInclude Include="MSnowState.h">
       <Filter>03. Game\08. Module\State\MiniBossState</Filter>
     </ClInclude>
   </ItemGroup>
@@ -590,10 +596,16 @@
     <ClCompile Include="CMiniBoss.cpp">
       <Filter>03. Game\05. Object\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="MIdleState.cpp">
+    <ClCompile Include="MBallState.cpp">
       <Filter>03. Game\08. Module\State\MiniBossState</Filter>
     </ClCompile>
     <ClCompile Include="MMoveState.cpp">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClCompile>
+    <ClCompile Include="MWakeState.cpp">
+      <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClCompile>
+    <ClCompile Include="MSnowState.cpp">
       <Filter>03. Game\08. Module\State\MiniBossState</Filter>
     </ClCompile>
   </ItemGroup>
