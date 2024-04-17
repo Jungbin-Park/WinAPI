@@ -102,7 +102,7 @@ void BDownState::Shoot()
 	pMBoss->SetPos(vMBossPos);
 	pMBoss->SetScale(Vec2(95.f, 95.f));
 
-	pMBoss->GetRigidBody()->SetMissileSpeed(1000.f);
+	pMBoss->GetRigidBody()->SetMissileSpeed(1500.f);
 	SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::MONSTER, pMBoss);
 	pMBoss->GetRigidBody()->Shoot(Vec2(-10.f, 0.0f));
 }

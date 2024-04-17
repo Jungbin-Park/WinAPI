@@ -65,23 +65,25 @@ CMiniBoss::CMiniBoss()
 	m_Animator->FindAnimation(L"WALK_RIGHT")->Save(L"animation\\miniboss\\");*/
 
 	m_Animator->LoadAnimation(L"animation\\miniboss\\SHOOT.anim");
+
 	m_Animator->LoadAnimation(L"animation\\miniboss\\BALL_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\miniboss\\BALL_RIGHT.anim");
+
 	m_Animator->LoadAnimation(L"animation\\miniboss\\WAKE_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\miniboss\\WAKE_RIGHT.anim");
+
 	m_Animator->LoadAnimation(L"animation\\miniboss\\WALK_LEFT.anim");
 	m_Animator->LoadAnimation(L"animation\\miniboss\\WALK_RIGHT.anim");
 
 	// Rigidbody 설정
 	m_RigidBody->SetMass(1.f);
-	m_RigidBody->SetInitialWalkSpeed(1000.f);
-	m_RigidBody->SetMaxWalkSpeed(400.f);
-	m_RigidBody->SetFriction(500.f);
+	m_RigidBody->SetInitialWalkSpeed(700.f);
+	m_RigidBody->SetMaxWalkSpeed(1500.f);
+	m_RigidBody->SetFriction(2000.f);
 
 	// 중력 설정
 	m_RigidBody->UseGravity(true);
 	m_RigidBody->SetMaxGravitySpeed(980.f);
-	m_RigidBody->SetJumpSpeed(600.f);
 	m_RigidBody->SetMissileSpeed(1000.f);
 
 	m_Animator->Play(L"SHOOT", false);

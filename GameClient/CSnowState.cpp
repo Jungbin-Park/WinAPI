@@ -2,6 +2,7 @@
 #include "CSnowState.h"
 
 #include "CMonster.h"
+#include "MRana.h"
 #include "CAnimator.h"
 
 CSnowState::CSnowState()
@@ -16,7 +17,17 @@ void CSnowState::Enter()
 {
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
 	CMonster* pMon = dynamic_cast<CMonster*>(pSelf);
-	CAnimator* pAnimator = pMon->GetAnimator();
+	MRana* Rana = dynamic_cast<MRana*>(pSelf);
+	CAnimator* pAnimator;
+
+	if (pMon != nullptr)
+	{
+		pAnimator = pMon->GetAnimator();
+	}
+	else
+	{
+		pAnimator = Rana->GetAnimator();
+	}
 
 	pAnimator->Play(L"STRUGGLE", true);
 }
@@ -25,7 +36,17 @@ void CSnowState::FinalTick()
 {
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
 	CMonster* pMon = dynamic_cast<CMonster*>(pSelf);
-	CAnimator* pAnimator = pMon->GetAnimator();
+	MRana* Rana = dynamic_cast<MRana*>(pSelf);
+	CAnimator* pAnimator;
+
+	if (pMon != nullptr)
+	{
+		pAnimator = pMon->GetAnimator();
+	}
+	else
+	{
+		pAnimator = Rana->GetAnimator();
+	}
 
 	bool IsSnow = GetBlackboardData<bool>(L"IsSnow");
 

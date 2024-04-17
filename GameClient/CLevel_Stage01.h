@@ -39,9 +39,9 @@ public:
 public:
 	int GetScore() { return m_Score; }
 
-	void AddScore() 
+	void AddScore(int _Score) 
 	{ 
-		m_Score++; 
+		m_Score += _Score;
 		LOG(LOG_TYPE::DBG_LOG, L"Score +1");
 	}
 

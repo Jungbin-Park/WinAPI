@@ -11,6 +11,7 @@
 #include "CForce.h"
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "MRana.h"
 #include "CBoss.h"
 #include "CPlatform.h"
 #include "CWall.h"
@@ -68,7 +69,7 @@ void CLevel_Stage01::tick()
 		Clear(3);
 	}
 
-	if (m_Score == 2)
+	if (m_Score >= 4)
 		RoundClear(m_CurRound);
 
 }
@@ -114,15 +115,18 @@ void CLevel_Stage01::Enter()
 	CCollisionMgr::GetInst()->CollisionCheckClear();
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::BOSS);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER_MISSILE);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::BOSS, LAYER_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER_MISSILE, LAYER_TYPE::PLATFORM);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::WALL);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::WALL);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::WALL);
+	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::MONSTER_MISSILE, LAYER_TYPE::WALL);
 
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::PLAYER_MISSILE, LAYER_TYPE::PLATFORM);
@@ -184,7 +188,19 @@ void CLevel_Stage01::Start()
 
 		pObject = new CMonster;
 		pObject->SetName(L"Monster");
-		pObject->SetPos(700.f, 800.f);
+		pObject->SetPos(100.f, 700.f);
+		pObject->SetScale(100.f, 100.f);
+		AddObject(LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(1300.f, 400.f);
+		pObject->SetScale(100.f, 100.f);
+		AddObject(LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(1300.f, 700.f);
 		pObject->SetScale(100.f, 100.f);
 		AddObject(LAYER_TYPE::MONSTER, pObject);
 
@@ -206,9 +222,22 @@ void CLevel_Stage01::Start()
 		// ============================
 		//			몬스터 추가
 		// ============================
-		CObj *pObject = new CMonster;
-		pObject->SetName(L"Monster");
+		
+		CObj* pObject = new MRana;
+		pObject->SetName(L"Rana");
+		pObject->SetPos(600.f, -896.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new MRana;
+		pObject->SetName(L"Rana");
 		pObject->SetPos(700.f, -596.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new CMonster;
+		pObject->SetName(L"Monster");
+		pObject->SetPos(200.f, -596.f);
 		pObject->SetScale(100.f, 100.f);
 		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
 
@@ -217,6 +246,7 @@ void CLevel_Stage01::Start()
 		pObject->SetPos(800.f, -296.f);
 		pObject->SetScale(100.f, 100.f);
 		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
 
 		break;
 	}
@@ -236,15 +266,27 @@ void CLevel_Stage01::Start()
 		// ============================
 		//			몬스터 추가
 		// ============================
-		CObj* pObject = new CMonster;
-		pObject->SetName(L"Monster");
-		pObject->SetPos(700.f, -1592.f);
+		CObj* pObject = new MRana;
+		pObject->SetName(L"Rana");
+		pObject->SetPos(400.f, -1900.f);
 		pObject->SetScale(100.f, 100.f);
 		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
 
-		pObject = new CMonster;
-		pObject->SetName(L"Monster");
-		pObject->SetPos(800.f, -1292.f);
+		pObject = new MRana;
+		pObject->SetName(L"Rana");
+		pObject->SetPos(1000.f, -1900.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new MRana;
+		pObject->SetName(L"Rana");
+		pObject->SetPos(100.f, -1200.f);
+		pObject->SetScale(100.f, 100.f);
+		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
+		pObject = new MRana;
+		pObject->SetName(L"Rana");
+		pObject->SetPos(1300.f, -1200.f);
 		pObject->SetScale(100.f, 100.f);
 		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
 

@@ -8,6 +8,9 @@ private:
 
     bool            m_Dead;
 
+    CTexture*       m_Atlas;
+    CTexture*       m_HitAtlas;
+
     Vec2            m_Data;
 
     CCollider*      m_Collider;

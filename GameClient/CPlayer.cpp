@@ -15,9 +15,12 @@
 #include "CSnow.h"
 #include "CSnowObj.h"
 #include "CMonster.h"
+#include "MRana.h"
 #include "CMiniBoss.h"
 
 #include "CDbgRender.h"
+
+static float Time = 0.f;
 
 void BeGround()
 {
@@ -37,6 +40,7 @@ CPlayer::CPlayer()
 	, m_Direction(eDirection::Right)
 	, m_Dead(false)
 	, m_bClear(false)
+	, m_bInvinsible(false)
 	, m_StopLeft(false)
 	, m_StopRight(false)
 	, m_Ground(false)
@@ -49,8 +53,8 @@ CPlayer::CPlayer()
 	m_RigidBody = (CRigidBody*)AddComponent(new CRigidBody);
 
 	m_Collider->SetName(L"Player Collider");
-	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
-	m_Collider->SetScale(Vec2(80.f, 128.f));
+	m_Collider->SetOffsetPos(Vec2(0.f, 10.f));
+	m_Collider->SetScale(Vec2(80.f, 118.f));
 	m_Collider->SetActive(true);
 
 
@@ -58,8 +62,10 @@ CPlayer::CPlayer()
 	//		  Animation 추가
 	// ===============================
 
-	CTexture* pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left1.bmp");
-	CTexture* pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right1.bmp");
+	m_pAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PlayerLeftTex", L"texture\\Player\\Nick_Left1.bmp");
+	m_pAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PlayerRightTex", L"texture\\Player\\Nick_Right1.bmp");
+	m_pWAtlasR = CAssetMgr::GetInst()->LoadTexture(L"PWhiteRightTex", L"texture\\Player\\Nick_RightW.bmp");
+	m_pWAtlasL = CAssetMgr::GetInst()->LoadTexture(L"PWhiteLeftTex", L"texture\\Player\\Nick_LeftW.bmp");
 	/*
 	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(1120.f, 0.f), Vec2(160.f, 160.f), 1, 10);
@@ -129,6 +135,7 @@ CPlayer::CPlayer(const CPlayer& _Other)
 	, m_State(eState::IDLE)
 	, m_Direction(eDirection::Right)
 	, m_bClear(false)
+	, m_bInvinsible(false)
 	, m_Dead(false)
 	, m_StopLeft(false)
 	, m_StopRight(false)
@@ -439,7 +446,7 @@ void CPlayer::tick()
 					pSnow->SetName(L"Snow");
 
 					Vec2 vSnowPos = GetPos();
-					vSnowPos.x += GetScale().x / 2.f;
+					vSnowPos.x += GetScale().x * 0.5f;
 
 					pSnow->SetPos(vSnowPos);
 					pSnow->SetScale(Vec2(30.f, 40.f));
@@ -522,13 +529,37 @@ void CPlayer::tick()
 		// 사망 애니메이션
 		if (m_Animator->GetCurAnim()->GetName() == L"DEAD")
 		{
+			// 무적 상태
+			m_bInvinsible = true;
 			// -1240, -136
-			vPos = CCamera::GetInst()->GetLookAt() + Vec2(-520.f, 372.f);
-			//vPos = Vec2(200.f, 870.f);
+			vPos = CCamera::GetInst()->GetLookAt() + Vec2(-520.f, 360.f);
 			m_Dead = false;
 			m_Animator->Play(L"IDLE_RIGHT", true);
 		}
 	}
+
+	if (m_bInvinsible)
+	{
+		Time += DT;
+		
+		// 깜빡거림 처리
+		/*if (m_Direction == eDirection::Left)
+		{
+			m_Animator->GetCurAnim()->SetAtlasTexture(m_pWAtlasL);
+		}
+		else if (m_Direction == eDirection::Right)
+		{
+			m_Animator->GetCurAnim()->SetAtlasTexture(m_pWAtlasR);
+		}*/
+			
+		if (Time >= 2.f)
+		{
+			m_bInvinsible = false;
+			Time = 0.f;
+		}
+		
+	}
+		
 
 	SetPos(vPos);
 }
@@ -602,36 +633,51 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 	if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER)
 	{
 		CMonster* Mon = dynamic_cast<CMonster*>(_OtherObj);
+		MRana*	Rana = dynamic_cast<MRana*>(_OtherObj);
 		CMiniBoss* MBoss = dynamic_cast<CMiniBoss*>(_OtherObj);
 		
-		if (Mon != nullptr)
+		if (!m_bInvinsible)
 		{
-			if (Mon->IsSnow() || Mon->IsMonDead())
+			if (Mon != nullptr)
 			{
-				return;
-			}
-			else
-			{
-				m_Dead = true;
+				if (Mon->IsSnow() || Mon->IsMonDead())
+				{
+					return;
+				}
+				else
+				{
+					m_Dead = true;
 
-				m_Animator->Play(L"DEAD", false);
+					m_Animator->Play(L"DEAD", false);
+				}
+			}
+			if (MBoss != nullptr)
+			{
+				if (MBoss->IsSnow() || MBoss->IsMonDead())
+				{
+					return;
+				}
+				else
+				{
+					m_Dead = true;
+
+					m_Animator->Play(L"DEAD", false);
+				}
+			}
+			if (Rana != nullptr)
+			{
+				if (Rana->IsSnow() || Rana->IsMonDead())
+				{
+					return;
+				}
+				else
+				{
+					m_Dead = true;
+
+					m_Animator->Play(L"DEAD", false);
+				}
 			}
 		}
-		if (MBoss != nullptr)
-		{
-			if (MBoss->IsSnow() || MBoss->IsMonDead())
-			{
-				return;
-			}
-			else
-			{
-				m_Dead = true;
-
-				m_Animator->Play(L"DEAD", false);
-			}
-		}
-		
-		
 	}
 
 	if (_OtherObj->GetName() == L"SnowObj")
@@ -653,6 +699,13 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 
 		}
 			
+	}
+
+	if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER_MISSILE)
+	{
+		m_Dead = true;
+
+		m_Animator->Play(L"DEAD", false);
 	}
 	
 }

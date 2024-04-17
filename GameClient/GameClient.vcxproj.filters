@@ -137,9 +137,6 @@
     <Filter Include="03. Game\05. Object\Background">
       <UniqueIdentifier>{998994c1-d516-429b-83e0-03365cde473c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Game\05. Object\Snow">
-      <UniqueIdentifier>{434840c7-ab92-4ed9-827d-8331673130ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Game\05. Object\Wall">
       <UniqueIdentifier>{55585f39-f805-4c80-a38e-2655b8252aa6}</UniqueIdentifier>
     </Filter>
@@ -154,6 +151,12 @@
     </Filter>
     <Filter Include="03. Game\08. Module\State\MiniBossState">
       <UniqueIdentifier>{7009aca7-ec90-40f5-a985-7c1e4e9fe19e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\04. Level\04. Stage_Start">
+      <UniqueIdentifier>{ec6b2f3c-33fd-479e-85f4-95f4efe66d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Game\04. Level\05. Stage_End">
+      <UniqueIdentifier>{6c97ddcf-3821-44c0-81e8-1f53cb952463}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -316,9 +319,6 @@
     <ClInclude Include="CLevel_Start.h">
       <Filter>03. Game\04. Level\01. Start_Logo</Filter>
     </ClInclude>
-    <ClInclude Include="CSnow.h">
-      <Filter>03. Game\05. Object\Snow</Filter>
-    </ClInclude>
     <ClInclude Include="CStage03.h">
       <Filter>03. Game\05. Object\Background</Filter>
     </ClInclude>
@@ -384,6 +384,12 @@
     </ClInclude>
     <ClInclude Include="MSnowState.h">
       <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClInclude>
+    <ClInclude Include="CSnow.h">
+      <Filter>03. Game\05. Object\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterMissile.h">
+      <Filter>03. Game\05. Object\Missile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -539,9 +545,6 @@
     <ClCompile Include="CLevel_Start.cpp">
       <Filter>03. Game\04. Level\01. Start_Logo</Filter>
     </ClCompile>
-    <ClCompile Include="CSnow.cpp">
-      <Filter>03. Game\05. Object\Snow</Filter>
-    </ClCompile>
     <ClCompile Include="CStage01.cpp">
       <Filter>03. Game\05. Object\Background</Filter>
     </ClCompile>
@@ -607,6 +610,12 @@
     </ClCompile>
     <ClCompile Include="MSnowState.cpp">
       <Filter>03. Game\08. Module\State\MiniBossState</Filter>
+    </ClCompile>
+    <ClCompile Include="CSnow.cpp">
+      <Filter>03. Game\05. Object\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterMissile.cpp">
+      <Filter>03. Game\05. Object\Missile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

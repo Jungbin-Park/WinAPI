@@ -3,6 +3,7 @@
 
 #include "CFSM.h"
 #include "CMonster.h"
+#include "MRana.h"
 #include "CAnimator.h"
 
 static float Time = 0.f;
@@ -21,56 +22,108 @@ void CIdleState::Enter()
 	float Range = GetBlackboardData<float>(L"DetectRange");
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
 	CObj* pPlayer = GetBlackboardData<CObj*>(L"Target");
-
+	eDirection pDir = pSelf->GetDirection();
 	CMonster* pMon = dynamic_cast<CMonster*>(pSelf);
-	CAnimator* pAnimator = pMon->GetAnimator();
-	eDirection pDir = pMon->GetDirection();
+	MRana* Rana = dynamic_cast<MRana*>(pSelf);
+	CAnimator* pAnimator;
 
 	Vec2 pPos = pPlayer->GetPos();
 	Vec2 sPos = pSelf->GetPos();
-
 	Vec2 vDir = pPos - sPos;
 
-	if (pMon->IsMonDead() != true)
+	if (pMon != nullptr)
 	{
-		// 범위 안에 들어오면 플레이어 방향으로 방향 변경
-		if (pPlayer->GetPos().GetDistance(sPos) < Range)
+		pAnimator = pMon->GetAnimator();
+
+		if (pMon->IsMonDead() != true)
 		{
-			if (vDir.x > 0.f)
+			// 범위 안에 들어오면 플레이어 방향으로 방향 변경
+			if (pPlayer->GetPos().GetDistance(sPos) < Range)
 			{
-				pDir = eDirection::Right;
-				pMon->SetDirection(pDir);
-				pAnimator->Play(L"IDLE_RIGHT", false);
-			}
-			else if (vDir.x < 0.f)
-			{
-				pDir = eDirection::Left;
-				pMon->SetDirection(pDir);
-				pAnimator->Play(L"IDLE_LEFT", false);
-			}
-		}
-		else
-		{
-			if (pDir == eDirection::Left)
-			{
-				pDir = eDirection::Right;
-				pMon->SetDirection(pDir);
-				pAnimator->Play(L"IDLE_LEFT", false);
-			}
-			else if (pDir == eDirection::Right)
-			{
-				pDir = eDirection::Left;
-				pMon->SetDirection(pDir);
-				pAnimator->Play(L"IDLE_RIGHT", false);
+				if (vDir.x > 0.f)
+				{
+					pDir = eDirection::Right;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_RIGHT", false);
+				}
+				else if (vDir.x < 0.f)
+				{
+					pDir = eDirection::Left;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_LEFT", false);
+				}
 			}
 			else
 			{
-				pDir = eDirection::Right;
-				pMon->SetDirection(pDir);
-				pAnimator->Play(L"IDLE", false);
+				if (pDir == eDirection::Left)
+				{
+					pDir = eDirection::Right;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_LEFT", false);
+				}
+				else if (pDir == eDirection::Right)
+				{
+					pDir = eDirection::Left;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_RIGHT", false);
+				}
+				else
+				{
+					pDir = eDirection::Right;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE", false);
+				}
 			}
 		}
 	}
+	else
+	{
+		pAnimator = Rana->GetAnimator();
+
+		if (Rana->IsMonDead() != true)
+		{
+			// 범위 안에 들어오면 플레이어 방향으로 방향 변경
+			if (pPlayer->GetPos().GetDistance(sPos) < Range)
+			{
+				if (vDir.x > 0.f)
+				{
+					pDir = eDirection::Right;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_RIGHT", false);
+				}
+				else if (vDir.x < 0.f)
+				{
+					pDir = eDirection::Left;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_LEFT", false);
+				}
+			}
+			else
+			{
+				if (pDir == eDirection::Left)
+				{
+					pDir = eDirection::Right;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_LEFT", false);
+				}
+				else if (pDir == eDirection::Right)
+				{
+					pDir = eDirection::Left;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE_RIGHT", false);
+				}
+				else
+				{
+					pDir = eDirection::Right;
+					pSelf->SetDirection(pDir);
+					pAnimator->Play(L"IDLE", false);
+				}
+			}
+		}
+	}
+	
+	
+	
 	
 }
 
@@ -79,19 +132,35 @@ void CIdleState::FinalTick()
 	float Range = GetBlackboardData<float>(L"DetectRange");
 	CObj* pSelf = GetBlackboardData<CObj*>(L"Self");
 	CMonster* pMon = dynamic_cast<CMonster*>(pSelf);
+	MRana* Rana = dynamic_cast<MRana*>(pSelf);
 
 	// 몬스터의 탐지 범위를 시각화
 	DrawDebugCircle(PEN_TYPE::PEN_GREEN, pSelf->GetPos(), Vec2(Range * 2.f, Range * 2.f), 0);
 
-	// 2초가 지난 후 Move 상태로 전환
-	if (pMon->IsMonDead() != true)
+	if (pMon != nullptr)
 	{
-		Time += DT;
-		if (Time >= 2.f)
+		// 2초가 지난 후 Move 상태로 전환
+		if (pMon->IsMonDead() != true)
 		{
-			GetFSM()->ChangeState(L"Move");
+			Time += DT;
+			if (Time >= 2.f)
+			{
+				GetFSM()->ChangeState(L"Move");
+			}
 		}
 	}
+	else
+	{
+		if (Rana->IsMonDead() != true)
+		{
+			Time += DT;
+			if (Time >= 2.f)
+			{
+				GetFSM()->ChangeState(L"Move");
+			}
+		}
+	}
+	
 	
 }
 

@@ -30,7 +30,6 @@ CMonster::CMonster()
 	, m_Dead(false)
 	, m_bSnow(false)
 	, m_Ground(false)
-	, m_Direction(eDirection::None)
 	, m_StopLeft(false)
 	, m_StopRight(false)
 	, m_Wall(false)
@@ -60,7 +59,8 @@ CMonster::CMonster()
 
 	// Create & Save
 	
-	/*m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
+	/*
+	m_Animator->CreateAnimation(L"IDLE_LEFT", pAtlasL, Vec2(0.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"IDLE_RIGHT", pAtlasR, Vec2(640.f, 0.f), Vec2(160.f, 160.f), 1, 10);
 	m_Animator->CreateAnimation(L"WALK_LEFT", pAtlasL, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
 	m_Animator->CreateAnimation(L"WALK_RIGHT", pAtlasR, Vec2(160.f, 0.f), Vec2(160.f, 160.f), 3, 10);
@@ -86,7 +86,8 @@ CMonster::CMonster()
 	m_Animator->FindAnimation(L"JUMPREADY_RIGHT")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"STRUGGLE")->Save(L"animation\\monster\\");
 	m_Animator->FindAnimation(L"SHAKE")->Save(L"animation\\monster\\");
-	m_Animator->FindAnimation(L"DEAD")->Save(L"animation\\monster\\");*/
+	m_Animator->FindAnimation(L"DEAD")->Save(L"animation\\monster\\");
+	*/
 	
 	
 
@@ -128,7 +129,6 @@ CMonster::CMonster(Vec2(_Pos), Vec2(_Scale))
 	, m_Dead(false)
 	, m_bSnow(false)
 	, m_Ground(false)
-	, m_Direction(eDirection::None)
 	, m_StopLeft(false)
 	, m_StopRight(false)
 	, m_Wall(false)
@@ -229,7 +229,7 @@ void CMonster::tick()
 		if (m_Animator->GetCurAnim()->GetName() == L"DEAD")
 		{
 			CLevel_Stage01* curLevel = dynamic_cast<CLevel_Stage01*>(CLevelMgr::GetInst()->GetCurrentLevel());
-			curLevel->AddScore();
+			curLevel->AddScore(1);
 			GetFSM()->GetOwner()->Dead(true);
 		}
 	}
@@ -238,9 +238,9 @@ void CMonster::tick()
 
 void CMonster::Jump()
 {
-	if (m_Direction == eDirection::Left)
+	if (GetDirection() == eDirection::Left)
 		m_Animator->Play(L"JUMP_LEFT", false);
-	else if (m_Direction == eDirection::Right)
+	else if (GetDirection() == eDirection::Right)
 		m_Animator->Play(L"JUMP_RIGHT", false);
 
 	Vec2 vGV = m_RigidBody->GetGravityVelocity();
@@ -263,11 +263,11 @@ void CMonster::Air()
 
 void CMonster::SetWall()
 {
-	if (m_Direction == eDirection::Left)
+	if (GetDirection() == eDirection::Left)
 	{
 		m_StopLeft = true;
 	}
-	else if (m_Direction == eDirection::Right)
+	else if (GetDirection() == eDirection::Right)
 	{
 		m_StopRight = true;
 	}

@@ -30,6 +30,7 @@ private:
     vector<CComponent*>     m_vecCom;   // 보유 컴포넌트들
 
     CAnimator*              m_Animator;
+    eDirection              m_Direction;
 
     LAYER_TYPE              m_Type;     // 소속 레이어
     bool                    m_bDead;    // 삭제 예정상태
@@ -41,6 +42,7 @@ public:
 
     void SetPos(float _x, float _y) { m_Pos.x = _x; m_Pos.y = _y; }
     void SetScale(float _width, float _height) { m_Scale.x = _width; m_Scale.y = _height; }
+    void SetDirection(eDirection _Dir) { m_Direction = _Dir; }
 
     void Dead(bool _Val) { m_bDead = _Val; }
 
@@ -49,6 +51,8 @@ public:
     Vec2 GetRenderPos() { return CCamera::GetInst()->GetRenderPos(m_Pos); }
     Vec2 GetScale() { return m_Scale; }
     LAYER_TYPE GetLayerType() { return m_Type; }
+    eDirection GetDirection() { return m_Direction; }
+
     bool IsDead() { return m_bDead; }
 
     void Destroy();

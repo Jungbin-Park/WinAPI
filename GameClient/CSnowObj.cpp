@@ -15,6 +15,7 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CMiniBoss.h"
+#include "MRana.h"
 
 #include "CFSM.h"
 
@@ -141,6 +142,10 @@ void CSnowObj::tick()
 					CMiniBoss* cMBoss = dynamic_cast<CMiniBoss*>(m_Owner);
 					if (cMBoss != nullptr)
 						cMBoss->SetSnow(false);
+
+					MRana* Rana = dynamic_cast<MRana*>(m_Owner);
+					if (Rana != nullptr)
+						Rana->SetSnow(false);
 				}
 					
 
@@ -192,7 +197,10 @@ void CSnowObj::Boom()
 {
 	m_Animator->Play(L"BOOM", false);
 	CLevel_Stage01* curLevel = dynamic_cast<CLevel_Stage01*>(CLevelMgr::GetInst()->GetCurrentLevel());
-	curLevel->AddScore();
+	if (m_Owner->GetName() == L"Monster" || m_Owner->GetName() == L"Rana")
+	{
+		curLevel->AddScore(1);
+	}
 	m_Owner->Destroy();
 	m_bBoom = true;
 }
@@ -201,10 +209,12 @@ void CSnowObj::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 {
 	if (m_Active && _OtherObj->GetName() == L"Wall")
 	{
-		if (m_WallHitCount < 3 && !m_bBoom)
+		m_Dir.x *= -1;
+
+		Vec2 Pos = GetPos();
+		if (m_WallHitCount < 3 && !m_bBoom && Pos.y > CCamera::GetInst()->GetLookAt().y)
 		{
 			m_WallHitCount++;
-			m_Dir.x *= -1;
 		}
 	}
 
@@ -212,6 +222,11 @@ void CSnowObj::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 	{
 		if (m_SnowHitCount < 6)
 			m_SnowHitCount++;
+	}
+
+	if (_OtherObj->GetName() == L"Boss")
+	{
+		Boom();
 	}
 }
 

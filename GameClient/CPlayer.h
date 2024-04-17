@@ -23,6 +23,11 @@ private:
     int             m_JumpCount;
     int             m_CurJumpCount;
 
+    CTexture*       m_pAtlasL;
+    CTexture*       m_pAtlasR;
+    CTexture*       m_pWAtlasL;
+    CTexture*       m_pWAtlasR;
+
     CSnowObj*       m_OverlappedSnowObj;
     
     CCollider*      m_Collider;
@@ -34,6 +39,7 @@ private:
 
     bool            m_Dead;
     bool            m_bClear;
+    bool            m_bInvinsible;
 
     bool            m_StopLeft;
     bool            m_StopRight;

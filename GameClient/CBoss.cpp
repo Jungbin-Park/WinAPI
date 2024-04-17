@@ -22,7 +22,8 @@
 
 
 CBoss::CBoss()
-	: m_Dead(false)
+	: m_HP(100)
+	, m_Dead(false)
 	, m_Down(false)
 	, m_Ground(false)
 {
@@ -51,10 +52,11 @@ CBoss::CBoss()
 	m_FSM->AddState(L"Down", new BDownState);
 	m_FSM->AddState(L"Dead", new BDeadState);
 	
+	m_Atlas = CAssetMgr::GetInst()->LoadTexture(L"BossTex", L"texture\\Monster\\boss\\Boss_1\\boss_1.png");
+	m_HitAtlas = CAssetMgr::GetInst()->LoadTexture(L"BossHitTex", L"texture\\Monster\\boss\\Boss_1\\boss_2.png");
+
 	// Animation
 	/*
-	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"BossTex", L"texture\\Monster\\boss\\Boss_1\\boss_1.png");
-
 	m_Animator->CreateAnimation(L"IDLE", pAtlas, Vec2(0.f, 0.f), Vec2(395.f, 560.f), 1, 10);
 	m_Animator->CreateAnimation(L"JUMP", pAtlas, Vec2(0.f, 0.f), Vec2(395.f, 560.f), 3, 10);
 	m_Animator->CreateAnimation(L"DEAD", pAtlas, Vec2(1185.f, 0.f), Vec2(470.f, 560.f), 2, 1);
@@ -65,7 +67,6 @@ CBoss::CBoss()
 	m_Animator->FindAnimation(L"DEAD")->Save(L"animation\\boss\\");
 	m_Animator->FindAnimation(L"DOWN")->Save(L"animation\\boss\\");
 
-	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"BossHitTex", L"texture\\Monster\\boss\\Boss_1\\boss_2.png");
 	m_Animator->CreateAnimation(L"HIT", pAtlas, Vec2(0.f, 0.f), Vec2(395.f, 560.f), 1, 10);
 	m_Animator->FindAnimation(L"HIT")->Save(L"animation\\boss\\");
 
@@ -102,6 +103,26 @@ void CBoss::begin()
 void CBoss::tick()
 {
 	CObj::tick();
+
+	if (m_HP <= 0.f && !m_Dead)
+	{
+		m_Dead = true;
+		m_FSM->ChangeState(L"Dead");
+	}
+
+	if (m_Animator->GetCurAnim()->IsFinish())
+	{
+		if (m_Animator->GetCurAnim()->GetName() == L"DEAD")
+		{
+			CLevel_Stage01* curLevel = dynamic_cast<CLevel_Stage01*>(CLevelMgr::GetInst()->GetCurrentLevel());
+			curLevel->AddScore(5);
+			m_RigidBody->SetActive(false);
+			m_Collider->SetActive(false);
+			GetFSM()->GetOwner()->Dead(true);
+		}
+	}
+
+
 }
 
 void CBoss::Jump()
@@ -131,8 +152,13 @@ void CBoss::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _O
 	// 공격에 맞으면 텍스쳐 변환
 	if (_OtherObj->GetName() == L"Snow")
 	{
-		CSnow* pSnow = dynamic_cast<CSnow*>(_OtherObj);
-		m_Animator->Play(L"HIT", false);
+		m_Animator->GetCurAnim()->SetAtlasTexture(m_HitAtlas);
+		m_HP--;
+	}
+	else if(_OtherObj->GetName() == L"SnowObj")
+	{
+		m_Animator->GetCurAnim()->SetAtlasTexture(m_HitAtlas);
+		m_HP -= 30;
 	}
 }
 
@@ -142,6 +168,10 @@ void CBoss::OnOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _Othe
 
 void CBoss::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
 {
+	if (_OtherObj->GetName() == L"Snow" || _OtherObj->GetName() == L"SnowObj")
+	{
+		m_Animator->GetCurAnim()->SetAtlasTexture(m_Atlas);
+	}
 }
 
 

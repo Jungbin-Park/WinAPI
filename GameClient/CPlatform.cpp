@@ -115,6 +115,10 @@ void CPlatform::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 	}
 	else if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER)
 	{
+		if (_OtherObj->GetName() == L"Monster")
+		{
+
+		}
 		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
 		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);

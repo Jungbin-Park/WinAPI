@@ -100,9 +100,9 @@ void BJumpState::Shoot()
 	pMBoss->SetPos(vMBossPos);
 	pMBoss->SetScale(Vec2(30.f, 40.f));
 
-	pMBoss->GetRigidBody()->SetMissileSpeed(1000.f);
+	pMBoss->GetRigidBody()->SetMissileSpeed(1500.f);
 	SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::MONSTER, pMBoss);
-	pMBoss->GetRigidBody()->Shoot(Vec2(-10.f, 0.0f));
+	pMBoss->GetRigidBody()->Shoot(Vec2(-1.f, 0.0f));
 }
 
 
