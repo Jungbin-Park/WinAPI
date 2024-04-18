@@ -22,8 +22,11 @@
 #include "CStage03.h"
 #include "CStageBoss.h"
 
+#include "CSound.h"
+
 CLevel_Stage01::CLevel_Stage01()
 	: m_Platform(nullptr)
+	, m_Wall(nullptr)
 	, m_CurRound(1)
 	, m_Score(0)
 {
@@ -51,7 +54,7 @@ void CLevel_Stage01::tick()
 
 	if (KEY_TAP(KEY::ENTER))
 	{
-		ChangeLevel(LEVEL_TYPE::COLLIDER_EDITOR);
+		ChangeLevel(LEVEL_TYPE::LOGO_END);
 	}
 
 	if (KEY_TAP(KEY::_1))
@@ -204,6 +207,10 @@ void CLevel_Stage01::Start()
 		pObject->SetScale(100.f, 100.f);
 		AddObject(LAYER_TYPE::MONSTER, pObject);
 
+		CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Stage01", L"sound\\Music\\Stage01.wav");
+		pSound->SetVolume(100.f);
+		pSound->PlayToBGM(true);
+
 		break;
 	}
 	case 2:
@@ -247,6 +254,9 @@ void CLevel_Stage01::Start()
 		pObject->SetScale(100.f, 100.f);
 		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
 
+		CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Stage02", L"sound\\Music\\Stage02.wav");
+		pSound->SetVolume(100.f);
+		pSound->PlayToBGM(true);
 
 		break;
 	}
@@ -289,6 +299,10 @@ void CLevel_Stage01::Start()
 		pObject->SetPos(1300.f, -1200.f);
 		pObject->SetScale(100.f, 100.f);
 		SpawnObject(this, LAYER_TYPE::MONSTER, pObject);
+
+		CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Stage01", L"sound\\Music\\Stage01.wav");
+		pSound->SetVolume(100.f);
+		pSound->PlayToBGM(true);
 
 		break;
 	}

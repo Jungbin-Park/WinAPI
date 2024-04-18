@@ -59,6 +59,8 @@ public:
 		m_CamFixedDelegate = _MemFunc;
 	}
 
+	void DrawBlackTex();
+
 public:
 	void init();
 	void tick();

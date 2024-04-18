@@ -10,7 +10,10 @@
 #include "CAssetMgr.h"
 #include "CTaskMgr.h"
 #include "CCamera.h"
+#include "CSoundMgr.h"
+
 #include "CTexture.h"
+
 
 
 CEngine::CEngine()
@@ -57,8 +60,10 @@ int CEngine::init(HINSTANCE _hInst, HWND _hWnd, POINT _Resolution)
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
+	CSoundMgr::GetInst()->init();
 	CAssetMgr::GetInst()->init();
 	CLevelMgr::GetInst()->init();
+
 	CCamera::GetInst()->init();
 
 	return S_OK;

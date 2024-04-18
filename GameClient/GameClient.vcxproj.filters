@@ -391,6 +391,12 @@
     <ClInclude Include="CMonsterMissile.h">
       <Filter>03. Game\05. Object\Missile</Filter>
     </ClInclude>
+    <ClInclude Include="CStartLevel.h">
+      <Filter>03. Game\04. Level\04. Stage_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="CEndLevel.h">
+      <Filter>03. Game\04. Level\05. Stage_End</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -616,6 +622,12 @@
     </ClCompile>
     <ClCompile Include="CMonsterMissile.cpp">
       <Filter>03. Game\05. Object\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="CStartLevel.cpp">
+      <Filter>03. Game\04. Level\04. Stage_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="CEndLevel.cpp">
+      <Filter>03. Game\04. Level\05. Stage_End</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

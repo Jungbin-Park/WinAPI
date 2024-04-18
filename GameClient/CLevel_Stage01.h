@@ -1,10 +1,11 @@
-#pragma once
+ #pragma once
 #include "CLevel.h"
 
 class CPlayer;
 class CMonster;
 class CPlatform;
 class CWall;
+class CSound;
 
 class CLevel_Stage01 
 	: public CLevel

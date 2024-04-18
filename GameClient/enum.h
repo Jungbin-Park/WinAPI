@@ -34,6 +34,7 @@ enum class LEVEL_TYPE
 	STAGE_03,
 
 	BOSS_01,
+	LOGO_END,
 
 	END,
 };

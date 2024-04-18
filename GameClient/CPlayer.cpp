@@ -19,6 +19,7 @@
 #include "CMiniBoss.h"
 
 #include "CDbgRender.h"
+#include "CSound.h"
 
 static float Time = 0.f;
 
@@ -175,6 +176,11 @@ void CPlayer::begin()
 	m_RigidBody->SetAirDelegate(this, (DELEGATE)&CPlayer::Air);
 	m_RigidBody->SetWallDelegate(this, (DELEGATE)&CPlayer::SetWall);
 	m_RigidBody->SetWallOffDelegate(this, (DELEGATE)&CPlayer::SetWallOff);
+
+	// 사운드 로딩
+	/*CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\DM.wav");
+	pSound->SetVolume(100.f);
+	pSound->Play();*/
 }
 
 void CPlayer::tick()

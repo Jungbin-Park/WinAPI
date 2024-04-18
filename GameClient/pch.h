@@ -32,3 +32,10 @@ using std::wstring;
 #include <gdiplus.h>
 #pragma comment(lib, "GdiPlus.lib")
 using namespace Gdiplus;
+
+// »ç¿îµå
+#include <mmsystem.h>
+#include <dsound.h>
+#include <dinput.h>
+#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "dsound.lib")

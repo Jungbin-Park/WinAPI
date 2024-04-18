@@ -153,6 +153,7 @@
     <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CAttackState.h" />
     <ClInclude Include="CBoss.h" />
+    <ClInclude Include="CEndLevel.h" />
     <ClInclude Include="CJumpState.h" />
     <ClInclude Include="CMiniBoss.h" />
     <ClInclude Include="CMonsterMissile.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="CStage02.h" />
     <ClInclude Include="CStage03.h" />
     <ClInclude Include="CStageBoss.h" />
+    <ClInclude Include="CStartLevel.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CTaskMgr.h" />
     <ClInclude Include="CTexture.h" />
@@ -237,6 +239,7 @@
     <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CAttackState.cpp" />
     <ClCompile Include="CBoss.cpp" />
+    <ClCompile Include="CEndLevel.cpp" />
     <ClCompile Include="CJumpState.cpp" />
     <ClCompile Include="CMiniBoss.cpp" />
     <ClCompile Include="CMonsterMissile.cpp" />
@@ -284,6 +287,7 @@
     <ClCompile Include="CStage02.cpp" />
     <ClCompile Include="CStage03.cpp" />
     <ClCompile Include="CStageBoss.cpp" />
+    <ClCompile Include="CStartLevel.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CTaskMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />
