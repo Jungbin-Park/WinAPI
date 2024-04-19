@@ -17,6 +17,7 @@
 #include "CMonster.h"
 #include "MRana.h"
 #include "CMiniBoss.h"
+#include "CPlayerSpawn.h"
 
 #include "CDbgRender.h"
 #include "CSound.h"
@@ -47,6 +48,10 @@ CPlayer::CPlayer()
 	, m_Ground(false)
 	, m_PushSnow(false)
 	, m_OverlappedSnowObj(nullptr)
+	, m_pAtlasL(nullptr)
+	, m_pAtlasR(nullptr)
+	, m_pWAtlasL(nullptr)
+	, m_pWAtlasR(nullptr)
 {
 	// Player의 컴포넌트 설정
 	m_Collider = (CCollider*)AddComponent(new CCollider);
@@ -143,6 +148,10 @@ CPlayer::CPlayer(const CPlayer& _Other)
 	, m_Ground(false)
 	, m_PushSnow(false)
 	, m_OverlappedSnowObj(nullptr)
+	, m_pAtlasL(_Other.m_pAtlasL)
+	, m_pAtlasR(_Other.m_pAtlasR)
+	, m_pWAtlasL(_Other.m_pWAtlasL)
+	, m_pWAtlasR(_Other.m_pWAtlasR)
 {
 	// 부모의 복사생성자를 통해 컴포넌트들의 복사가 이루어졌다면
 	// 복사된 컴포넌트들을 찾아서 가리키기만 하면 됨.
@@ -176,11 +185,7 @@ void CPlayer::begin()
 	m_RigidBody->SetAirDelegate(this, (DELEGATE)&CPlayer::Air);
 	m_RigidBody->SetWallDelegate(this, (DELEGATE)&CPlayer::SetWall);
 	m_RigidBody->SetWallOffDelegate(this, (DELEGATE)&CPlayer::SetWallOff);
-
-	// 사운드 로딩
-	/*CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\DM.wav");
-	pSound->SetVolume(100.f);
-	pSound->Play();*/
+	
 }
 
 void CPlayer::tick()
@@ -382,6 +387,11 @@ void CPlayer::tick()
 		{
 			if (m_JumpCount > m_CurJumpCount)
 			{
+				CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Jump.wav");
+				pSound->SetVolume(100.f);
+				pSound->SetPosition(20.f);
+				pSound->Play();
+
 				Jump();
 
 				m_CurJumpCount += 1;
@@ -398,6 +408,8 @@ void CPlayer::tick()
 					break;
 				}
 			}
+
+			
 		}
 
 
@@ -409,6 +421,11 @@ void CPlayer::tick()
 		{
 			if (!m_PushSnow)
 			{
+				CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Attack.wav");
+				pSound->SetVolume(100.f);
+				pSound->SetPosition(20.f);
+				pSound->Play();
+
 				m_State = CPlayer::eState::ATTACK;
 
 				switch (m_Direction)
@@ -474,12 +491,14 @@ void CPlayer::tick()
 
 					break;
 				}
-				default:
-					break;
 				}
 			}
 			else
 			{
+				CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\PushBall.wav");
+				pSound->SetVolume(100.f);
+				pSound->Play();
+
 				// 눈덩이 날리기
 				Vec2 snowPos = m_OverlappedSnowObj->GetPos();
 				Vec2 vDir = snowPos - vPos;
@@ -557,6 +576,15 @@ void CPlayer::tick()
 		{
 			m_Animator->GetCurAnim()->SetAtlasTexture(m_pWAtlasR);
 		}*/
+
+		CPlayerSpawn* SpawnEffect = new CPlayerSpawn;
+		SpawnEffect->SetName(L"SpawnEffect");
+		Vec2 ePos = GetPos();
+		SpawnEffect->SetPos(ePos);
+		SpawnEffect->SetOwner(this);
+
+		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::UI, SpawnEffect);
+
 			
 		if (Time >= 2.f)
 		{
@@ -564,9 +592,7 @@ void CPlayer::tick()
 			Time = 0.f;
 		}
 		
-	}
-		
-
+	} 
 	SetPos(vPos);
 }
 
@@ -627,6 +653,11 @@ void CPlayer::SetWallOff()
 
 void CPlayer::RoundClear()
 {
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\RoundClear.wav");
+	pSound->SetVolume(100.f);
+	pSound->SetPosition(50.f);
+	pSound->Play();
+
 	Vec2 vPos = GetPos();
 	m_Animator->Play(L"CLEAR", true);
 	m_Dead = true;
@@ -652,6 +683,11 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 				}
 				else
 				{
+					CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Die.wav");
+					pSound->SetVolume(100.f);
+					pSound->SetPosition(50.f);
+					pSound->Play();
+
 					m_Dead = true;
 
 					m_Animator->Play(L"DEAD", false);
@@ -665,6 +701,11 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 				}
 				else
 				{
+					CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Die.wav");
+					pSound->SetVolume(100.f);
+					pSound->SetPosition(50.f);
+					pSound->Play();
+
 					m_Dead = true;
 
 					m_Animator->Play(L"DEAD", false);
@@ -678,6 +719,11 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 				}
 				else
 				{
+					CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Die.wav");
+					pSound->SetVolume(100.f);
+					pSound->SetPosition(20.f);
+					pSound->Play();
+
 					m_Dead = true;
 
 					m_Animator->Play(L"DEAD", false);

@@ -18,6 +18,7 @@
 #include "MRana.h"
 
 #include "CFSM.h"
+#include "CSound.h"
 
 CSnowObj::CSnowObj()
 	: m_Owner(nullptr)
@@ -195,6 +196,10 @@ void CSnowObj::Shoot(Vec2 _Dir)
 
 void CSnowObj::Boom()
 {
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Boom", L"sound\\SFX\\Boom.wav");
+	pSound->SetVolume(100.f);
+	pSound->Play(false);
+
 	m_Animator->Play(L"BOOM", false);
 	CLevel_Stage01* curLevel = dynamic_cast<CLevel_Stage01*>(CLevelMgr::GetInst()->GetCurrentLevel());
 	if (m_Owner->GetName() == L"Monster" || m_Owner->GetName() == L"Rana")

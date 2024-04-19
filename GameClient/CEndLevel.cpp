@@ -9,6 +9,7 @@
 #include "CCamera.h"
 
 #include "CTexture.h"
+#include "CSound.h"
 
 CEndLevel::CEndLevel()
 	: m_Img(nullptr)
@@ -101,6 +102,9 @@ void CEndLevel::render()
 
 void CEndLevel::Enter()
 {
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"End", L"sound\\Music\\GameOver.wav");
+	pSound->SetVolume(100.f);
+	pSound->PlayToBGM(false);
 }
 
 void CEndLevel::Exit()

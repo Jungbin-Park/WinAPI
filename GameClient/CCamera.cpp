@@ -161,14 +161,6 @@ void CCamera::CameraEffect()
 	}
 }
 
-void CCamera::DrawBlackTex()
-{
-	Vec2 vResol = CEngine::GetInst()->GetResolution();
-
-	// 1. Red Texture에 Red Brush로 Rectangle을 그린다
-	USE_BRUSH(m_FadeTex->GetDC(), BRUSH_TYPE::BRUSH_BLACK);
-	Rectangle(m_FadeTex->GetDC(), -1, -1, (UINT)vResol.x + 1, (UINT)vResol.y + 1);
-}
 
 void CCamera::SetCameraEffect(CAM_EFFECT _Effect, float _Duration)
 {

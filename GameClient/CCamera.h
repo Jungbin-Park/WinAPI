@@ -52,6 +52,7 @@ public:
 
 	void SetCameraEffect(CAM_EFFECT _Effect, float _Duration);
 	void SetCameraDes(Vec2 _Pos);
+	void SetLookAt(Vec2 _Pos) { m_LookAt = _Pos; }
 
 	void SetCamFixedDelegate(CLevel* _Inst, CAMDELEGATE _MemFunc)
 	{
@@ -59,7 +60,6 @@ public:
 		m_CamFixedDelegate = _MemFunc;
 	}
 
-	void DrawBlackTex();
 
 public:
 	void init();

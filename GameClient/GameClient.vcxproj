@@ -161,6 +161,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CMoveState.h" />
+    <ClInclude Include="CPlayerSpawn.h" />
     <ClInclude Include="CSnowObj.h" />
     <ClInclude Include="CSnowState.h" />
     <ClInclude Include="CStage01.h" />
@@ -247,6 +248,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="CMoveState.cpp" />
+    <ClCompile Include="CPlayerSpawn.cpp" />
     <ClCompile Include="CSnowObj.cpp" />
     <ClCompile Include="CSnowState.cpp" />
     <ClCompile Include="CStage01.cpp" />

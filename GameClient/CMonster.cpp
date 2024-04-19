@@ -22,6 +22,8 @@
 #include "CSnowState.h"
 #include "CJumpState.h"
 
+#include "CSound.h"
+
 
 
 CMonster::CMonster()
@@ -311,6 +313,9 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 
 		if (pSnowObj->GetOwner() != this && pSnowObj->IsRoll() && !m_bSnow)
 		{
+			CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"MonsterDie", L"sound\\SFX\\MonsterDie.wav");
+			pSound->SetVolume(100.f);
+			pSound->Play(false);
 			// ³¯¾Æ°¨
 			m_Dead = true;
 			if (GetPos().x < pSnowObj->GetPos().x)

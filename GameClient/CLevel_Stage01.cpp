@@ -141,6 +141,7 @@ void CLevel_Stage01::Enter()
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::PLAYER);
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::BOSS);
 
+	m_CurRound = 1;
 	Start();
 }
 
@@ -150,6 +151,9 @@ void CLevel_Stage01::Exit()
 	DeleteAllObjects();
 
 	// Dontdestroy 할 것들은 예외처리
+
+
+	CCamera::GetInst()->SetLookAt(Vec2(720.f, 498.f));
 }
 
 
@@ -326,6 +330,10 @@ void CLevel_Stage01::Start()
 		pObject->SetPos(1200.f, -2750.f);
 		pObject->SetScale(400.f, 400.f);
 		SpawnObject(this, LAYER_TYPE::BOSS, pObject);
+
+		CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Boss", L"sound\\Music\\Boss.wav");
+		pSound->SetVolume(100.f);
+		pSound->PlayToBGM(true);
 
 		break;
 	}

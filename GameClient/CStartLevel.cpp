@@ -9,6 +9,7 @@
 #include "CCamera.h"
 
 #include "CTexture.h"
+#include "CSound.h"
 
 
 CStartLevel::CStartLevel()
@@ -104,7 +105,9 @@ void CStartLevel::render()
 
 void CStartLevel::Enter()
 {
-
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Start", L"sound\\Music\\Start.wav");
+	pSound->SetVolume(100.f);
+	pSound->PlayToBGM(false);
 }
 
 void CStartLevel::Exit()
