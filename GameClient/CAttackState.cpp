@@ -56,7 +56,7 @@ void CAttackState::FinalTick()
 	Time += DT;
 
 	if (Time >= 2.f)
-		GetFSM()->ChangeState(L"Idle");
+		GetFSM()->ChangeState(L"Move");
 }
 
 void CAttackState::Exit()

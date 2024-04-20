@@ -111,7 +111,7 @@ void CMoveState::FinalTick()
 
 			if (Time >= 2.f)
 			{
-				GetFSM()->ChangeState(L"Attack");
+				GetFSM()->ChangeState(L"Idle");
 				Time = 0.f;
 			}
 		}

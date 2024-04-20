@@ -6,6 +6,7 @@ class CMonster;
 class CPlatform;
 class CWall;
 class CSound;
+class CPlayerLife;
 
 class CLevel_Stage01 
 	: public CLevel
@@ -13,6 +14,7 @@ class CLevel_Stage01
 private:
 	CPlatform*			m_Platform;
 	CWall*				m_Wall;
+	CPlayerLife*		m_LifeUI;
 
 	vector<CObj*>		m_vecClone;
 
@@ -21,6 +23,7 @@ private:
 
 	int					m_CurRound;
 	int					m_Score;
+	int					m_PlayerLife;
 
 private:
 	void Start();
@@ -39,12 +42,14 @@ public:
 
 public:
 	int GetScore() { return m_Score; }
+	int GetLife() { return m_PlayerLife; }
 
 	void AddScore(int _Score) 
 	{ 
 		m_Score += _Score;
 		LOG(LOG_TYPE::DBG_LOG, L"Score +1");
 	}
+	void SubLife() { m_PlayerLife--; }
 
 public:
 	CLevel_Stage01();

@@ -63,7 +63,7 @@ void CAnimation::render()
 
 
 	// 현재 프레임 이미지를 오브젝트 위치에 렌더링
-	if (pOwnerObj->GetName() == L"Player")
+	if (pOwnerObj->GetName() == L"Player" || pOwnerObj->GetName() == L"LifeUI")
 	{
 		TransparentBlt(DC
 		, (int)(vRenderPos.x - frm.SliceSize.x / 2.f + frm.Offset.x)

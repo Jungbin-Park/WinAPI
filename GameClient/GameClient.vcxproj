@@ -153,6 +153,7 @@
     <ClInclude Include="CAssetMgr.h" />
     <ClInclude Include="CAttackState.h" />
     <ClInclude Include="CBoss.h" />
+    <ClInclude Include="CClearLevel.h" />
     <ClInclude Include="CEndLevel.h" />
     <ClInclude Include="CJumpState.h" />
     <ClInclude Include="CMiniBoss.h" />
@@ -161,6 +162,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CMoveState.h" />
+    <ClInclude Include="CPlayerLife.h" />
     <ClInclude Include="CPlayerSpawn.h" />
     <ClInclude Include="CSnowObj.h" />
     <ClInclude Include="CSnowState.h" />
@@ -240,6 +242,7 @@
     <ClCompile Include="CAssetMgr.cpp" />
     <ClCompile Include="CAttackState.cpp" />
     <ClCompile Include="CBoss.cpp" />
+    <ClCompile Include="CClearLevel.cpp" />
     <ClCompile Include="CEndLevel.cpp" />
     <ClCompile Include="CJumpState.cpp" />
     <ClCompile Include="CMiniBoss.cpp" />
@@ -248,6 +251,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="CMoveState.cpp" />
+    <ClCompile Include="CPlayerLife.cpp" />
     <ClCompile Include="CPlayerSpawn.cpp" />
     <ClCompile Include="CSnowObj.cpp" />
     <ClCompile Include="CSnowState.cpp" />

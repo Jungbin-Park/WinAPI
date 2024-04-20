@@ -105,7 +105,7 @@ void CStartLevel::render()
 
 void CStartLevel::Enter()
 {
-	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Start", L"sound\\Music\\Start.wav");
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"Title", L"sound\\Music\\TitleTheme.wav");
 	pSound->SetVolume(100.f);
 	pSound->PlayToBGM(false);
 }

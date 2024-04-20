@@ -158,6 +158,9 @@
     <Filter Include="03. Game\04. Level\05. Stage_End">
       <UniqueIdentifier>{6c97ddcf-3821-44c0-81e8-1f53cb952463}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Game\04. Level\06.Stage_Clear">
+      <UniqueIdentifier>{9ce5ded1-42fb-4a4d-8005-561a0f96b364}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -400,6 +403,12 @@
     <ClInclude Include="CPlayerSpawn.h">
       <Filter>03. Game\05. Object\Player</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerLife.h">
+      <Filter>03. Game\05. Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CClearLevel.h">
+      <Filter>03. Game\04. Level\06.Stage_Clear</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameClient.rc">
@@ -634,6 +643,12 @@
     </ClCompile>
     <ClCompile Include="CPlayerSpawn.cpp">
       <Filter>03. Game\05. Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerLife.cpp">
+      <Filter>03. Game\05. Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CClearLevel.cpp">
+      <Filter>03. Game\04. Level\06.Stage_Clear</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

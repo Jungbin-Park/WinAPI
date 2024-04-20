@@ -51,5 +51,6 @@ void CPlayerSpawn::tick()
 	if (Time >= 2.f)
 	{
 		Destroy();
+		Time = 0.f;
 	}
 }

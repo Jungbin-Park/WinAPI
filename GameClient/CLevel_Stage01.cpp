@@ -16,6 +16,8 @@
 #include "CPlatform.h"
 #include "CWall.h"
 #include "CSnowObj.h"
+#include "CPlayerSpawn.h"
+#include "CPlayerLife.h"
 
 #include "CStage01.h"
 #include "CStage02.h"
@@ -27,15 +29,17 @@
 CLevel_Stage01::CLevel_Stage01()
 	: m_Platform(nullptr)
 	, m_Wall(nullptr)
+	, m_LifeUI(nullptr)
 	, m_CurRound(1)
 	, m_Score(0)
+	, m_PlayerLife(3)
 {
-
+	
 }
 
 CLevel_Stage01::~CLevel_Stage01()
 {
-	Safe_Del_Vec(m_vecClone);
+	
 }
 
 
@@ -75,6 +79,13 @@ void CLevel_Stage01::tick()
 	if (m_Score >= 4)
 		RoundClear(m_CurRound);
 
+	m_LifeUI->SetPos( CCamera::GetInst()->GetLookAt() + Vec2(550.f, -450.f));
+
+	if (m_PlayerLife == 0)
+	{
+		ChangeLevel(LEVEL_TYPE::LOGO_END);
+	}
+
 }
 
 void CLevel_Stage01::Enter()
@@ -112,6 +123,15 @@ void CLevel_Stage01::Enter()
 	AddObject(LAYER_TYPE::BACKGROUND, pObject);
 
 	// ============================
+	//		Player Life
+	// ============================
+	m_LifeUI = new CPlayerLife;
+	m_LifeUI->SetName(L"LifeUI");
+	AddObject(LAYER_TYPE::UI, m_LifeUI);
+	
+
+
+	// ============================
 	//		  레벨 충돌 설정
 	// ============================
 
@@ -142,11 +162,13 @@ void CLevel_Stage01::Enter()
 	CCollisionMgr::GetInst()->CollisionCheck(LAYER_TYPE::SNOW, LAYER_TYPE::BOSS);
 
 	m_CurRound = 1;
+	m_PlayerLife = 3;
 	Start();
 }
 
 void CLevel_Stage01::Exit()
 {
+	Safe_Del_Vec(m_vecClone);
 	// 레벨에 있는 모든 오브젝트 삭제
 	DeleteAllObjects();
 
@@ -175,6 +197,15 @@ void CLevel_Stage01::Start()
 		pObject->SetScale(80.f, 128.f);
 		AddObject(LAYER_TYPE::PLAYER, pObject);
 		//SpawnObject(this, LAYER_TYPE::PLAYER, pObject);
+		dynamic_cast<CPlayer*>(pObject)->SetInvisible(true);
+
+		CPlayerSpawn* SpawnEffect = new CPlayerSpawn;
+		SpawnEffect->SetName(L"SpawnEffect");
+		Vec2 ePos = pObject->GetPos();
+		SpawnEffect->SetPos(ePos);
+		SpawnEffect->SetOwner(pObject);
+
+		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::UI, SpawnEffect);
 
 		// 클론 생성
 		for (size_t i = 0; i < 4; i++)
@@ -228,6 +259,15 @@ void CLevel_Stage01::Start()
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -136.f);
 		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
+		dynamic_cast<CPlayer*>(pClone)->SetInvisible(true);
+
+		CPlayerSpawn* SpawnEffect = new CPlayerSpawn;
+		SpawnEffect->SetName(L"SpawnEffect");
+		Vec2 ePos = pClone->GetPos();
+		SpawnEffect->SetPos(ePos);
+		SpawnEffect->SetOwner(pClone);
+
+		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::UI, SpawnEffect);
 
 
 		// ============================
@@ -274,7 +314,15 @@ void CLevel_Stage01::Start()
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -1132.f);
 		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
+		dynamic_cast<CPlayer*>(pClone)->SetInvisible(true);
 
+		CPlayerSpawn* SpawnEffect = new CPlayerSpawn;
+		SpawnEffect->SetName(L"SpawnEffect");
+		Vec2 ePos = pClone->GetPos();
+		SpawnEffect->SetPos(ePos);
+		SpawnEffect->SetOwner(pClone);
+
+		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::UI, SpawnEffect);
 
 
 		// ============================
@@ -320,6 +368,15 @@ void CLevel_Stage01::Start()
 		pClone->SetName(L"Player");
 		pClone->SetPos(200.f, -2128.f);
 		SpawnObject(this, LAYER_TYPE::PLAYER, pClone);
+		dynamic_cast<CPlayer*>(pClone)->SetInvisible(true);
+
+		CPlayerSpawn* SpawnEffect = new CPlayerSpawn;
+		SpawnEffect->SetName(L"SpawnEffect");
+		Vec2 ePos = pClone->GetPos();
+		SpawnEffect->SetPos(ePos);
+		SpawnEffect->SetOwner(pClone);
+
+		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::UI, SpawnEffect);
 
 
 		// ============================
@@ -390,7 +447,10 @@ void CLevel_Stage01::Clear(int _Level)
 	}
 	case 4:
 	{
-		
+		// Clear 레벨로 전환
+		ChangeLevel(LEVEL_TYPE::LOGO_CLEAR);
+
+
 		break;
 	}
 	case 0:

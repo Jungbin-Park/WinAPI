@@ -34,7 +34,7 @@ CBoss::CBoss()
 
 	// Collider
 	m_Collider->SetActive(true);
-	m_Collider->SetOffsetPos(Vec2(0.f, 50.f));
+	m_Collider->SetOffsetPos(Vec2(0.f, 60.f));
 	m_Collider->SetScale(Vec2(400.f, 400.f));
 
 	// RigidBody

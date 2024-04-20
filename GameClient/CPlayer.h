@@ -66,6 +66,7 @@ private:
     
 public:
     void RoundClear();
+    void SetInvisible(bool _Val) { m_bInvinsible = _Val; }
 
     bool IsPDead() { return m_Dead; }
 

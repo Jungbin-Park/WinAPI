@@ -3,6 +3,7 @@
 
 #include "CLevelMgr.h"
 #include "CLevel.h"
+#include "CLevel_Stage01.h"
 
 #include "CCollider.h"
 #include "CAnimator.h"
@@ -124,10 +125,9 @@ CPlayer::CPlayer()
 
 	// 중력 관련 설정
 	m_RigidBody->UseGravity(true);
-	m_RigidBody->SetMaxGravitySpeed(1500.f);
-	m_RigidBody->SetGravityAccel(1000.f);
-	m_RigidBody->SetJumpSpeed(600.f);
-		
+	m_RigidBody->SetMaxGravitySpeed(2000.f);
+	m_RigidBody->SetGravityAccel(1900.f);
+	m_RigidBody->SetJumpSpeed(800.f);
 }
 
 CPlayer::CPlayer(const CPlayer& _Other)
@@ -168,6 +168,7 @@ CPlayer::CPlayer(const CPlayer& _Other)
 	m_RigidBody->SetAirDelegate(this, (DELEGATE)&CPlayer::Air);
 	m_RigidBody->SetWallDelegate(this, (DELEGATE)&CPlayer::SetWall);
 	m_RigidBody->SetWallOffDelegate(this, (DELEGATE)&CPlayer::SetWallOff);
+
 }
 
 CPlayer::~CPlayer()
@@ -554,12 +555,22 @@ void CPlayer::tick()
 		// 사망 애니메이션
 		if (m_Animator->GetCurAnim()->GetName() == L"DEAD")
 		{
+			dynamic_cast<CLevel_Stage01*>(CLevelMgr::GetInst()->GetCurrentLevel())->SubLife();
+
 			// 무적 상태
 			m_bInvinsible = true;
 			// -1240, -136
 			vPos = CCamera::GetInst()->GetLookAt() + Vec2(-520.f, 360.f);
 			m_Dead = false;
 			m_Animator->Play(L"IDLE_RIGHT", true);
+
+			CPlayerSpawn* SpawnEffect = new CPlayerSpawn;
+			SpawnEffect->SetName(L"SpawnEffect");
+			Vec2 ePos = GetPos();
+			SpawnEffect->SetPos(ePos);
+			SpawnEffect->SetOwner(this);
+
+			SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::UI, SpawnEffect);
 		}
 	}
 
@@ -577,15 +588,6 @@ void CPlayer::tick()
 			m_Animator->GetCurAnim()->SetAtlasTexture(m_pWAtlasR);
 		}*/
 
-		CPlayerSpawn* SpawnEffect = new CPlayerSpawn;
-		SpawnEffect->SetName(L"SpawnEffect");
-		Vec2 ePos = GetPos();
-		SpawnEffect->SetPos(ePos);
-		SpawnEffect->SetOwner(this);
-
-		SpawnObject(CLevelMgr::GetInst()->GetCurrentLevel(), LAYER_TYPE::UI, SpawnEffect);
-
-			
 		if (Time >= 2.f)
 		{
 			m_bInvinsible = false;

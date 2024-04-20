@@ -156,7 +156,7 @@ void CIdleState::FinalTick()
 			Time += DT;
 			if (Time >= 2.f)
 			{
-				GetFSM()->ChangeState(L"Move");
+				GetFSM()->ChangeState(L"Attack");
 			}
 		}
 	}

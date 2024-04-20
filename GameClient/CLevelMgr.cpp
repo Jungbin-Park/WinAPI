@@ -6,6 +6,7 @@
 #include "CLevel_Stage01.h"
 #include "CStartLevel.h"
 #include "CEndLevel.h"
+#include "CClearLevel.h"
 
 
 CLevelMgr::CLevelMgr()
@@ -28,6 +29,7 @@ void CLevelMgr::init()
 	m_arrLevel[(UINT)LEVEL_TYPE::LOGO_START] = new CStartLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::STAGE_01] = new CLevel_Stage01;
 	m_arrLevel[(UINT)LEVEL_TYPE::LOGO_END] = new CEndLevel;
+	m_arrLevel[(UINT)LEVEL_TYPE::LOGO_CLEAR] = new CClearLevel;
 	
 	// 초기 레벨 지정
 	// TaskMgr로 전역함수(func에 선언되어 있는) ChangeLevel를 넘겨준다.
