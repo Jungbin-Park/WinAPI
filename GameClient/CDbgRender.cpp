@@ -17,7 +17,6 @@ CDbgRender::CDbgRender()
 
 CDbgRender::~CDbgRender()
 {
-
 }
 
 void CDbgRender::tick()

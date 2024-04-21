@@ -220,7 +220,6 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="func.h" />
     <ClInclude Include="GameClient.h" />
-    <ClInclude Include="MDemonio.h" />
     <ClInclude Include="MBallState.h" />
     <ClInclude Include="MSnowState.h" />
     <ClInclude Include="MWakeState.h" />
@@ -306,7 +305,6 @@
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MDemonio.cpp" />
     <ClCompile Include="MBallState.cpp" />
     <ClCompile Include="MSnowState.cpp" />
     <ClCompile Include="MWakeState.cpp" />

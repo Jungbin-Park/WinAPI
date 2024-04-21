@@ -19,6 +19,8 @@
 #include "BDownState.h"
 #include "BDeadState.h"
 
+#include "CSound.h"
+
 
 
 CBoss::CBoss()

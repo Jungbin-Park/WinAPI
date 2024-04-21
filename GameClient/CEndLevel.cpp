@@ -37,6 +37,10 @@ void CEndLevel::tick()
 	{
 		ChangeLevel(LEVEL_TYPE::LOGO_START);
 	}
+	if (KEY_TAP(KEY::ESC))
+	{
+		DestroyWindow(CEngine::GetInst()->GetMainWnd());
+	}
 }
 
 void CEndLevel::render()

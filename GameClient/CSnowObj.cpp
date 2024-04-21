@@ -148,8 +148,6 @@ void CSnowObj::tick()
 					if (Rana != nullptr)
 						Rana->SetSnow(false);
 				}
-					
-
 				Destroy();
 			}
 			else if (m_SnowHitCount == 1)

@@ -5,6 +5,7 @@ class BIdleState :
     public CState
 {
 private:
+    CSound* m_Sound;
 
 public:
     virtual void Enter() override;

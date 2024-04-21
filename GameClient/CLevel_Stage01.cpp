@@ -39,7 +39,9 @@ CLevel_Stage01::CLevel_Stage01()
 
 CLevel_Stage01::~CLevel_Stage01()
 {
-	
+	Safe_Del_Vec(m_vecClone);
+
+	DeleteAllObjects();
 }
 
 
@@ -168,12 +170,15 @@ void CLevel_Stage01::Enter()
 
 void CLevel_Stage01::Exit()
 {
-	Safe_Del_Vec(m_vecClone);
+	
 	// 레벨에 있는 모든 오브젝트 삭제
+
 	DeleteAllObjects();
 
 	// Dontdestroy 할 것들은 예외처리
 
+
+	Safe_Del_Vec(m_vecClone);
 
 	CCamera::GetInst()->SetLookAt(Vec2(720.f, 498.f));
 }
@@ -495,6 +500,8 @@ void CLevel_Stage01::LoadPlat(const wstring& _RelativePath)
 		AddObject(LAYER_TYPE::PLATFORM, m_Platform);
 	}
 
+	m_vecEditPlat.clear();
+
 	fclose(pFile);
 }
 
@@ -520,6 +527,8 @@ void CLevel_Stage01::LoadWall(const wstring& _RelativePath)
 		m_vecEditWall.push_back(m_Wall);
 		AddObject(LAYER_TYPE::WALL, m_Wall);
 	}
+
+	m_vecEditWall.clear();
 
 	fclose(pFile);
 }

@@ -135,7 +135,7 @@ void CCollider_Editor::tick()
 	}
 
 
-	if (KEY_TAP(KEY::Q))
+	/*if (KEY_TAP(KEY::Q))
 	{
 		Vec2 mousePos = CCamera::GetInst()->GetRealPos(CKeyMgr::GetInst()->GetMousePos());
 
@@ -143,6 +143,7 @@ void CCollider_Editor::tick()
 		{
 			Vec2 Scale = m_vecEditWall[i]->GetScale();
 			m_vecEditWall[i]->GetPos();
+
 			Vec2 startPos = m_vecEditWall[i]->GetPos() - Vec2(Scale.x * 0.5f, Scale.y * 0.5f);
 			Vec2 endPos = m_vecEditWall[i]->GetPos() + Vec2(Scale.x * 0.5f, Scale.y * 0.5f);
 
@@ -150,10 +151,18 @@ void CCollider_Editor::tick()
 				&& mousePos.y > startPos.y && mousePos.y < endPos.y)
 			{
 				m_vecEditWall[i]->Destroy();
+				const vector<CObj*>& vecObj = GetObjects(LAYER_TYPE::WALL);
+				for (size_t j = 0; j < vecObj.size(); ++j)
+				{
+					if (m_vecEditWall[i] == vecObj[j])
+					{
+
+					}
+				}
 			}
 		}
 		
-	}
+	}*/
 }
 
 void CCollider_Editor::Enter()

@@ -85,11 +85,5 @@ inline T CFSM::GetBlackboardData(const wstring& _DataKey)
         assert(DATA_TYPE::OBJECT == iter->second.Type);
         return (T)iter->second.pData;
     }
-
-    if constexpr (std::is_same_v<CAnimator*, T>)
-    {
-        assert(DATA_TYPE::ANIMATOR == iter->second.Type);
-        return (T)iter->second.pData;
-    }
 }
 

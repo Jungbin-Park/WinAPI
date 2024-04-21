@@ -27,12 +27,12 @@ static float Time = 0.f;
 
 void BeGround()
 {
-	LOG(LOG_TYPE::DBG_WARNING, L"Grounded!!");
+	//LOG(LOG_TYPE::DBG_WARNING, L"Grounded!!");
 }
 
 void BeAir()
 {
-	LOG(LOG_TYPE::DBG_WARNING, L"Aired!!");
+	//LOG(LOG_TYPE::DBG_WARNING, L"Aired!!");
 }
 
 CPlayer::CPlayer()
@@ -636,19 +636,16 @@ void CPlayer::SetWall()
 {
 	if (m_Direction == eDirection::Left)
 	{
-		LOG(LOG_TYPE::DBG_WARNING, L"Stop Left!!");
 		m_StopLeft = true;
 	}
 	else if (m_Direction == eDirection::Right)
 	{
-		LOG(LOG_TYPE::DBG_WARNING, L"Stop Right!!");
 		m_StopRight = true;
 	}
 }
 
 void CPlayer::SetWallOff()
 {
-	LOG(LOG_TYPE::DBG_WARNING, L"Wall Off!!");
 	m_StopLeft = false;
 	m_StopRight = false;
 }

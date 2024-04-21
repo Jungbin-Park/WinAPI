@@ -14,7 +14,6 @@ CLevel::~CLevel()
 	{
 		Safe_Del_Vec(m_arrObj[i]);
 	}
-	
 }
 
 void CLevel::begin()
