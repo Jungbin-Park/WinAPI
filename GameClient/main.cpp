@@ -28,7 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {   
     // 메모리 누수 관련, 디버그 출력
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(90660);
+    //_CrtSetBreakAlloc(3178);
 
     // 윈도우 클래스 등록
     MyRegisterClass(hInstance);

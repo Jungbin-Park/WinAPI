@@ -684,7 +684,7 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 				{
 					CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Die.wav");
 					pSound->SetVolume(100.f);
-					pSound->SetPosition(50.f);
+					pSound->SetPosition(0.f);
 					pSound->Play();
 
 					m_Dead = true;
@@ -702,7 +702,7 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 				{
 					CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Die.wav");
 					pSound->SetVolume(100.f);
-					pSound->SetPosition(50.f);
+					pSound->SetPosition(0.f);
 					pSound->Play();
 
 					m_Dead = true;
@@ -720,7 +720,7 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 				{
 					CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Die.wav");
 					pSound->SetVolume(100.f);
-					pSound->SetPosition(20.f);
+					pSound->SetPosition(0.f);
 					pSound->Play();
 
 					m_Dead = true;
@@ -754,9 +754,19 @@ void CPlayer::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 
 	if (_OtherObj->GetLayerType() == LAYER_TYPE::MONSTER_MISSILE)
 	{
-		m_Dead = true;
+		if (!m_bInvinsible)
+		{
+			CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\SFX\\Die.wav");
+			pSound->SetVolume(100.f);
+			pSound->SetPosition(0.f);
+			pSound->Play();
 
-		m_Animator->Play(L"DEAD", false);
+			m_Dead = true;
+
+			m_Animator->Play(L"DEAD", false);
+		}
+
+		
 	}
 	
 }

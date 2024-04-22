@@ -64,16 +64,17 @@ void CCamera::tick()
 
 	if (m_bCameraMove)
 	{
-		m_MoveDir.y = (int)(m_DesY - m_LookAt.y);
-		
-		if (!m_MoveDir.IsZero())
-		{
-			m_MoveDir.Normalize();
-			m_LookAt.y += (int)(m_MoveDir.y * DT * m_CamSpeed);
+		m_MoveDir.y = (float)(m_DesY - m_LookAt.y);
+		m_MoveDir.Normalize();
 
+		if (m_LookAt.y >= m_DesY)
+		{
+			m_LookAt.y += (float)(m_MoveDir.y * DT * m_CamSpeed);
 		}
 		else
 		{
+			m_LookAt.y = m_DesY;
+
 			m_bCameraMove = false;
 			m_bCamFixed = true;
 	

@@ -91,8 +91,6 @@ CMonster::CMonster()
 	m_Animator->FindAnimation(L"DEAD")->Save(L"animation\\monster\\");
 	*/
 	
-	
-
 	// Load
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE.anim");
 	m_Animator->LoadAnimation(L"animation\\monster\\IDLE_LEFT.anim");
@@ -225,7 +223,7 @@ void CMonster::tick()
 	CObj::tick();
 
 	// 애니메이션 끝났을 때
-	if (m_Animator->GetCurAnim()->IsFinish())
+	if (m_Animator->GetCurAnim() != nullptr &&  m_Animator->GetCurAnim()->IsFinish())
 	{
 		if (m_Animator->GetCurAnim()->GetName() == L"DEAD")
 		{
@@ -287,7 +285,7 @@ void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider*
 	if (_OtherObj->GetName() == L"Snow")
 	{
 		CSnow* pSnow = dynamic_cast<CSnow*>(_OtherObj);
-		if (!m_bSnow)
+		if (!m_bSnow && !m_Dead)
 		{
 			CSnowObj* pObject = new CSnowObj;
 			pObject->SetName(L"SnowObj");

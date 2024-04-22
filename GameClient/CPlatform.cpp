@@ -55,7 +55,8 @@ void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider
 
 		if (_OtherObj->GetName() == L"MiniBoss")
 		{
-			dynamic_cast<CMiniBoss*>(_OtherObj)->GetFSM()->ChangeState(L"Wake");
+			CMiniBoss* mBoss = dynamic_cast<CMiniBoss*>(_OtherObj);
+			mBoss->GetFSM()->ChangeState(L"Wake");
 		}
 
 		if (pPrevFootPos < pNowFootPos && pNowFootPos < pPlatPos)
@@ -145,14 +146,6 @@ void CPlatform::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* 
 	}
 	else if (_OtherObj->GetName() == L"SnowObj")
 	{
-		/*Vec2 pPrevYPos = _OtherObj->GetPrevPos();
-		Vec2 pNowYPos = _OtherObj->GetPos();
-
-		if (pPrevYPos.y >= pNowYPos.y)
-		{
-			CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
-			pRB->SetGround(false);
-		}*/
 		CRigidBody* pRB = _OtherObj->GetComponent<CRigidBody>();
 		float pPrevFootPos = _OtherObj->GetPrevPos().y + (_OtherObj->GetScale().y * 0.5f);
 		float pNowFootPos = _OtherObj->GetPos().y + (_OtherObj->GetScale().y * 0.5f);
