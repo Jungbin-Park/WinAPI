@@ -16,6 +16,10 @@ BIdleState::BIdleState()
 
 BIdleState::~BIdleState()
 {
+	if (GetFSM()->GetOwner() != nullptr)
+	{
+		m_Sound->Stop();
+	}
 }
 
 void BIdleState::Enter()
